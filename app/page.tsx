@@ -2,10 +2,46 @@
 
 // app/page.tsx
 // app/page.tsx
+
+
 'use client';
 import Link from 'next/link';
+import React from 'react';
+import ReactApexChart from 'react-apexcharts';
 
 export default function HomePage() {
+  // Sample data for the charts
+  const totalUsers = 120;
+  const totalPosts = 350;
+  const totalComments = 540;
+
+  // ApexCharts configuration
+  const options = {
+    chart: {
+      type: 'bar',
+      height: 350,
+    },
+    plotOptions: {
+      bar: {
+        borderRadius: 4,
+        columnWidth: '60%',
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    xaxis: {
+      categories: ['Users', 'Posts', 'Comments'],
+    },
+  };
+
+  const series = [
+    {
+      name: 'Total',
+      data: [totalUsers, totalPosts, totalComments],
+    },
+  ];
+
   return (
     <div className="bg-white text-gray-800 min-h-screen flex flex-col">
       <main className="flex-grow px-6 py-10 max-w-7xl mx-auto">
@@ -17,22 +53,20 @@ export default function HomePage() {
           <Link href="/reports" className="hover:underline">Reports</Link>
         </nav>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <div className="bg-white border border-[#800000]/20 p-6 rounded-xl shadow-md hover:shadow-lg transition">
-            <h3 className="text-lg font-semibold mb-2 text-[#800000]">👥 Total Students</h3>
-            <p className="text-2xl font-bold text-[#800000]">12</p>
-          </div>
-
-          <div className="bg-white border border-[#800000]/20 p-6 rounded-xl shadow-md hover:shadow-lg transition">
-            <h3 className="text-lg font-semibold mb-2 text-[#800000]">📁 Active Projects</h3>
-            <p className="text-2xl font-bold text-[#800000]">5</p>
-          </div>
-
-          <div className="bg-white border border-[#800000]/20 p-6 rounded-xl shadow-md hover:shadow-lg transition">
-            <h3 className="text-lg font-semibold mb-2 text-[#800000]">📄 Reports Submitted</h3>
-            <p className="text-2xl font-bold text-[#800000]">18</p>
+        {/* ApexCharts Bar Chart */}
+        <div className="mb-10">
+          <h3 className="text-2xl font-semibold mb-4 text-[#800000]">Dashboard Overview</h3>
+          <div className="bg-white p-6 rounded-xl shadow-md">
+            <ReactApexChart
+              options={options}
+              series={series}
+              type="bar"
+              height={350}
+            />
           </div>
         </div>
+
+        {/* You can add more sections like charts here */}
       </main>
     </div>
   );

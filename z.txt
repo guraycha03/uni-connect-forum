@@ -25,6 +25,7 @@
 
 
 
+npm install react-mapbox-gl@5.1.1 mapbox-gl@^1.12.0 react-apexcharts --legacy-peer-deps
 
 
 can we moveon to what the web application should actually look like?? this is not even my personal project bu a group project

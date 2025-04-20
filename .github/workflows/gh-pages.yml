@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # or master if you use that branch
+      - main  # Trigger deployment on push to the main branch
 
 jobs:
   deploy:
@@ -16,18 +16,16 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # Change if you need a different version
+        node-version: '14'
 
     - name: Install dependencies
-      run: |
-        npm install
+      run: npm install
 
-    - name: Build the project
-      run: |
-        npm run build  # Adjust if you use another build command
+    - name: Build project
+      run: npm run build  # Or `npm run export` for Next.js projects
 
     - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./out  # Update with the directory where the build output is located, e.g., 'build' or 'dist'
+        branch: gh-pages  # The branch to deploy to
+        folder: build  # The folder containing the build files

@@ -16,16 +16,19 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'  # You can change this to match your Node.js version
+        node-version: '14'  # Use Node.js version 14 (or adjust based on your needs)
 
     - name: Install dependencies
-      run: npm install  # Make sure your package.json includes all necessary dependencies
+      run: npm install  # Install dependencies from package.json
 
     - name: Build project
-      run: npm run build  # This assumes you have a build script in your package.json
+      run: npm run build  # Build the Next.js app
+
+    - name: Export static site
+      run: npm run export  # Export static files for GitHub Pages
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./build  # Change this to the directory where your build files are generated
+        publish_dir: ./out  # The directory that contains the static files (default is ./out)

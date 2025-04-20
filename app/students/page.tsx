@@ -1,5 +1,9 @@
 // app/students/page.tsx
+
+
 'use client';
+
+import Link from 'next/link';
 
 export default function StudentsPage() {
   return (
@@ -7,17 +11,21 @@ export default function StudentsPage() {
       <h1 className="text-2xl font-bold mb-4">Students List</h1>
 
       <div className="space-y-4">
-        <div className="p-4 border rounded shadow">
-          <h2 className="font-semibold text-lg">Cha Guray</h2>
-          <p>Email: cha@guray.com</p>
-          <p>Status: Enrolled</p>
-        </div>
+        <Link href="/students/cha">
+          <div className="p-4 border rounded shadow hover:bg-gray-100 cursor-pointer">
+            <h2 className="font-semibold text-lg">Cha Guray</h2>
+            <p>Email: cha@guray.com</p>
+            <p>Status: Enrolled</p>
+          </div>
+        </Link>
 
-        <div className="p-4 border rounded shadow">
-          <h2 className="font-semibold text-lg">Jin Sora</h2>
-          <p>Email: sora@kdramail.com</p>
-          <p>Status: Graduated</p>
-        </div>
+        <Link href="/students/sora">
+          <div className="p-4 border rounded shadow hover:bg-gray-100 cursor-pointer">
+            <h2 className="font-semibold text-lg">Jin Sora</h2>
+            <p>Email: sora@kdramail.com</p>
+            <p>Status: Graduated</p>
+          </div>
+        </Link>
       </div>
     </div>
   );

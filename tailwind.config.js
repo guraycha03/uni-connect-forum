@@ -1,12 +1,12 @@
-/** @type {import('tailwindcss').Config} */
+
+// tailwind.config.js
 module.exports = {
-    content: [
-      "./pages/**/*.{js,ts,jsx,tsx}",
-      "./components/**/*.{js,ts,jsx,tsx}",
-    ],
     theme: {
-      extend: {},
+      extend: {
+        colors: {
+          maroon: '#800000', // Customize if your school has a specific maroon shade
+        },
+      },
     },
-    plugins: [],
   };
   

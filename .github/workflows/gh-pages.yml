@@ -19,13 +19,15 @@ jobs:
         node-version: '14'
 
     - name: Install dependencies
-      run: npm install
+      run: |
+        npm install
 
     - name: Build project
-      run: npm run build  # Or `npm run export` for Next.js projects
+      run: |
+        npm run build  # Assuming you have a build script in your package.json
 
     - name: Deploy to GitHub Pages
-      uses: JamesIves/github-pages-deploy-action@v4
+      uses: peaceiris/actions-gh-pages@v3
       with:
-        branch: gh-pages  # The branch to deploy to
-        folder: build  # The folder containing the build files
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./build  # Change this to the directory where your build files are generated

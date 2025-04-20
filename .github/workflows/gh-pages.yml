@@ -16,15 +16,13 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'
+        node-version: '14'  # You can change this to match your Node.js version
 
     - name: Install dependencies
-      run: |
-        npm install
+      run: npm install  # Make sure your package.json includes all necessary dependencies
 
     - name: Build project
-      run: |
-        npm run build  # Assuming you have a build script in your package.json
+      run: npm run build  # This assumes you have a build script in your package.json
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3

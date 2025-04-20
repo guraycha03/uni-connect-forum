@@ -1,8 +1,11 @@
-// pages/index.js
+// src/app/page.tsx
+
+import React from 'react';
+
 export default function Home() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-white dark:bg-black text-black dark:text-white p-6">
-      <h1 className="text-4xl font-bold mb-4">🎉 Welcome to Cha&apos;s Web App 🎉</h1>
+      <h1 className="text-4xl font-bold mb-4">🎉 Welcome to Cha's Web App 🎉</h1>
       <p className="text-lg mb-8 text-center max-w-xl">
         This is your actual project page. You can now start building a real, functional web app here using React, Tailwind CSS, and more.
       </p>

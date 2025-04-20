@@ -1,10 +1,11 @@
 // next.config.js
-module.exports = {
-  trailingSlash: true, // Update the outdated 'exportTrailingSlash' to 'trailingSlash'
-  
-  reactStrictMode: true,  // Ensures React strict mode is enabled
 
+
+// Corrected next.config.js
+module.exports = {
+  reactStrictMode: true,
   images: {
-    unoptimized: true,  // Allow image optimization to work with static exports
+    unoptimized: true,
   },
-}
+  trailingSlash: true,  // Correct key
+};

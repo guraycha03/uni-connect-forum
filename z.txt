@@ -1,0 +1,79 @@
+/pages
+  index.tsx            → Dashboard with ApexCharts
+  users/index.tsx      → User List
+  users/[id].tsx       → User Profile with Map + Posts
+  posts/index.tsx      → Posts List
+  posts/[id].tsx       → Post Details + Comments
+
+/components
+  UserCard.tsx
+  PostCard.tsx
+  ChartPanel.tsx
+  Layout.tsx           → Navbar/Header wrapper
+  Map.tsx              → Mapbox integration
+
+/utils
+  api.ts               → Reusable fetchers for JSONPlaceholder
+
+/styles
+  globals.css          → Tailwind base
+
+/public
+  /icons, /logos
+
+
+
+
+
+
+
+can we moveon to what the web application should actually look like?? this is not even my personal project bu a group project
+
+
+
+Final Project: Dynamic Web Application using Next.js and Tailwind CSS
+
+Project Objective:
+The primary objective of this project is to develop a full-featured, responsive web application using Next.js and Tailwind CSS, demonstrating proficiency in frontend technologies and integrating third-party APIs. This project will assess the students' ability to fetch and present data from an external API while ensuring a clean and organized user interface.
+
+
+A. User Listing and Profile:
+
+Fetch the list of users from JSON Placeholder(/users).
+Display users in a list view with basic information (e.g., name and username).
+On clicking a user's profile, display detailed information including the address on Mapbox and all of his/her posts.
+B. Post and Comments:
+
+Fetch all posts from JSON Placeholder (/posts).
+Display posts in a list view with a clickable title.
+On clicking a post, display the post details along with its comments (/comments).
+C. Data Visualization:
+
+Use ApexCharts to visualize:
+
+Total number of users
+Total number of posts
+Total number of comments
+The chart should automatically update when new data is fetched.
+
+Submission Requirements:
+
+GitHub Repository Link: Must include all team members as collaborators.
+Deployed Application Link (Vercel): Must be publicly accessible.
+Documentation:
+        README file with:
+Project description
+Setup and installation instructions
+Team member contributions
+Deployed URL
+Presentation Guidelines:
+Duration: 10-15 minutes
+Presentation Format: Demonstrate the deployed application live on Vercel.
+Content:
+Brief introduction of the project and technologies used.
+Live demonstration of user listing, profile viewing, post and comment fetching, and data visualization.
+Discuss challenges encountered and how they were resolved.
+Highlight individual contributions and collaboration efforts.
+
+
+im almost done setting up the packages. but the actual page that should be displayed in not yet started making

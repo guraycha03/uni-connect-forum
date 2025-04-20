@@ -14,8 +14,11 @@
     "@tanstack/react-query": "^5.74.4",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "apexcharts": "^4.5.0",
+    "axios": "^1.8.4",
     "next": "15.3.0",
     "react": "^19.0.0",
+    "react-apexcharts": "^1.7.0",
     "react-dom": "^19.0.0",
     "typescript": "^5.8.3"
   },

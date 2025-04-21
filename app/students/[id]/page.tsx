@@ -42,7 +42,7 @@ export default function StudentProfilePage() {
       status: 'Officially Enrolled',
       email: 'miguel.torres@example.com',
       address: 'Santiago, Isabela',
-      profileImage: '/images/default.jpeg',
+      profileImage: '../public/images/default.jpeg',
     },
     {
       id: 'angelica_cruz',

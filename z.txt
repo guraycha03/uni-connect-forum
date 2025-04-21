@@ -1,9 +1,14 @@
-/pages
-  index.tsx            → Dashboard with ApexCharts
-  users/index.tsx      → User List
-  users/[id].tsx       → User Profile with Map + Posts
-  posts/index.tsx      → Posts List
-  posts/[id].tsx       → Post Details + Comments
+/app
+  /dashboard
+    page.tsx
+  /students
+    /[id]
+      page.tsx
+  /users
+    page.tsx
+  layout.tsx
+  page.tsx
+
 
 /components
   UserCard.tsx
@@ -11,6 +16,14 @@
   ChartPanel.tsx
   Layout.tsx           → Navbar/Header wrapper
   Map.tsx              → Mapbox integration
+
+
+/src
+  /app
+    page.tsx
+  /components
+    Dashboard.js
+    UserProfile.js
 
 /utils
   api.ts               → Reusable fetchers for JSONPlaceholder
@@ -22,6 +35,17 @@
   /icons, /logos
 
 
+
+
+
+
+
+/pages
+  index.tsx            → Dashboard with ApexCharts
+  users/index.tsx      → User List
+  users/[id].tsx       → User Profile with Map + Posts
+  posts/index.tsx      → Posts List
+  posts/[id].tsx       → Post Details + Comments
 
 
 

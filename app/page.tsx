@@ -3,19 +3,22 @@
 // app/page.tsx
 // app/page.tsx
 
-
 'use client';
+
 import Link from 'next/link';
 import React from 'react';
-import ReactApexChart from 'react-apexcharts';
+import dynamic from 'next/dynamic';
+
+// Dynamically import ApexCharts to avoid SSR issues
+const ReactApexChart = dynamic(() => import('react-apexcharts'), {
+  ssr: false,
+});
 
 export default function HomePage() {
-  // Sample data for the charts
   const totalUsers = 120;
   const totalPosts = 350;
   const totalComments = 540;
 
-  // ApexCharts configuration
   const options = {
     chart: {
       type: 'bar',
@@ -53,7 +56,6 @@ export default function HomePage() {
           <Link href="/reports" className="hover:underline">Reports</Link>
         </nav>
 
-        {/* ApexCharts Bar Chart */}
         <div className="mb-10">
           <h3 className="text-2xl font-semibold mb-4 text-[#800000]">Dashboard Overview</h3>
           <div className="bg-white p-6 rounded-xl shadow-md">
@@ -65,8 +67,6 @@ export default function HomePage() {
             />
           </div>
         </div>
-
-        {/* You can add more sections like charts here */}
       </main>
     </div>
   );

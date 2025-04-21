@@ -31,10 +31,11 @@ export default function StudentProfilePage() {
       status: 'Graduated',
       email: 'sora@kdramail.com',
       address: 'Manila, Philippines',
-      profileImage: '/images/sora.jpg', // Example profile image path
+      profileImage: '../', // Example profile image path
     },
     // Add other students here...
   ];
+
 
   // Find the student by id from the query parameter
   const student = students.find((student) => student.id === id);

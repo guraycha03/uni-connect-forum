@@ -1,5 +1,5 @@
 // app/layout.tsx
-// app/layout.tsx
+//      header & footer
 
 
 
@@ -13,7 +13,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <body className="bg-white text-gray-900 flex flex-col min-h-screen">
         {/* Header */}
         <header className="h-[90px] px-6 bg-[#800000] text-white flex items-center shadow-md text-xl font-semibold">
-          📊 Project Dashboard
+        ACADEMIC PORTAL
         </header>
 
         {/* Main content */}

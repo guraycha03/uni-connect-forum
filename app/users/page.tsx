@@ -1,7 +1,11 @@
 // app/users/page.tsx
+//USERS LIST PAGE
+
+
 'use client';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import { fetchUsers } from '@/utils/api';
+import Link from 'next/link';
 
 interface User {
   id: number;
@@ -14,9 +18,9 @@ export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    axios.get('https://jsonplaceholder.typicode.com/users')
-      .then(res => setUsers(res.data))
-      .catch(err => console.error(err));
+    fetchUsers()
+      .then(setUsers)
+      .catch(console.error);
   }, []);
 
   return (
@@ -24,9 +28,13 @@ export default function UsersPage() {
       <h1 className="text-2xl font-bold mb-4">User List</h1>
       <ul className="space-y-4">
         {users.map(user => (
-          <li key={user.id} className="p-4 border rounded hover:bg-gray-100 cursor-pointer">
-            <p className="text-lg font-medium">{user.name}</p>
-            <p className="text-sm text-gray-500">@{user.username}</p>
+          <li key={user.id}>
+            <Link href={`/users/${user.id}`}>
+              <div className="p-4 border rounded hover:bg-gray-100 cursor-pointer">
+                <p className="text-lg font-medium">{user.name}</p>
+                <p className="text-sm text-gray-500">@{user.username}</p>
+              </div>
+            </Link>
           </li>
         ))}
       </ul>

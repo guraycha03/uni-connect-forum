@@ -50,15 +50,31 @@ a {
   color: inherit;
   text-decoration: none;
   transition: color 0.3s ease; /* Smooth transition on hover */
+  font-weight: bold;
+    padding: 10px;
 }
 
 a:hover {
-  color: var(--primary); /* Interactive color on hover */
+  color: var(--primary); 
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1, h3, h4, h5, h6 {
   font-weight: 600;
   letter-spacing: -0.5px;
+}
+
+h2{
+  display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: flex-start;
+    padding: 20px;
+    width: 100%;
+    color: #ffffff;
+    margin: 0;
+    transition: background 0.3s ease;
+    position: relative;
+    height: 90px;
 }
 
 button, input, select, textarea {
@@ -152,9 +168,15 @@ h1 {
 
 
 
-header, footer {
+footer {
   background-color: var(--primary);
   color: white;
+}
+
+header{
+  background-color: var(--primary);
+  color: white;
+  left: 50px;
 }
 
 header a, footer a {

@@ -1,5 +1,6 @@
 // app/students/[id]/page.tsx
 
+// app/students/[id]/page.tsx
 
 'use client';
 
@@ -7,20 +8,19 @@ import { useRouter } from 'next/router';
 
 export default function StudentProfilePage() {
   const router = useRouter();
-  const { id } = router.query; // This is the dynamic route based on the student id
+  const { id } = router.query;
 
-  // Convert the mockStudents object to an array for easy searching
   const students = [
     {
       id: 'cha',
-      name: 'Charisse G. Guray',
+      name: 'Cha Guray',
       studentNo: '12345678',
       course: 'BSIT',
       yearBlock: '2-1',
       status: 'Officially Enrolled',
-      email: 'guraycha@gmail.com',
+      email: 'cha@guray.com',
       address: 'Inararan, Bulan, Sorsogon',
-      profileImage: '/images/cha.jpg', // Example profile image path
+      profileImage: '/images/cha.jpeg',
     },
     {
       id: 'sora',
@@ -31,16 +31,155 @@ export default function StudentProfilePage() {
       status: 'Graduated',
       email: 'sora@kdramail.com',
       address: 'Manila, Philippines',
-      profileImage: '../', // Example profile image path
+      profileImage: '/images/sora.jpeg',
     },
-    // Add other students here...
+    {
+      id: 'miguel_torres',
+      name: 'Miguel R. Torres',
+      studentNo: '34567890',
+      course: 'BSIT',
+      yearBlock: '3-1',
+      status: 'Officially Enrolled',
+      email: 'miguel.torres@example.com',
+      address: 'Santiago, Isabela',
+      profileImage: '/images/default.jpeg',
+    },
+    {
+      id: 'angelica_cruz',
+      name: 'Angelica Cruz',
+      studentNo: '45678901',
+      course: 'BSIT',
+      yearBlock: '1-2',
+      status: 'Officially Enrolled',
+      email: 'angelica.cruz@example.com',
+      address: 'Albay, Bicol',
+      profileImage: '/images/default.jpeg',
+    },
+    {
+      id: 'daniel_navarro',
+      name: 'Daniel P. Navarro',
+      studentNo: '56789012',
+      course: 'BSIT',
+      yearBlock: '2-3',
+      status: 'Leave of Absence',
+      email: 'daniel.navarro@example.com',
+      address: 'Taguig City',
+      profileImage: '/images/default.jpeg',
+    },
+    {
+      id: 'frances_santos',
+      name: 'Frances L. Santos',
+      studentNo: '67890123',
+      course: 'BSIT',
+      yearBlock: '4-1',
+      status: 'Officially Enrolled',
+      email: 'frances.santos@example.com',
+      address: 'Cebu City',
+      profileImage: '/images/default.jpeg',
+    },
+    {
+      id: 'mark_yu',
+      name: 'Mark Anthony Yu',
+      studentNo: '78901234',
+      course: 'BSIT',
+      yearBlock: '2-2',
+      status: 'Officially Enrolled',
+      email: 'mark.yu@example.com',
+      address: 'Naga City',
+      profileImage: '/images/default.jpeg',
+    },
+    {
+      id: 'janine_dc',
+      name: 'Janine Mae Dela Cruz',
+      studentNo: '89012345',
+      course: 'BSIT',
+      yearBlock: '3-2',
+      status: 'Officially Enrolled',
+      email: 'janine.dc@example.com',
+      address: 'Legazpi City',
+      profileImage: '/images/default.jpeg',
+    },
+    {
+      id: 'kevin_bautista',
+      name: 'Kevin S. Bautista',
+      studentNo: '90123456',
+      course: 'BSIT',
+      yearBlock: '1-1',
+      status: 'Dropped',
+      email: 'kevin.bautista@example.com',
+      address: 'Irosin, Sorsogon',
+      profileImage: '/images/default.jpeg',
+    },
+    {
+      id: 'ella_manalo',
+      name: 'Ella Grace Manalo',
+      studentNo: '11223344',
+      course: 'BSIT',
+      yearBlock: '2-1',
+      status: 'Officially Enrolled',
+      email: 'ella.manalo@example.com',
+      address: 'Bulusan, Sorsogon',
+      profileImage: '/images/default.jpeg',
+    },
+    {
+      id: 'andrew_salazar',
+      name: 'Andrew T. Salazar',
+      studentNo: '22334455',
+      course: 'BSIT',
+      yearBlock: '3-3',
+      status: 'Officially Enrolled',
+      email: 'andrew.salazar@example.com',
+      address: 'Sampaloc, Manila',
+      profileImage: '/images/default.jpeg',
+    },
+    {
+      id: 'patricia_villanueva',
+      name: 'Patricia D. Villanueva',
+      studentNo: '33445566',
+      course: 'BSIT',
+      yearBlock: '4-2',
+      status: 'Officially Enrolled',
+      email: 'tricia.v@example.com',
+      address: 'Quezon City',
+      profileImage: '/images/default.jpeg',
+    },
+    {
+      id: 'justin_reyes',
+      name: 'Justin B. Reyes',
+      studentNo: '44556677',
+      course: 'BSIT',
+      yearBlock: '2-1',
+      status: 'Officially Enrolled',
+      email: 'justin.reyes@example.com',
+      address: 'Masbate City',
+      profileImage: '/images/default.jpeg',
+    },
+    {
+      id: 'rica_gonzales',
+      name: 'Rica M. Gonzales',
+      studentNo: '55667788',
+      course: 'BSIT',
+      yearBlock: '3-1',
+      status: 'Graduated',
+      email: 'rica.gonzales@example.com',
+      address: 'Donsol, Sorsogon',
+      profileImage: '/images/default.jpeg',
+    },
+    {
+      id: 'leo_ortega',
+      name: 'Leonardo V. Ortega',
+      studentNo: '66778899',
+      course: 'BSIT',
+      yearBlock: '1-2',
+      status: 'Officially Enrolled',
+      email: 'leo.ortega@example.com',
+      address: 'Juban, Sorsogon',
+      profileImage: '/images/default.jpeg',
+    },
   ];
 
-
-  // Find the student by id from the query parameter
   const student = students.find((student) => student.id === id);
 
-  // If no student is found, show an error message
   if (!student) {
     return <p>Student not found</p>;
   }

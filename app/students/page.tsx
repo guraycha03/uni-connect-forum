@@ -1,5 +1,8 @@
 // app/students/page.tsx
 
+
+// app/students/page.tsx
+
 'use client';
 
 import Link from 'next/link';
@@ -10,14 +13,14 @@ export default function StudentsPage() {
       name: 'Cha Guray',
       email: 'cha@guray.com',
       status: 'Enrolled',
-      profileImage: '/images/cha.jpg', // Image path
+      profileImage: '/images/cha.jpg',
       id: 'cha',
     },
     {
       name: 'Jin Sora',
       email: 'sora@kdramail.com',
       status: 'Graduated',
-      profileImage: '/images/sora.jpg', // Image path
+      profileImage: '/images/sora.jpg',
       id: 'sora',
     },
     {
@@ -28,7 +31,7 @@ export default function StudentsPage() {
       status: 'Officially Enrolled',
       email: 'miguel.torres@example.com',
       address: 'Santiago, Isabela',
-      id: 'miguel_torres', // Add unique id
+      id: 'miguel_torres',
     },
     {
       name: 'Angelica Cruz',
@@ -38,7 +41,7 @@ export default function StudentsPage() {
       status: 'Officially Enrolled',
       email: 'angelica.cruz@example.com',
       address: 'Albay, Bicol',
-      id: 'angelica_cruz', // Add unique id
+      id: 'angelica_cruz',
     },
     {
       name: 'Daniel P. Navarro',
@@ -48,7 +51,7 @@ export default function StudentsPage() {
       status: 'Leave of Absence',
       email: 'daniel.navarro@example.com',
       address: 'Taguig City',
-      id: 'daniel_navarro', // Add unique id
+      id: 'daniel_navarro',
     },
     {
       name: 'Frances L. Santos',
@@ -58,7 +61,7 @@ export default function StudentsPage() {
       status: 'Officially Enrolled',
       email: 'frances.santos@example.com',
       address: 'Cebu City',
-      id: 'frances_santos', // Add unique id
+      id: 'frances_santos',
     },
     {
       name: 'Mark Anthony Yu',
@@ -68,7 +71,7 @@ export default function StudentsPage() {
       status: 'Officially Enrolled',
       email: 'mark.yu@example.com',
       address: 'Naga City',
-      id: 'mark_yu', // Add unique id
+      id: 'mark_yu',
     },
     {
       name: 'Janine Mae Dela Cruz',
@@ -78,7 +81,7 @@ export default function StudentsPage() {
       status: 'Officially Enrolled',
       email: 'janine.dc@example.com',
       address: 'Legazpi City',
-      id: 'janine_dc', // Add unique id
+      id: 'janine_dc',
     },
     {
       name: 'Kevin S. Bautista',
@@ -88,7 +91,7 @@ export default function StudentsPage() {
       status: 'Dropped',
       email: 'kevin.bautista@example.com',
       address: 'Irosin, Sorsogon',
-      id: 'kevin_bautista', // Add unique id
+      id: 'kevin_bautista',
     },
     {
       name: 'Ella Grace Manalo',
@@ -98,7 +101,7 @@ export default function StudentsPage() {
       status: 'Officially Enrolled',
       email: 'ella.manalo@example.com',
       address: 'Bulusan, Sorsogon',
-      id: 'ella_manalo', // Add unique id
+      id: 'ella_manalo',
     },
     {
       name: 'Andrew T. Salazar',
@@ -108,7 +111,7 @@ export default function StudentsPage() {
       status: 'Officially Enrolled',
       email: 'andrew.salazar@example.com',
       address: 'Sampaloc, Manila',
-      id: 'andrew_salazar', // Add unique id
+      id: 'andrew_salazar',
     },
     {
       name: 'Patricia D. Villanueva',
@@ -118,7 +121,7 @@ export default function StudentsPage() {
       status: 'Officially Enrolled',
       email: 'tricia.v@example.com',
       address: 'Quezon City',
-      id: 'patricia_villanueva', // Add unique id
+      id: 'patricia_villanueva',
     },
     {
       name: 'Justin B. Reyes',
@@ -128,7 +131,7 @@ export default function StudentsPage() {
       status: 'Officially Enrolled',
       email: 'justin.reyes@example.com',
       address: 'Masbate City',
-      id: 'justin_reyes', // Add unique id
+      id: 'justin_reyes',
     },
     {
       name: 'Rica M. Gonzales',
@@ -138,7 +141,7 @@ export default function StudentsPage() {
       status: 'Graduated',
       email: 'rica.gonzales@example.com',
       address: 'Donsol, Sorsogon',
-      id: 'rica_gonzales', // Add unique id
+      id: 'rica_gonzales',
     },
     {
       name: 'Leonardo V. Ortega',
@@ -148,7 +151,7 @@ export default function StudentsPage() {
       status: 'Officially Enrolled',
       email: 'leo.ortega@example.com',
       address: 'Juban, Sorsogon',
-      id: 'leo_ortega', // Add unique id
+      id: 'leo_ortega',
     },
   ];
 
@@ -156,20 +159,22 @@ export default function StudentsPage() {
     <div className="p-6">
       <h1 className="text-2xl font-bold mb-4">Students List</h1>
 
-      <div className="space-y-4">
+      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
         {students.map((student) => (
           <Link href={`/students/${student.id}`} key={student.id}>
-            <div className="p-4 border rounded shadow hover:bg-gray-100 cursor-pointer">
+            <div className="p-4 border rounded shadow hover:bg-gray-100 cursor-pointer transition">
               <div className="flex justify-center mb-2">
                 <img
-                  src={student.profileImage || '/images/default.jpg'} // If no image, use a default one
+                  src={student.profileImage || '/images/default.jpg'}
                   alt={student.name}
                   className="rounded-full w-24 h-24 object-cover"
                 />
               </div>
-              <h2 className="font-semibold text-lg">{student.name}</h2>
-              <p>Email: {student.email}</p>
-              <p>Status: {student.status}</p>
+              <h2 className="font-semibold text-lg text-center">{student.name}</h2>
+              <p className="text-center text-sm text-gray-600">{student.status}</p>
+              {student.studentNo && (
+                <p className="text-center text-sm text-gray-500">Student No: {student.studentNo}</p>
+              )}
             </div>
           </Link>
         ))}

@@ -4,11 +4,11 @@
 
 'use client';
 
-import { useRouter } from 'next/router';
+import { useParams } from 'next/navigation';
 
 export default function StudentProfilePage() {
-  const router = useRouter();
-  const { id } = router.query;
+  const params = useParams();
+  const id = params?.id as string;
 
   const students = [
     {
@@ -203,3 +203,5 @@ export default function StudentProfilePage() {
     </div>
   );
 }
+
+    

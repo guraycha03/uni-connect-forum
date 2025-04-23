@@ -1,3 +1,21 @@
+
+npm install @radix-ui/react-avatar
+
+1.  Remove react-mapbox-gl
+
+npm uninstall react-mapbox-gl
+
+2. Install framer-motion
+
+npm install framer-motion
+
+Ensure recharts is installed:
+
+npm install recharts
+
+
+
+
 /app
   /dashboard
     page.tsx

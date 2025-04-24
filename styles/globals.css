@@ -26,6 +26,7 @@
   }
 }
 
+
 html,
 body {
   max-width: 100vw;
@@ -178,22 +179,54 @@ h1 {
 footer {
   background-color: var(--primary);
   color: white;
+  padding: 1rem 0; /* Padding to give it space */
 }
 
 header {
   background-color: var(--primary);
   color: white;
-  left: 50px;
+  height: 180px; /* Ensures header height is consistent */
+  padding: 2rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align the content to the left */
+  border-bottom: 4px solid var(--primary); /* Optional border to define header boundary */
 }
 
-header a,
-footer a {
+header .header-logo {
+  padding: 0; /* Adjusted padding */
+}
+
+header .header-logo img {
+  height: 90px; /* Set a fixed size for the logo */
+  width: 90px;
+}
+
+header .header-text {
+  margin-left: 10px; /* Ensures the text doesn't stick too close to the logo */
+}
+
+header .navigation {
+  margin-left: auto; /* Push navigation links to the right */
+}
+
+header nav ul {
+  display: flex;
+  list-style: none;
+  padding: 0;
+}
+
+header nav ul li {
+  margin-left: 16px; /* Adds spacing between each link */
+}
+
+header nav a {
   color: white;
-  transition: color 0.3s ease;
+  text-decoration: none;
+  font-weight: bold;
 }
 
-header a:hover,
-footer a:hover {
+header nav a:hover {
   color: var(--accent);
 }
 

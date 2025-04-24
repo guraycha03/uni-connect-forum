@@ -13,6 +13,9 @@ Ensure recharts is installed:
 
 npm install recharts
 
+npm install lucide-react
+
+npm install chart.js
 
 
 

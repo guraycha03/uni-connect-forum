@@ -1,600 +1,211 @@
-// app/page.tsx
-// homepage
-
-
-
-
-
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
 import {
-    PieChart,
-    Pie,
-    Cell,
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
     Tooltip,
     Legend,
     ResponsiveContainer,
-    // Add this type import
-    // eslint-disable-next-line @typescript-eslint/ban-types
-    TooltipProps,
 } from 'recharts';
-// import { Button } from '@/components/ui/button'; // Import Button component - Removed, not used
-// import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Import Card components - Removed, using plain divs for now
-// import { cn as utilCn } from '@/lib/utils'; // Import utility for combining class names, renamed to avoid conflict - Removed, defined locally
-import {
-    List, // For list icon
-    ChevronRight, // For right arrow
-    Loader2, // For loading indicator
-    AlertTriangle // For error indicator
-} from 'lucide-react';
+import { cn } from '@/lib/utils'; // Corrected import path
 
-// ===============================
-// Constants
-// ===============================
-
-const PRIMARY_COLOR = '#1e40af';       // Dark Blue
-const SECONDARY_COLOR = '#94a3b8';     // Cool Gray
-const ACCENT_COLOR = '#64748b';        // Medium Grayish Blue
-const TEXT_COLOR = '#0f172a';          // Very Dark Gray
-const MUTED_COLOR = '#4b5563';          // Dark Grayish Blue
-
-const PIE_COLORS = [
-    '#6ee7b7', // Teal
-    '#3b82f6', // Blue
-    '#22c55e', // Green
-    '#a7f3d0', // Light Teal
-    '#60a5fa', // Light Blue
-];
-
-// ===============================
-// Types & Interfaces
-// ===============================
-
-interface NewsItem {
-    id: string;
-    title: string;
-    date: string;
-    content: string;
-    link: string;
-}
-
-interface EventItem {
-    id: string;
-    title: string;
-    date: string;
-    location: string;
-    description: string;
-}
-
-interface DashboardData {
-    totalStudents: number;
-    totalPosts: number;
-    totalComments: number;
-}
-
-interface PieChartData {
-    name: string;
-    value: number;
-}
-
-interface Post {
-    id: number;
-    userId: number;
-    title: string;
-    body: string;
-}
-
-// ===============================
-// Mock Data & API (Simulated)
-// ===============================
-
-const MOCK_NEWS: NewsItem[] = [
-    {
-        id: '1',
-        title: 'University Announces New Programs',
-        date: '2024-07-28',
-        content: 'The University is excited to announce several new academic programs starting this fall...',
-        link: '#',
-    },
-    {
-        id: '2',
-        title: 'Campus Sustainability Initiatives Expanded',
-        date: '2024-07-25',
-        content: 'The University is expanding its commitment to sustainability with new campus-wide initiatives...',
-        link: '#',
-    },
-    {
-        id: '3',
-        title: 'Student Innovation Grants Awarded',
-        date: '2024-07-20',
-        content: 'Congratulations to the student recipients of this year\'s innovation grants...',
-        link: '#',
-    },
-];
-
-const MOCK_EVENTS: EventItem[] = [
-    {
-        id: '1',
-        title: 'Leadership Development Workshop',
-        date: '2024-08-15',
-        location: 'Student Center',
-        description: 'Enhance your leadership skills and prepare for future success...',
-    },
-    {
-        id: '2',
-        title: 'Green Technology Seminar',
-        date: '2024-09-01',
-        location: 'Engineering Hall',
-        description: 'Explore the latest advancements in green technology and sustainable practices...',
-    },
-    {
-        id: '3',
-        title: 'Community Service Fair',
-        date: '2024-10-26',
-        location: 'University Quad',
-        description: 'Discover opportunities to get involved in community service and make a difference...',
-    },
-];
-
-// Simulate API fetching with dynamic data
-const fetchDashboardData = async (): Promise<DashboardData> => {
-    // Simulate API delay (optional)
-    // await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    // Return consistent data
-    return {
-        totalStudents: 2100,
-        totalPosts: 120,
-        totalComments: 95,
-    };
+// Dummy data for demonstration.  Labels are now USERS, POSTS, COMMENTS
+const initialDashboardData = {
+    totalUsers: 150,
+    totalPosts: 100,
+    totalComments: 200,
 };
 
-const fetchPosts = async (): Promise<Post[]> => {
-    const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5'); // Limit to 5 posts
-    if (!response.ok) {
-        throw new Error('Failed to fetch posts');
-    }
-    return await response.json();
+// Animation variants
+const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeInOut' } },
 };
 
-// ===============================
-// Animation Variants
-// ===============================
-
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: {
-            staggerChildren: 0.3,
-        },
-    },
+const chartVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: 'easeInOut', delay: 0.3 } },
 };
 
-const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-        y: 0,
-        opacity: 1,
-        transition: {
-            type: 'spring',
-            stiffness: 100,
-            damping: 20,
-        },
-    },
-};
+const HomePage = () => {
+    // State for dashboard data
+    const [dashboardData, setDashboardData] = useState(initialDashboardData);
+    const [loading, setLoading] = useState(true);
 
-const buttonVariants = {
-    hover: {
-        scale: 1.05,
-        backgroundColor: '#a0aec0', // Keep a neutral hover color
-        boxShadow: '0px 2px 5px rgba(0, 0, 0, 0.1)',
-    },
-    tap: { scale: 0.98 },
-};
-
-// ===============================
-// Helper Functions
-// ===============================
-
-// const cn = (...args: (string | undefined | { [key: string]: boolean })[]): string => { //Removed
-//     return utilCn(...args); // Use the renamed import
-// };
-
-// Define a local cn function since '@/lib/utils' is missing.  This is a *substitute*.
-const cn = (...args: (string | undefined | { [key: string]: boolean })[]): string => {
-    return args.filter(Boolean).join(' ');
-};
-
-// ===============================
-// Components
-// ===============================
-
-/**
- * Animated and styled navigation link.
- */
-const NavLink: React.FC<{ href: string; children: React.ReactNode; icon?: React.ReactNode }> = ({ href, children, icon }) => (
-    <motion.div variants={itemVariants}>
-        <a href={href} className="text-md font-medium">
-            <motion.span
-                whileHover={{ scale: 1.08, color: '#6b7280' }} // Slightly darker hover
-                transition={{ type: 'spring', stiffness: 300 }}
-                className="flex items-center gap-3 px-5 py-3 rounded-xl transition-colors duration-300"
-                style={{ color: TEXT_COLOR }}
-            >
-                {icon}
-                {children}
-            </motion.span>
-        </a>
-    </motion.div>
-);
-
-/**
- * Styled card component.
- */
-const DashboardCard: React.FC<{ title: string; content: React.ReactNode }> = ({ title, content }) => (
-    <motion.div variants={itemVariants}>
-        <div
-            className={cn(
-                "transition-all duration-400 hover:scale-[1.01] hover:shadow-lg",
-                "bg-white/95 backdrop-blur-md",
-                "border border-gray-200/80 shadow-md",
-                "rounded-xl h-full flex flex-col p-6" // Added padding here
-            )}
-        >
-            <h2 className="text-2xl font-semibold mb-4" style={{ color: PRIMARY_COLOR }}>
-                {title}
-            </h2>
-            <div className="flex-grow">
-                {content}
-            </div>
-        </div>
-    </motion.div>
-);
-
-/**
- * Pie chart component for dashboard overview.
- */
-const OverviewChart: React.FC<{ data: PieChartData[] }> = ({ data }) => {
-    // Define a custom tooltip component.
-    const CustomTooltip: React.FC<TooltipProps<PieChartData, string>> = ({
-        active,
-        payload,
-        label,
-    }) => {
-        if (active && payload && payload.length) {
-            const { name, value } = payload[0].payload;
-            return (
-                <div
-                    style={{
-                        backgroundColor: 'white',
-                        border: '1px solid #e2e8f0',
-                        padding: '10px',
-                        borderRadius: '8px',
-                        boxShadow: '0 2px 5px rgba(0, 0, 0, 0.08)',
-                        color: '#2d3748',
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '14px',
-                        textAlign: 'center',
-                        position: 'absolute', // Use absolute positioning
-                        top: -50,             // Position above the slice
-                        left: '50%',          // Center horizontally initially
-                        transform: 'translateX(-50%)', // Precise centering
-                        zIndex: 10,           // Ensure it's above other elements
-                        whiteSpace: 'nowrap', // Prevent text wrapping
-                    }}
-                >
-                    <p className="font-semibold text-gray-700">{name}</p>
-                    <p className="text-gray-600">Value: <span className="font-bold">{value}</span></p>
-                </div>
-            );
-        }
-
-        return null;
-    };
-
-
-    return (
-        <ResponsiveContainer width="100%" height={300}>
-            <PieChart>
-                <Pie
-                    data={data}
-                    cx="50%"
-                    cy="50%"
-                    labelLine={false}
-                    outerRadius={120}
-                    fill="#8884d8"
-                    dataKey="value"
-                    label={({
-                        cx,
-                        cy,
-                        midAngle,
-                        innerRadius,
-                        outerRadius,
-                        value,
-                        index
-                    }) => {
-                        const RADIAN = Math.PI / 180;
-                        const radius = 25 + innerRadius + (outerRadius - innerRadius);
-                        const x = cx + radius * Math.cos(-midAngle * RADIAN);
-                        const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-                        return (
-                            <text
-                                x={x}
-                                y={y}
-                                fill={PIE_COLORS[index % PIE_COLORS.length]}
-                                textAnchor={x > cx ? "start" : "end"}
-                                dominantBaseline="central"
-                                style={{
-                                    fontFamily: 'Inter, sans-serif',
-                                    fontSize: '12px',
-                                    fontWeight: 'medium',
-                                }}
-                            >
-                                {data[index].name}
-                            </text>
-                        );
-                    }}
-                >
-                    {data.map((entry, index) => (
-                        <Cell
-                            key={`cell-${index}`}
-                            fill={PIE_COLORS[index % PIE_COLORS.length]}
-                            style={{
-                                transition: 'all 0.2s ease',
-                            }}
-                            onMouseEnter={(e) => {
-                                // @ts-ignore
-                                e.target.style.opacity = 0.9;
-                                // @ts-ignore
-                                e.target.style.transform = 'scale(1.03)';
-                            }}
-                            onMouseLeave={(e) => {
-                                // @ts-ignore
-                                e.target.style.opacity = 1;
-                                // @ts-ignore
-                                e.target.style.transform = 'scale(1)';
-                            }}
-                        />
-                    ))}
-                </Pie>
-                <Tooltip content={<CustomTooltip />} position={{ y: 0 }} /> {/* position the tooltip */}
-                <Legend
-                    wrapperStyle={{
-                        fontFamily: 'Inter, sans-serif',
-                        fontSize: '12px',
-                    }}
-                    itemStyle={{
-                        paddingTop: '4px',
-                        paddingBottom: '4px',
-                    }}
-                />
-            </PieChart>
-        </ResponsiveContainer>
-    );
-};
-
-const NewsCard: React.FC<{ news: NewsItem }> = ({ news }) => (
-    <div
-        className="transition-all duration-300 hover:shadow-md hover:scale-[1.01]
-                   bg-white/95 backdrop-blur-md
-                   border border-gray-200/80 rounded-xl p-4 shadow-md"
-    >
-        <h3 className="text-lg font-semibold" style={{ color: PRIMARY_COLOR }}>{news.title}</h3>
-        <p className="text-sm text-gray-500 mb-1">{news.date}</p>
-        <p className="text-gray-700 leading-relaxed text-sm">{news.content}</p>
-        <a
-            href={news.link}
-            className="text-blue-500 hover:text-blue-600 hover:underline mt-2 inline-block transition-colors text-sm"
-        >
-            Read More
-        </a>
-    </div>
-);
-
-const EventCard: React.FC<{ event: EventItem }> = ({ event }) => (
-    <div
-        className="transition-all duration-300 hover:shadow-md hover:scale-[1.01]
-                   bg-white/95 backdrop-blur-md
-                   border border-gray-200/80 rounded-xl p-4 shadow-md"
-    >
-        <h3 className="text-lg font-semibold" style={{ color: PRIMARY_COLOR }}>{event.title}</h3>
-        <p className="text-sm text-gray-500">Date: {event.date}</p>
-        <p className="text-sm text-gray-500">Location: {event.location}</p>
-        <p className="text-gray-700 leading-relaxed text-sm">{event.description}</p>
-    </div>
-);
-
-const PostCard: React.FC<{ post: Post }> = ({ post }) => {
-    // Reverted to using divs for basic structure.  If you have custom Card components,
-    // ensure they are correctly imported and available in this file.
-    return (
-        <div
-            className="transition-all duration-300 hover:shadow-md hover:scale-[1.01]
-                       bg-white/95 backdrop-blur-md
-                       border border-gray-200/80 rounded-xl shadow-md"
-        >
-            <div className="p-4"> {/* Replaced CardHeader with a div */}
-                <h3 className="text-lg font-semibold" style={{ color: PRIMARY_COLOR }}>
-                    <a href={`/post/${post.id}`} className="hover:underline flex items-center gap-2">
-                        {post.title}
-                        <ChevronRight className="w-4 h-4 text-gray-500" />
-                    </a>
-                </h3>
-            </div>
-            <div className="p-4 pt-0">  {/* Replaced CardContent with a div and added pt-0 */}
-                <p className="text-gray-700 leading-relaxed text-sm">{post.body}</p>
-            </div>
-        </div>
-    );
-};
-
-const HomePage: React.FC = () => {
-    const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
-    const [error, setError] = useState<string | null>(null);
-    const [posts, setPosts] = useState<Post[]>([]);
-    const [postsLoading, setPostsLoading] = useStatetrue;
-    const [postsError, setPostsError] = useState<string | null>(null);
-
-    // Fetch dashboard data
+    // Simulate data fetching and updates
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await fetchDashboardData();
-                setDashboardData(data);
-            } catch (err: any) {
-                setError(err.message || 'Failed to fetch data');
-                console.error('Failed to fetch dashboard data:', err);
-            }
-        };
+        const timer = setTimeout(() => {
+            // Simulate initial data load
+            setDashboardData({
+                totalUsers: 200,
+                totalPosts: 150,
+                totalComments: 250,
+            });
+            setLoading(false);
+        }, 1500); // Simulate 1.5 second delay for initial load
 
-        fetchData();
+        // Simulate automatic updates every 5 seconds
+        const updateInterval = setInterval(() => {
+            setDashboardData(prevData => ({
+                totalUsers: prevData.totalUsers + Math.floor(Math.random() * 20), // Simulate change
+                totalPosts: prevData.totalPosts + Math.floor(Math.random() * 15),   // Simulate change
+                totalComments: prevData.totalComments + Math.floor(Math.random() * 25), // Simulate change
+            }));
+        }, 5000); // Update every 5 seconds
+
+        return () => {
+            clearTimeout(timer);       // Clear initial load timer
+            clearInterval(updateInterval); // Clear update interval
+        };
     }, []);
 
-    // Fetch posts from JSON Placeholder
-    useEffect(() => {
-        const fetchPostsData = async () => {
-            try {
-                const fetchedPosts = await fetchPosts();
-                setPosts(fetchedPosts);
-            } catch (err: any) {
-                setPostsError(err.message || 'Failed to fetch posts');
-                console.error('Failed to fetch posts:', err);
-            } finally {
-                setPostsLoading(false);
-            }
-        };
-        fetchPostsData();
-    }, []);
-
-    const chartData: PieChartData[] = [
-        { name: 'Students', value: dashboardData?.totalStudents || 0 },
-        { name: 'Posts', value: dashboardData?.totalPosts || 0 },
-        { name: 'Comments', value: dashboardData?.totalComments || 0 },
+    // Data for the bar chart.  Uses the new labels.
+    const chartData = [
+        { name: 'USERS', value: dashboardData.totalUsers },
+        { name: 'POSTS', value: dashboardData.totalPosts },
+        { name: 'COMMENTS', value: dashboardData.totalComments },
     ];
 
+    // Chart color
+    const chartColor = '#880808'; // Deep Maroon
+
     return (
-        <main className="flex-grow px-4 py-8 max-w-7xl mx-auto">
-            <motion.div
-                initial={{ opacity: 0, y: -30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: 'easeInOut' }}
-                className="text-center mb-12"
-            >
-                <h2
-                    className="text-4xl font-bold mb-4"
-                    style={{ color: PRIMARY_COLOR }}
-                >
-                    Welcome to the University Portal
-                </h2>
-                <p className="text-lg text-gray-600" style={{ color: MUTED_COLOR }}>
-                    Your central hub for academic information and resources.
-                </p>
-            </motion.div>
-
-            <motion.div
-                className="space-y-8"
-                variants={containerVariants}
-                initial="hidden"
-                animate="visible"
-            >
-                <h3
-                    className="text-3xl font-semibold text-center"
-                    style={{ color: PRIMARY_COLOR }}
-                >
-                    Dashboard Overview
-                </h3>
-                {error && (
-                    <div className="text-red-500 text-center flex items-center justify-center gap-2">
-                        <AlertTriangle className="w-6 h-6" />
-                        <span>Error: {error}</span>
-                    </div>
-                )}
-                <div className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
-                    <DashboardCard
-                        title="Key Statistics"
-                        content={
-                            dashboardData ? (
-                                <OverviewChart data={chartData} />
-                            ) : (
-                                <div className="text-center text-gray-500 flex items-center justify-center gap-2">
-                                    <Loader2 className="w-6 h-6 animate-spin" />
-                                    <span>Loading data...</span>
-                                </div>
-                            )
-                        }
-                    />
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <DashboardCard
-                            title="Latest News"
-                            content={
-                                <div className="space-y-4">
-                                    {MOCK_NEWS.slice(0, 2).map((news) => (
-                                        <NewsCard key={news.id} news={news} />
-                                    ))}
-                                </div>
-                            }
-                        />
-
-                        <DashboardCard
-                            title="Upcoming Events"
-                            content={
-                                <div className="space-y-4">
-                                    {MOCK_EVENTS.slice(0, 2).map((event) => (
-                                        <EventCard key={event.id} event={event} />
-                                    ))}
-                                </div>
-                            }
-                        />
-                    </div>
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-4xl space-y-8">
+                <div className="text-center">
+                    <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white">
+                        Welcome to the Dashboard
+                    </h1>
+                    <p className="mt-3 text-base text-gray-500 dark:text-gray-400 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg">
+                        Manage and visualize your project data with ease.
+                    </p>
                 </div>
 
-                <h3
-                    className="text-3xl font-semibold text-center mt-12"
-                    style={{ color: PRIMARY_COLOR }}
-                >
-                    Latest Posts
-                </h3>
-                {postsError && (
-                    <div className="text-red-500 text-center flex items-center justify-center gap-2">
-                        <AlertTriangle className="w-6 h-6" />
-                        <span>Error: {postsError}</span>
-                    </div>
-                )}
-                {postsLoading ? (
-                    <div className="text-center text-gray-500 flex items-center justify-center gap-2">
-                        <Loader2 className="w-6 h-6 animate-spin" />
-                        <span>Loading posts...</span>
-                    </div>
-                ) : (
-                    <div className="space-y-4">
-                        {posts.map((post) => (
-                            <PostCard key={post.id} post={post} />
-                        ))}
-                    </div>
-                )}
-            </motion.div>
-        </main>
+                <div className="space-y-6">
+                    <motion.div
+                        variants={cardVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                    >
+                        <div className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-lg">
+                            <div className="p-4">
+                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                    Total Users
+                                </h2>
+                            </div>
+                            <div className="p-4">
+                                {loading ? (
+                                    <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+                                ) : (
+                                    <p className={cn(
+                                        "text-2xl font-bold",
+                                        "text-foreground" // Apply the text color
+                                    )}>
+                                        {dashboardData.totalUsers}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-lg">
+                            <div className="p-4">
+                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                    Total Posts
+                                </h2>
+                            </div>
+                            <div className="p-4">
+                                {loading ? (
+                                    <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+                                ) : (
+                                    <p className={cn(
+                                        "text-2xl font-bold",
+                                        "text-foreground" // Apply the text color
+                                    )}>
+                                        {dashboardData.totalPosts}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-lg">
+                            <div className="p-4">
+                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                    Total Comments
+                                </h2>
+                            </div>
+                            <div className="p-4">
+                                {loading ? (
+                                    <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+                                ) : (
+                                    <p className={cn(
+                                        "text-2xl font-bold",
+                                        "text-foreground" // Apply the text color
+                                    )}>
+                                        {dashboardData.totalComments}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        variants={chartVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6"
+                    >
+                        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+                            Dashboard Overview
+                        </h2>
+                        {loading ? (
+                            <div className="text-center py-8">
+                                <p className="text-gray-500 dark:text-gray-400">Loading chart data...</p>
+                            </div>
+                        ) : (
+                            <div className="p-6">
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <BarChart
+                                        data={chartData}
+                                        margin={{
+                                            top: 5,
+                                            right: 30,
+                                            left: 20,
+                                            bottom: 5,
+                                        }}
+                                    >
+                                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(200, 200, 200, 0.2)" />
+                                        <XAxis
+                                            dataKey="name"
+                                            tick={{ fill: '#6b7280' }}
+                                            tickLine={false}
+                                        />
+                                        <YAxis
+                                            tick={{ fill: '#6b7280' }}
+                                            tickLine={false}
+                                        />
+                                        <Tooltip
+                                            contentStyle={{ backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '8px', color: '#333' }}
+                                            labelStyle={{ fontWeight: 'bold', color: '#333' }}
+                                            itemStyle={{ color: '#333' }}
+                                        />
+                                        <Legend wrapperStyle={{ color: '#6b7280' }} />
+                                        <Bar dataKey="value" fill={chartColor} />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        )}
+                    </motion.div>
+                </div>
+            </div>
+        </div>
     );
 };
 
 export default HomePage;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

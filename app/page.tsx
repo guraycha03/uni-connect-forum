@@ -1,6 +1,5 @@
+//pThis file defines the content that will be displayed at the root of the website. This is the home page or index page.
 
-
-// app/page.tsx
 // app/page.tsx
 
 
@@ -20,6 +19,19 @@ import {
     Legend,
     ResponsiveContainer,
 } from 'recharts';
+
+// Simple implementation of the cn (classnames) utility function
+const cn = (...classes: (string | undefined | { [key: string]: boolean })[]): string => {
+    return classes.filter(Boolean).map(c => {
+        if (typeof c === 'object') {
+            return Object.entries(c)
+                .filter(([, value]) => value)
+                .map(([key]) => key)
+                .join(' ');
+        }
+        return c;
+    }).join(' ');
+};
 
 // Dummy data for demonstration.  Labels are now USERS, POSTS, COMMENTS
 const initialDashboardData = {
@@ -110,7 +122,10 @@ const HomePage = () => {
                                 {loading ? (
                                     <p className="text-gray-500 dark:text-gray-400">Loading...</p>
                                 ) : (
-                                    <p className="text-2xl font-bold text-gray-900 dark:text-gray-900 dark:text-white">
+                                    <p className={cn(
+                                        "text-2xl font-bold",
+                                        "text-foreground" // Apply the text color
+                                    )}>
                                         {dashboardData.totalUsers}
                                     </p>
                                 )}
@@ -127,7 +142,10 @@ const HomePage = () => {
                                 {loading ? (
                                     <p className="text-gray-500 dark:text-gray-400">Loading...</p>
                                 ) : (
-                                    <p className="text-2xl font-bold text-gray-900 dark:text-gray-900 dark:text-white">
+                                    <p className={cn(
+                                        "text-2xl font-bold",
+                                        "text-foreground" // Apply the text color
+                                    )}>
                                         {dashboardData.totalPosts}
                                     </p>
                                 )}
@@ -144,7 +162,10 @@ const HomePage = () => {
                                 {loading ? (
                                     <p className="text-gray-500 dark:text-gray-400">Loading...</p>
                                 ) : (
-                                     <p className="text-2xl font-bold text-gray-900 dark:text-gray-900 dark:text-white">
+                                     <p className={cn(
+                                        "text-2xl font-bold",
+                                         "text-foreground" // Apply the text color
+                                     )}>
                                         {dashboardData.totalComments}
                                     </p>
                                 )}
@@ -206,4 +227,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-

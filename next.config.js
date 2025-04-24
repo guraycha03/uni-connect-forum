@@ -7,5 +7,5 @@ module.exports = {
   images: {
     unoptimized: true,
   },
-  trailingSlash: true,  // Correct key
+  trailingSlash: true,  
 };

@@ -4,10 +4,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* styles/globals.css */
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --primary: #4f46e5;
+  --primary: #8c1515; /* Example maroon color */
   --secondary: #9ca3af;
   --accent: #e0e0e0;
   --border: #e0e0e0;

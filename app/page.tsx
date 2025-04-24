@@ -3,71 +3,207 @@
 // app/page.tsx
 // app/page.tsx
 
+
+
 'use client';
 
-import Link from 'next/link';
-import React from 'react';
-import dynamic from 'next/dynamic';
+import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { Button } from '@/components/ui/button';
+import {
+    BarChart,
+    Bar,
+    XAxis,
+    YAxis,
+    CartesianGrid,
+    Tooltip,
+    Legend,
+    ResponsiveContainer,
+} from 'recharts';
 
-// Dynamically import ApexCharts to avoid SSR issues
-const ReactApexChart = dynamic(() => import('react-apexcharts'), {
-  ssr: false,
-});
+// Dummy data for demonstration.  Labels are now USERS, POSTS, COMMENTS
+const initialDashboardData = {
+    totalUsers: 150,
+    totalPosts: 100,
+    totalComments: 200,
+};
 
-export default function HomePage() {
-  const totalUsers = 120;
-  const totalPosts = 350;
-  const totalComments = 540;
+// Animation variants
+const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeInOut' } },
+};
 
-  const options = {
-    chart: {
-      type: 'bar',
-      height: 350,
-    },
-    plotOptions: {
-      bar: {
-        borderRadius: 4,
-        columnWidth: '60%',
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    xaxis: {
-      categories: ['Users', 'Posts', 'Comments'],
-    },
-  };
+const chartVariants = {
+    hidden: { opacity: 0, x: -20 },
+    visible: { opacity: 1, x: 0, transition: { duration: 0.5, ease: 'easeInOut', delay: 0.3 } },
+};
 
-  const series = [
-    {
-      name: 'Total',
-      data: [totalUsers, totalPosts, totalComments],
-    },
-  ];
+const HomePage = () => {
+    // State for dashboard data
+    const [dashboardData, setDashboardData] = useState(initialDashboardData);
+    const [loading, setLoading] = useState(true);
 
-  return (
-    <div className="bg-white text-gray-800 min-h-screen flex flex-col">
-      <main className="flex-grow px-6 py-10 max-w-7xl mx-auto">
-        <h2 className="text-3xl font-bold mb-6 text-[#800000]">Welcome to the Project Dashboard</h2>
+    // Simulate data fetching and updates
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            // Simulate initial data load
+            setDashboardData({
+                totalUsers: 200,
+                totalPosts: 150,
+                totalComments: 250,
+            });
+            setLoading(false);
+        }, 1500); // Simulate 1.5 second delay for initial load
 
-        <nav className="flex gap-6 text-sm font-medium mb-8 text-[#800000]">
-          <Link href="/students" className="hover:underline">Students</Link>
-          <Link href="/projects" className="hover:underline">Projects</Link>
-          <Link href="/reports" className="hover:underline">Reports</Link>
-        </nav>
+        // Simulate automatic updates every 5 seconds
+        const updateInterval = setInterval(() => {
+            setDashboardData(prevData => ({
+                totalUsers: prevData.totalUsers + Math.floor(Math.random() * 20), // Simulate change
+                totalPosts: prevData.totalPosts + Math.floor(Math.random() * 15),   // Simulate change
+                totalComments: prevData.totalComments + Math.floor(Math.random() * 25), // Simulate change
+            }));
+        }, 5000); // Update every 5 seconds
 
-        <div className="mb-10">
-          <h3 className="text-2xl font-semibold mb-4 text-[#800000]">Dashboard Overview</h3>
-          <div className="bg-white p-6 rounded-xl shadow-md">
-            <ReactApexChart
-              options={options}
-              series={series}
-              type="bar"
-              height={350}
-            />
-          </div>
+        return () => {
+            clearTimeout(timer);       // Clear initial load timer
+            clearInterval(updateInterval); // Clear update interval
+        };
+    }, []);
+
+    // Data for the bar chart.  Uses the new labels.
+    const chartData = [
+        { name: 'USERS', value: dashboardData.totalUsers },
+        { name: 'POSTS', value: dashboardData.totalPosts },
+        { name: 'COMMENTS', value: dashboardData.totalComments },
+    ];
+
+    // Chart color
+    const chartColor = '#880808'; // Deep Maroon
+
+    return (
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+            <div className="w-full max-w-4xl space-y-8">
+                <div className="text-center">
+                    <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 dark:text-white">
+                        Welcome to the Dashboard
+                    </h1>
+                    <p className="mt-3 text-base text-gray-500 dark:text-gray-400 sm:mx-auto sm:mt-5 sm:max-w-xl sm:text-lg">
+                        Manage and visualize your project data with ease.
+                    </p>
+                </div>
+
+                <div className="space-y-6">
+                    <motion.div
+                        variants={cardVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                    >
+                        <div className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-lg">
+                            <div className="p-4">
+                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                    Total Users
+                                </h2>
+                            </div>
+                            <div className="p-4">
+                                {loading ? (
+                                    <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+                                ) : (
+                                    <p className="text-2xl font-bold text-gray-900 dark:text-gray-900 dark:text-white">
+                                        {dashboardData.totalUsers}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-lg">
+                            <div className="p-4">
+                                <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                    Total Posts
+                                </h2>
+                            </div>
+                            <div className="p-4">
+                                {loading ? (
+                                    <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+                                ) : (
+                                    <p className="text-2xl font-bold text-gray-900 dark:text-gray-900 dark:text-white">
+                                        {dashboardData.totalPosts}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="bg-white dark:bg-gray-800 shadow-lg hover:shadow-xl transition-shadow duration-300 rounded-lg">
+                            <div className="p-4">
+                                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white">
+                                    Total Comments
+                                </h2>
+                            </div>
+                            <div className="p-4">
+                                {loading ? (
+                                    <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+                                ) : (
+                                     <p className="text-2xl font-bold text-gray-900 dark:text-gray-900 dark:text-white">
+                                        {dashboardData.totalComments}
+                                    </p>
+                                )}
+                            </div>
+                        </div>
+                    </motion.div>
+
+                    <motion.div
+                        variants={chartVariants}
+                        initial="hidden"
+                        animate="visible"
+                        className="bg-white dark:bg-gray-800 shadow-lg rounded-lg p-6"
+                    >
+                        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+                            Dashboard Overview
+                        </h2>
+                        {loading ? (
+                            <div className="text-center py-8">
+                                <p className="text-gray-500 dark:text-gray-400">Loading chart data...</p>
+                            </div>
+                        ) : (
+                            <div className="p-6">
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <BarChart
+                                        data={chartData}
+                                        margin={{
+                                            top: 5,
+                                            right: 30,
+                                            left: 20,
+                                            bottom: 5,
+                                        }}
+                                    >
+                                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(200, 200, 200, 0.2)" />
+                                        <XAxis
+                                            dataKey="name"
+                                            tick={{ fill: '#6b7280' }}
+                                            tickLine={false}
+                                        />
+                                        <YAxis
+                                            tick={{ fill: '#6b7280' }}
+                                            tickLine={false}
+                                        />
+                                        <Tooltip
+                                            contentStyle={{ backgroundColor: '#fff', border: '1px solid #ddd', borderRadius: '8px', color: '#333' }}
+                                            labelStyle={{ fontWeight: 'bold', color: '#333' }}
+                                            itemStyle={{ color: '#333' }}
+                                        />
+                                        <Legend wrapperStyle={{ color: '#6b7280' }} />
+                                        <Bar dataKey="value" fill={chartColor} />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        )}
+                    </motion.div>
+                </div>
+            </div>
         </div>
-      </main>
-    </div>
-  );
-}
+    );
+};
+
+export default HomePage;
+

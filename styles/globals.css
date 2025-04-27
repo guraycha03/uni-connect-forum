@@ -286,14 +286,22 @@ header nav a:hover {
 }
 
 .student-profile-image {
-  width: 7.5rem;
-  height: 7.5rem;
+  width: 3.5rem;
+  height: 3.5rem;
   border-radius: 0.75rem;
   object-fit: cover;
   border-width: 2px;
   border-color: #d1d5db;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.student-profile-image-small {
+  width: calc(100% / 3); /* Make it one-third of the original size */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 50%;
+  object-fit: cover;
+  aspect-ratio: 1;
 }
 
 .student-profile-name {

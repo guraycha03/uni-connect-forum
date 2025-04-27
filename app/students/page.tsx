@@ -2,6 +2,9 @@
 // student directory page
 
 
+// app/students/page.tsx
+// student directory page
+
 'use client';
 
 import Link from 'next/link';
@@ -23,10 +26,10 @@ const initialStudents = [
         name: "Charisse Guray",
         studentNo: "20230000",
         course: "BSIT",
-        yearBlock: "1-1",
+        yearBlock: "2-1",
         email: "charisse.guray@example.com",
         address: "Bulan, Sorsogon",
-        profileImage: "/images/students/student_1.jpg",
+        profileImage: "/images/students/student_ (1).jpeg",
     },
     {
         id: "miguel_torres_1",
@@ -36,7 +39,7 @@ const initialStudents = [
         yearBlock: "2-2",
         email: "miguel.torres@example.com",
         address: "Santiago, Isabela",
-        profileImage: "/images/students/student_2.jpg",
+        profileImage: "/images/students/student_ (2).jpeg",
     },
     {
         id: "angelica_cruz_2",
@@ -46,7 +49,7 @@ const initialStudents = [
         yearBlock: "3-1",
         email: "angelica.cruz@example.com",
         address: "Albay, Bicol",
-        profileImage: "/images/students/student_3.jpg",
+        profileImage: "/images/students/student_ (3).jpeg",
     },
     {
         id: "daniel_navarro_3",
@@ -56,7 +59,7 @@ const initialStudents = [
         yearBlock: "4-2",
         email: "daniel.navarro@example.com",
         address: "Taguig City",
-        profileImage: "/images/students/student_4.jpg",
+        profileImage: "/images/students/student_ (4).jpeg",
     },
     {
         id: "frances_santos_4",
@@ -66,7 +69,7 @@ const initialStudents = [
         yearBlock: "1-3",
         email: "frances.santos@example.com",
         address: "Cebu City",
-        profileImage: "/images/students/student_5.jpg",
+        profileImage: "/images/students/student_ (5).jpeg",
     },
     {
         id: "mark_yu_5",
@@ -76,7 +79,7 @@ const initialStudents = [
         yearBlock: "2-1",
         email: "mark.yu@example.com",
         address: "Naga City",
-        profileImage: "/images/students/student_6.jpg",
+        profileImage: "/images/students/student_ (6).jpeg",
     },
     {
         id: "janine_dela_cruz_6",
@@ -86,7 +89,7 @@ const initialStudents = [
         yearBlock: "3-2",
         email: "janine.delacruz@example.com",
         address: "Legazpi City",
-        profileImage: "/images/students/student_7.jpg",
+        profileImage: "/images/students/student_ (7).jpeg",
     },
     {
         id: "kevin_bautista_7",
@@ -96,7 +99,7 @@ const initialStudents = [
         yearBlock: "4-1",
         email: "kevin.bautista@example.com",
         address: "Irosin, Sorsogon",
-        profileImage: "/images/students/student_8.jpg",
+        profileImage: "/images/students/student_ (8).jpeg",
     },
     {
         id: "ella_manalo_8",
@@ -106,7 +109,7 @@ const initialStudents = [
         yearBlock: "1-2",
         email: "ella.manalo@example.com",
         address: "Bulusan, Sorsogon",
-        profileImage: "/images/students/student_9.jpg",
+        profileImage: "/images/students/student_ (9).jpeg",
     },
     {
         id: "andrew_salazar_9",
@@ -116,7 +119,7 @@ const initialStudents = [
         yearBlock: "2-3",
         email: "andrew.salazar@example.com",
         address: "Sampaloc, Manila",
-        profileImage: "/images/students/student_10.jpg",
+        profileImage: "/images/students/student_ (10).jpeg",
     },
     {
         id: "patricia_villanueva_10",
@@ -126,7 +129,7 @@ const initialStudents = [
         yearBlock: "3-1",
         email: "patricia.villanueva@example.com",
         address: "Quezon City",
-        profileImage: "/images/students/student_11.jpg",
+        profileImage: "/images/students/student_ (11).jpeg",
     },
     {
         id: "justin_reyes_11",
@@ -136,7 +139,7 @@ const initialStudents = [
         yearBlock: "4-2",
         email: "justin.reyes@example.com",
         address: "Masbate City",
-        profileImage: "/images/students/student_12.jpg",
+        profileImage: "/images/students/student_ (12).jpeg",
     },
     {
         id: "rica_gonzales_12",
@@ -146,9 +149,9 @@ const initialStudents = [
         yearBlock: "1-1",
         email: "rica.gonzales@example.com",
         address: "Donsol, Sorsogon",
-        profileImage: "/images/students/student_13.jpg",
+        profileImage: "/images/students/student_ (13).jpeg",
     },
-      {
+    {
         id: "leonardo_ortega_13",
         name: "Leonardo Ortega",
         studentNo: "20230013",
@@ -156,7 +159,7 @@ const initialStudents = [
         yearBlock: "2-2",
         email: "leonardo.ortega@example.com",
         address: "Juban, Sorsogon",
-        profileImage: "/images/students/student_14.jpg",
+        profileImage: "/images/students/student_ (14).jpeg",
     },
     {
         id: "luisa_mendoza_14",
@@ -166,7 +169,7 @@ const initialStudents = [
         yearBlock: "3-2",
         email: "luisa.mendoza@example.com",
         address: "Bacolod City",
-        profileImage: "/images/students/student_15.jpg",
+        profileImage: "/images/students/student_ (15).jpeg",
     },
     {
         id: "ronald_de_la_cruz_15",
@@ -176,7 +179,7 @@ const initialStudents = [
         yearBlock: "4-1",
         email: "ronald.delacruz@example.com",
         address: "Calamba, Laguna",
-        profileImage: "/images/students/student_1.jpg",
+        profileImage: "/images/students/student_ (16).jpeg",
     },
     {
         id: "mariel_soriano_16",
@@ -186,7 +189,7 @@ const initialStudents = [
         yearBlock: "1-3",
         email: "mariel.soriano@example.com",
         address: "Tuguegarao City",
-        profileImage: "/images/students/student_2.jpg",
+        profileImage: "/images/students/student_ (17).jpeg",
     },
     {
         id: "joseph_galang_17",
@@ -196,7 +199,7 @@ const initialStudents = [
         yearBlock: "2-1",
         email: "joseph.galang@example.com",
         address: "Angeles City",
-        profileImage: "/images/students/student_3.jpg",
+        profileImage: "/images/students/student_ (18).jpeg",
     },
     {
         id: "bea_quijano_18",
@@ -206,7 +209,7 @@ const initialStudents = [
         yearBlock: "3-2",
         email: "bea.quijano@example.com",
         address: "Puerto Princesa",
-        profileImage: "/images/students/student_4.jpg",
+        profileImage: "/images/students/student_ (19).jpeg",
     },
     {
         id: "ryan_lopez_19",
@@ -216,7 +219,7 @@ const initialStudents = [
         yearBlock: "4-1",
         email: "ryan.lopez@example.com",
         address: "Baguio City",
-        profileImage: "/images/students/student_5.jpg",
+        profileImage: "/images/students/student_ (20).jpeg",
     },
     {
         id: "katrina_valdez_20",
@@ -226,7 +229,7 @@ const initialStudents = [
         yearBlock: "1-2",
         email: "katrina.valdez@example.com",
         address: "San Pablo City",
-        profileImage: "/images/students/student_6.jpg",
+        profileImage: "/images/students/student_ (21).jpeg",
     },
     {
         id: "enzo_ramos_21",
@@ -236,7 +239,7 @@ const initialStudents = [
         yearBlock: "2-3",
         email: "enzo.ramos@example.com",
         address: "Tarlac City",
-        profileImage: "/images/students/student_7.jpg",
+        profileImage: "/images/students/student_ (22).jpeg",
     },
     {
         id: "charmaine_garcia_22",
@@ -246,7 +249,7 @@ const initialStudents = [
         yearBlock: "3-1",
         email: "charmaine.garcia@example.com",
         address: "Iloilo City",
-        profileImage: "/images/students/student_8.jpg",
+        profileImage: "/images/students/student_ (23).jpeg",
     },
     {
         id: "daryl_morales_23",
@@ -256,7 +259,7 @@ const initialStudents = [
         yearBlock: "4-2",
         email: "daryl.morales@example.com",
         address: "Roxas City",
-        profileImage: "/images/students/student_9.jpg",
+        profileImage: "/images/students/student_ (24).jpeg",
     },
     {
         id: "sophia_smith_24",
@@ -266,7 +269,7 @@ const initialStudents = [
         yearBlock: "1-1",
         email: "sophia.smith@example.com",
         address: "Pasay City",
-        profileImage: "/images/students/student_10.jpg",
+        profileImage: "/images/students/student_ (25).jpeg",
     },
     {
         id: "ethan_johnson_25",
@@ -276,7 +279,7 @@ const initialStudents = [
         yearBlock: "2-2",
         email: "ethan.johnson@example.com",
         address: "Makati City",
-        profileImage: "/images/students/student_11.jpg",
+        profileImage: "/images/students/student_ (26).jpeg",
     },
     {
         id: "olivia_williams_26",
@@ -286,9 +289,9 @@ const initialStudents = [
         yearBlock: "3-1",
         email: "olivia.williams@example.com",
         address: "Mandaluyong City",
-        profileImage: "/images/students/student_12.jpg",
+        profileImage: "/images/students/student_ (27).jpeg",
     },
-     {
+    {
         id: "noah_brown_27",
         name: "Noah Brown",
         studentNo: "20230027",
@@ -296,7 +299,7 @@ const initialStudents = [
         yearBlock: "4-2",
         email: "noah.brown@example.com",
         address: "San Juan City",
-        profileImage: "/images/students/student_13.jpg",
+        profileImage: "/images/students/student_ (28).jpeg",
     },
     {
         id: "ava_jones_28",
@@ -306,7 +309,7 @@ const initialStudents = [
         yearBlock: "1-3",
         email: "ava.jones@example.com",
         address: "Las Pinas City",
-        profileImage: "/images/students/student_14.jpg",
+        profileImage: "/images/students/student_ (29).jpeg",
     },
     {
         id: "william_garcia_29",
@@ -316,17 +319,17 @@ const initialStudents = [
         yearBlock: "2-1",
         email: "william.garcia@example.com",
         address: "Paranaque City",
-        profileImage: "/images/students/student_15.jpg",
+        profileImage: "/images/students/student_ (30).jpeg",
     },
     {
-      id: "isabella_miller_30",
+        id: "isabella_miller_30",
         name: "Isabella Miller",
         studentNo: "20230030",
         course: "BSE",
         yearBlock: "3-2",
         email: "isabella.miller@example.com",
         address: "Muntinlupa City",
-        profileImage: "/images/students/student_1.jpg"
+        profileImage: "/images/students/student_ (31).jpeg"
     },
     {
         id: "james_davis_31",
@@ -336,7 +339,7 @@ const initialStudents = [
         yearBlock: "4-1",
         email: "james.davis@example.com",
         address: "Valenzuela City",
-        profileImage: "/images/students/student_2.jpg"
+        profileImage: "/images/students/student_ (32).jpeg"
     },
     {
         id: "mia_rodriguez_32",
@@ -346,7 +349,7 @@ const initialStudents = [
         yearBlock: "1-2",
         email: "mia.rodriguez@example.com",
         address: "Caloocan City",
-        profileImage: "/images/students/student_3.jpg"
+        profileImage: "/images/students/student_ (33).jpeg"
     },
     {
         id: "benjamin_martinez_33",
@@ -356,7 +359,7 @@ const initialStudents = [
         yearBlock: "2-3",
         email: "benjamin.martinez@example.com",
         address: "Navotas City",
-        profileImage: "/images/students/student_4.jpg"
+        profileImage: "/images/students/student_ (34).jpeg"
     },
     {
         id: "charlotte_34",
@@ -366,7 +369,7 @@ const initialStudents = [
         yearBlock: "3-1",
         email: "charlotte@example.com",
         address: "Bulan, Sorsogon",
-        profileImage: "/images/students/student_5.jpg",
+        profileImage: "/images/students/student_ (35).jpeg",
     }
 ];
 
@@ -469,7 +472,7 @@ export default function StudentsPage() {
                                                 <p className="text-sm text-[var(--secondary)] text-center">
                                                     {student.email}
                                                 </p>
-                                                 <p className="text-xs text-gray-500 text-center">{student.course} - {student.yearBlock}</p>
+                                                <p className="text-xs text-gray-500 text-center">{student.course} - {student.yearBlock}</p>
                                             </div>
                                         </div>
                                         {student.studentNo && (
@@ -491,4 +494,5 @@ export default function StudentsPage() {
         </main>
     );
 }
+
 

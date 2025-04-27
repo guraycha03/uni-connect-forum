@@ -2,47 +2,70 @@
 
 
 
+
+
 'use client';
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Heart, Share2, Pin, MessageCircle } from 'lucide-react'; // Using lucide-react for icons
 
-// Simplified Card components to avoid the missing module error.
+// ===============================
+// Component: Card (Simplified)
+// ===============================
 const Card = ({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-    <div className={`rounded-lg border bg-card text-card-foreground shadow-sm ${className}`} {...props}>
+    <div className={`rounded-xl border border-gray-200 bg-white shadow-md ${className}`} {...props}>
         {children}
     </div>
 );
 
+// ===============================
+// Component: CardHeader (Simplified)
+// ===============================
 const CardHeader = ({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-    <div className={`flex flex-col space-y-1.5 p-6 ${className}`} {...props}>
+    <div className={`flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 ${className}`} {...props}>
         {children}
     </div>
 );
 
+// ===============================
+// Component: CardTitle (Simplified)
+// ===============================
 const CardTitle = ({ className, children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3 className={`text-2xl font-semibold leading-none tracking-tight ${className}`} {...props}>
+    <h3 className={`text-xl font-semibold text-gray-900 ${className}`} {...props}>
         {children}
     </h3>
 );
 
+// ===============================
+// Component: CardDescription (Simplified)
+// ===============================
 const CardDescription = ({ className, children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p className={`text-sm text-muted-foreground ${className}`} {...props}>
+    <p className={`text-sm text-gray-500 ${className}`} {...props}>
         {children}
     </p>
 );
 
+// ===============================
+// Component: CardContent (Simplified)
+// ===============================
 const CardContent = ({ className, children, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-    <div className={`p-6 pt-0 ${className}`} {...props}>
+    <div className={`p-4 pt-0 ${className}`} {...props}>
         {children}
     </div>
 );
 
+// ===============================
+// Interface: Comment
+// ===============================
 interface Comment {
     user: string;
     comment: string;
 }
 
+// ===============================
+// Interface: Post
+// ===============================
 interface Post {
     id: number;
     author: string;
@@ -55,6 +78,9 @@ interface Post {
     likes?: number;
 }
 
+// ===============================
+// Component: PostsPage
+// ===============================
 const PostsPage = () => {
     const [expandedPostId, setExpandedPostId] = useState<number | null>(null);
     const [posts, setPosts] = useState<Post[]>([
@@ -82,25 +108,72 @@ const PostsPage = () => {
             image: 'https://source.unsplash.com/random/800x400/?umbrella,lost,found',
             likes: 2,
         },
-        // Other posts...
+        // More posts...
+        {
+            id: 3,
+            author: "Student 1",
+            role: "student",
+            title: "Question about Midterm Exam",
+            content: "Hi everyone, I have a question about the upcoming midterm exam.  Does anyone know what chapters will be covered?  Also, is there a study group I can join?",
+            comments: [
+                { user: "Student 2", comment: "I heard chapters 3-5 will be on the exam." },
+                { user: "Student 3", comment: "There's a study group meeting on Friday in the library!" },
+            ],
+            likes: 7,
+        },
+        {
+            id: 4,
+            author: "Professor Smith",
+            role: "moderator",
+            title: "Office Hours Announcement",
+            content: "My office hours for this week will be on Tuesday and Thursday from 2-4 PM.  Please come by if you have any questions about the course material.",
+            comments: [],
+            isPinned: true,
+            likes: 12,
+        },
+        {
+            id: 5,
+            author: "Club President",
+            role: "student",
+            title: "Volunteer Opportunity",
+            content: "The Environmental Club is looking for volunteers for our upcoming tree planting event.  It will be on Saturday from 9 AM to 12 PM.  Lunch will be provided!",
+            comments: [
+                { user: "Student 4", comment: "I'd love to volunteer!  Where is the meeting location?" },
+            ],
+            image: "https://source.unsplash.com/random/800x400/?tree,planting,volunteer",
+            likes: 20,
+        },
     ]);
 
+    // ===============================
+    // Function: toggleExpand
+    // ===============================
     const toggleExpand = (id: number) => {
         setExpandedPostId((prev) => (prev === id ? null : id));
     };
 
+    // ===============================
+    // Function: handleLike
+    // ===============================
     const handleLike = (postId: number) => {
-        setPosts(
-            posts.map((p) =>
-                p.id === postId ? { ...p, likes: (p.likes || 0) + 1 } : p
+        setPosts((prevPosts) =>
+            prevPosts.map((post) =>
+                post.id === postId ? { ...post, likes: (post.likes || 0) + 1 } : post
             )
         );
     };
 
+    // ===============================
+    // Function: handleShare
+    // ===============================
     const handleShare = (postId: number) => {
-        alert(`Shared post ${postId}! (This is a placeholder)`);
+        // Replace with actual sharing logic (e.g., using the Web Share API)
+        alert(`Shared post ${postId}! (This is a placeholder for sharing functionality)`);
     };
 
+    // ===============================
+    // Function: handlePin
+    // ===============================
     const handlePin = (postId: number) => {
         setPosts(prevPosts => {
             const postToPin = prevPosts.find(p => p.id === postId);
@@ -110,117 +183,132 @@ const PostsPage = () => {
                 p.id === postId ? { ...p, isPinned: !p.isPinned } : p
             );
 
+            // Sort posts: Pinned posts first, then by ID (or date, if you have it)
             const sortedPosts = [...updatedPosts].sort((a, b) => {
                 if (a.isPinned && !b.isPinned) return -1;
                 if (!a.isPinned && b.isPinned) return 1;
-                return a.id - b.id; 
+                return a.id - b.id; // Or use a date field if available
             });
             return sortedPosts;
         });
     };
 
+    // ===============================
+    // Variable: sortedPosts
+    // ===============================
+    // Sort posts: Pinned posts at the top, then by ID (or date)
     const sortedPosts = [...posts].sort((a, b) => {
         if (a.isPinned && !b.isPinned) return -1;
         if (!a.isPinned && b.isPinned) return 1;
-        return a.id - b.id;
+        return a.id - b.id; // Or use a date field for chronological order
     });
 
+    // ===============================
+    // Render: PostsPage
+    // ===============================
     return (
-        <div className="min-h-screen bg-gradient-to-b from-[#fff4f4] to-[#ffecec] py-10 px-6">
-            <h1 className="text-4xl font-bold text-maroon-800 mb-8 text-center drop-shadow-md">
-                📬 Forum Posts & Announcements
-            </h1>
+        <div className="min-h-screen bg-gradient-to-br from-white via-gray-100 to-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-4xl mx-auto">
+                <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 text-center bg-gradient-to-r from-maroon-700 to-maroon-900 text-transparent bg-clip-text drop-shadow-md">
+                    📬 Forum Posts & Announcements
+                </h1>
 
-            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-1">
-                <AnimatePresence>
-                    {sortedPosts.map((post) => (
-                        <motion.div
-                            key={post.id}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
-                            transition={{ duration: 0.3 }}
-                            className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition duration-300 border border-maroon-100"
-                        >
-                            <Card className="border-none bg-transparent">
-                                <CardHeader className="pb-2">
-                                    <div className="flex items-center justify-between">
-                                        <CardTitle className="text-xl font-semibold text-maroon-900 cursor-pointer" onClick={() => toggleExpand(post.id)}>
+                <div className="space-y-6">
+                    <AnimatePresence>
+                        {sortedPosts.map((post) => (
+                            <motion.div
+                                key={post.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.3 }}
+                            >
+                                <Card className="border border-gray-200 bg-white shadow-md hover:shadow-lg transition-shadow duration-200 p-4">
+                                    <CardHeader className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative">
+                                        <CardTitle className="cursor-pointer hover:text-maroon-700 transition-colors flex-grow" onClick={() => toggleExpand(post.id)}>
                                             {post.title}
                                         </CardTitle>
-                                        {post.isPinned && (
-                                            <div className="bg-yellow-500/20 text-yellow-300 rounded-full px-2 py-1 flex items-center gap-1">
-                                                <span className="w-4 h-4">📌</span> Pinned
+                                        <div className="flex items-center gap-2 flex-wrap justify-end">
+                                            {post.isPinned && (
+                                                <div className="bg-yellow-100 text-yellow-700 rounded-full px-3 py-1 text-xs font-semibold flex items-center gap-1">
+                                                    <Pin className="w-3 h-3" />
+                                                    Pinned
+                                                </div>
+                                            )}
+                                            {post.role === 'moderator' && (
+                                                <button
+                                                    onClick={() => handlePin(post.id)}
+                                                    className="rounded-full p-2 text-yellow-700 hover:text-yellow-900 hover:bg-yellow-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500 absolute top-0 right-0 mt-4 mr-4" // Adjusted position
+                                                    title={post.isPinned ? "Unpin Post" : "Pin Post"}
+                                                >
+                                                    <Pin className="w-4 h-4" />
+                                                </button>
+                                            )}
+                                            <span className='text-gray-600 text-sm italic'>{post.author} ({post.role})</span>
+                                        </div>
+                                    </CardHeader>
+                                    <CardContent>
+                                        {post.image && (
+                                            <div className="mb-4">
+                                                <img
+                                                    src={post.image}
+                                                    alt={`Image for ${post.title}`}
+                                                    className="rounded-lg w-full h-auto max-h-64 object-cover"
+                                                />
                                             </div>
                                         )}
-                                        {post.role === 'moderator' && (
-                                            <button
-                                                onClick={() => handlePin(post.id)}
-                                                className="ml-2 rounded-full p-2 text-yellow-700 hover:text-yellow-900 hover:bg-yellow-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-500"
-                                                title={post.isPinned ? "Unpin Post" : "Pin Post"}
-                                            >
-                                                <span className="w-4 h-4">📌</span>
-                                            </button>
-                                        )}
-                                    </div>
-                                    <CardDescription className="text-sm text-gray-500 italic">
-                                        Posted by: {post.author} ({post.role})
-                                    </CardDescription>
-                                </CardHeader>
-                                <CardContent>
-                                    <p className="text-gray-700 mb-4 leading-relaxed">{post.content}</p>
-                                    {post.image && (
-                                        <div className="mt-4">
-                                            <img
-                                                src={post.image}
-                                                alt={`Image for ${post.title}`}
-                                                className="rounded-lg w-full h-auto max-h-64 object-cover"
-                                            />
+                                        <p className="text-gray-700 leading-relaxed mb-4">{post.content}</p>
+
+                                        <div className="flex justify-between items-center mt-4">
+                                            <div className="flex items-center gap-4">
+                                                <button
+                                                    onClick={() => handleLike(post.id)}
+                                                    className="rounded-full p-2 text-red-500 hover:bg-red-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 flex items-center gap-1"
+                                                >
+                                                    <Heart className="w-4 h-4" />
+                                                    <span>{post.likes || 0}</span>
+                                                </button>
+                                            </div>
+                                            <div className="flex items-center gap-4">
+                                                <button
+                                                    onClick={() => handleShare(post.id)}
+                                                    className="rounded-full p-2 text-blue-500 hover:bg-blue-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                >
+                                                    <Share2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
                                         </div>
-                                    )}
-                                    <div className="flex items-center justify-between mt-4">
-                                        <div className="flex items-center gap-4">
-                                            <button
-                                                onClick={() => handleLike(post.id)}
-                                                className="rounded-full p-2 text-red-500 hover:bg-red-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-red-500"
-                                            >
-                                                ❤️
-                                            </button>
-                                            <span className="text-sm text-gray-500">{post.likes || 0}</span>
-                                            <button
-                                                onClick={() => handleShare(post.id)}
-                                                className="rounded-full p-2 text-blue-500 hover:bg-blue-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                            >
-                                                🔗
-                                            </button>
-                                        </div>
-                                    </div>
-                                    <AnimatePresence>
-                                        {expandedPostId === post.id && (
-                                            <motion.div
-                                                initial={{ opacity: 0 }}
-                                                animate={{ opacity: 1 }}
-                                                exit={{ opacity: 0 }}
-                                                transition={{ duration: 0.3 }}
-                                                className="mt-4"
-                                            >
-                                                <div className="text-lg font-medium text-gray-800">Comments</div>
-                                                {post.comments.map((comment, index) => (
-                                                    <div key={index} className="mt-2 p-2 bg-gray-100 rounded-md">
-                                                        <strong>{comment.user}</strong>: {comment.comment}
+                                        <AnimatePresence>
+                                            {expandedPostId === post.id && (
+                                                <motion.div
+                                                    initial={{ opacity: 0, height: 0 }}
+                                                    animate={{ opacity: 1, height: 'auto' }}
+                                                    exit={{ opacity: 0, height: 0 }}
+                                                    transition={{ duration: 0.3 }}
+                                                    className="mt-4 overflow-hidden"
+                                                >
+                                                    <div className="text-lg font-medium text-gray-800 mb-2 flex items-center gap-2">
+                                                        <MessageCircle className='w-5 h-5' /> Comments
                                                     </div>
-                                                ))}
-                                            </motion.div>
-                                        )}
-                                    </AnimatePresence>
-                                </CardContent>
-                            </Card>
-                        </motion.div>
-                    ))}
-                </AnimatePresence>
+                                                    {post.comments.map((comment, index) => (
+                                                        <div key={index} className="mt-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
+                                                            <p><span className="font-semibold text-gray-700">{comment.user}: </span><span className='text-gray-600'>{comment.comment}</span></p>
+                                                        </div>
+                                                    ))}
+                                                </motion.div>
+                                            )}
+                                        </AnimatePresence>
+                                    </CardContent>
+                                </Card>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+                </div>
             </div>
         </div>
     );
 };
 
 export default PostsPage;
+
+

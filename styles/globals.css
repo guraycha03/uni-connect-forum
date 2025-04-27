@@ -200,8 +200,9 @@ footer {
   padding: 1rem 0; /* Padding to give it space */
 }
 
-footer a:hover {
-  color: var(--maroon-200); /* Using the lighter maroon */
+footer .container.grid a:hover,
+footer .mt-8.text-center a:hover {
+  color: #f0f0f0; /* Or #fafafa - whichever you prefer */
 }
 
 header {

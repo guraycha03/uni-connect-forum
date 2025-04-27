@@ -16,7 +16,8 @@ npm install recharts
 npm install lucide-react
 
 npm install chart.js
-npm install @heroicons/react
+yarn add @heroicons/react   ✔
+yarn dev
 
 
 /app

@@ -8,7 +8,7 @@ const repoName = 'web-application'; // <-- CONFIRM THIS MATCHES YOUR REPO
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // ... other configs
-  output: 'export',
+  //output: 'export',
   basePath: process.env.NODE_ENV === 'production' ? `/${repoName}` : '',
   assetPrefix: process.env.NODE_ENV === 'production' ? `/${repoName}/` : '',
   images: {

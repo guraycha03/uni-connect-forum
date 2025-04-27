@@ -26,7 +26,6 @@
   }
 }
 
-
 html,
 body {
   max-width: 100vw;
@@ -176,10 +175,33 @@ h1 {
   text-align: center;
 }
 
+footer .container.grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)); /* Ensure equal width distribution */
+  align-items: start; /* Align items to the top within each grid cell */
+}
+
+footer .container.grid > div:nth-child(1) {
+  /* Styles for the first grid item (Quick Links) if needed */
+}
+
+footer .container.grid > div:nth-child(2) {
+  /* Styles for the second grid item (Contact) if needed */
+  justify-self: center; /* Try centering the Contact section */
+}
+
+footer .container.grid > div:nth-child(3) {
+  /* Styles for the third grid item (Connect) if needed */
+  justify-self: end; /* Try aligning the Connect section to the right */
+}
+
 footer {
   background-color: var(--primary);
   color: white;
   padding: 1rem 0; /* Padding to give it space */
+}
+
+footer a:hover {
+  color: var(--maroon-200); /* Using the lighter maroon */
 }
 
 header {
@@ -189,17 +211,11 @@ header {
   padding: 2rem 1rem;
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* Align the content to the left */
   border-bottom: 4px solid var(--primary); /* Optional border to define header boundary */
 }
 
-header .header-logo {
-  padding: 0; /* Adjusted padding */
-}
-
 header .header-logo img {
-  height: 90px; /* Set a fixed size for the logo */
-  width: 90px;
+  margin-right: 0.75rem; /* from mr-3 */
 }
 
 header .header-text {
@@ -227,7 +243,7 @@ header nav a {
 }
 
 header nav a:hover {
-  color: var(--accent);
+  color: aqua;
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,11 +1,20 @@
 // next.config.js
 
 
-// Corrected next.config.js
-module.exports = {
-  reactStrictMode: true,
+// next.config.js
+
+const repoName = 'web-application'; // <-- CONFIRM THIS MATCHES YOUR REPO
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // ... other configs
+  output: 'export',
+  basePath: process.env.NODE_ENV === 'production' ? `/${repoName}` : '',
+  assetPrefix: process.env.NODE_ENV === 'production' ? `/${repoName}/` : '',
   images: {
     unoptimized: true,
   },
-  trailingSlash: true,  
+  // ...
 };
+
+module.exports = nextConfig;

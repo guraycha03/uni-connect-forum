@@ -2,13 +2,15 @@
 
 
 
-
-
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Heart, Share2, Pin, MessageCircle } from 'lucide-react'; // Using lucide-react for icons
+import { Heart, Share2, Pin, MessageCircle, PlusCircle, XCircle } from 'lucide-react'; // Using lucide-react for icons
+// import { Button } from '@/components/ui/button'; // Assuming you have a Button component  -- REMOVED
+// import { Input } from '@/components/ui/input'; // Assuming you have an Input component    -- REMOVED
+// import { Textarea } from '@/components/ui/textarea'; // Assuming you have a Textarea component  -- REMOVED
+// import { Label } from '@/components/ui/label'; // Assuming you have a Label component    -- REMOVED
 
 // ===============================
 // Component: Card (Simplified)
@@ -81,7 +83,7 @@ interface Post {
 // ===============================
 // Component: PostsPage
 // ===============================
-const PostsPage = () => {
+const PostsPage = ({ onPostAdded }: { onPostAdded?: (newPost: Post) => void }) => { // Make onPostAdded optional
     const [expandedPostId, setExpandedPostId] = useState<number | null>(null);
     const [posts, setPosts] = useState<Post[]>([
         {
@@ -144,6 +146,32 @@ const PostsPage = () => {
             likes: 20,
         },
     ]);
+    const [isCreatingPost, setIsCreatingPost] = useState(false);
+    const [newPost, setNewPost] = useState<Omit<Post, 'id' | 'comments' | 'likes' | 'author' | 'role'>>({
+        title: '',
+        content: '',
+        image: undefined, // Or null, depending on your needs
+    });
+
+    // Function to handle adding a new post
+    const handleAddPost = () => {
+        if (newPost.title.trim() && newPost.content.trim()) {
+            const latestPost: Post = {
+                id: Math.max(0, ...posts.map(p => p.id)) + 1, // Simple ID generation
+                author: 'Current User', //  Get the current user
+                role: 'student',       //  Get the current user role
+                comments: [],
+                likes: 0,
+                ...newPost,
+            };
+            setPosts(prevPosts => [latestPost, ...prevPosts]);
+            onPostAdded?.(latestPost); // Notify the parent component, if provided.  The fix is here.
+            setIsCreatingPost(false); // Close the form
+            setNewPost({ title: '', content: '', image: undefined }); // Reset form
+        } else {
+            alert('Please fill in both title and content!'); // Basic validation
+        }
+    };
 
     // ===============================
     // Function: toggleExpand
@@ -212,6 +240,97 @@ const PostsPage = () => {
                 <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-6 text-center bg-gradient-to-r from-maroon-700 to-maroon-900 text-transparent bg-clip-text drop-shadow-md">
                     📬 Forum Posts & Announcements
                 </h1>
+
+                <button  // Replaced Button
+                    onClick={() => setIsCreatingPost(!isCreatingPost)}
+                    className="mb-6 bg-maroon-500 hover:bg-maroon-700 text-white font-semibold rounded-md px-4 py-2 flex items-center gap-2"
+                >
+                    {isCreatingPost ? (
+                        <>
+                            <XCircle className="w-5 h-5" />
+                            Cancel
+                        </>
+                    ) : (
+                        <>
+                            <PlusCircle className="w-5 h-5" />
+                            Create Post
+                        </>
+                    )}
+                </button>
+
+                <AnimatePresence>
+                    {isCreatingPost && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 20 }}
+                            transition={{ duration: 0.3 }}
+                            className="mb-6"
+                        >
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>Create New Post</CardTitle>
+                                </CardHeader>
+                                <CardContent className="space-y-4">
+                                    <div>
+                                        <label  // Replaced Label
+                                            htmlFor="post-title"
+                                            className="block text-sm font-medium text-gray-700"
+                                        >
+                                            Title
+                                        </label>
+                                        <input // Replaced Input
+                                            id="post-title"
+                                            value={newPost.title}
+                                            onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+                                            placeholder="Enter post title"
+                                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-maroon-500 focus:border-maroon-500 sm:text-sm"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label  // Replaced Label
+                                            htmlFor="post-content"
+                                            className="block text-sm font-medium text-gray-700"
+                                        >
+                                            Content
+                                        </label>
+                                        <textarea // Replaced Textarea
+                                            id="post-content"
+                                            value={newPost.content}
+                                            onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
+                                            placeholder="Enter post content"
+                                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-maroon-500 focus:border-maroon-500 sm:text-sm"
+                                        />
+                                    </div>
+                                    <div>
+                                        <label  // Replaced Label
+                                            htmlFor="post-image"
+                                            className="block text-sm font-medium text-gray-700"
+                                        >
+                                            Image URL (Optional)
+                                        </label>
+                                        <input // Replaced Input
+                                            id="post-image"
+                                            type="url"
+                                            value={newPost.image || ''}
+                                            onChange={(e) => setNewPost({ ...newPost, image: e.target.value })}
+                                            placeholder="Enter image URL"
+                                            className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-maroon-500 focus:border-maroon-500 sm:text-sm"
+                                        />
+                                    </div>
+                                    <div className="flex justify-end">
+                                        <button  // Replaced Button
+                                            onClick={handleAddPost}
+                                            className="bg-maroon-500 hover:bg-maroon-700 text-white font-semibold rounded-md px-4 py-2"
+                                        >
+                                            Post
+                                        </button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 <div className="space-y-6">
                     <AnimatePresence>

@@ -1,494 +1,321 @@
-// app/students/page.tsx
-// student directory page
+// app/posts/page.tsx   ← List of posts
 
+
+// app/posts/page.tsx ← List of posts
 
 'use client';
 
-import Link from 'next/link';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { MagnifyingGlassIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import { Heart, Share2, Pin, MessageCircle, PlusCircle, XCircle } from 'lucide-react';
 
-const cn = (...args: any[]) => args.filter(Boolean).join(' ');
-
-const studentCardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeInOut' } },
-    hover: { scale: 1.03, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', transition: { duration: 0.2 } },
-};
-
-const initialStudents = [
-    {
-        id: "charisse_guray_0",
-        name: "Charisse Guray",
-        studentNo: "20230000",
-        course: "BSIT",
-        yearBlock: "1-1",
-        email: "charisse.guray@example.com",
-        address: "Bulan, Sorsogon",
-        profileImage: "/images/students/student_1.jpg",
-    },
-    {
-        id: "miguel_torres_1",
-        name: "Miguel Torres",
-        studentNo: "20230001",
-        course: "BSIS",
-        yearBlock: "2-2",
-        email: "miguel.torres@example.com",
-        address: "Santiago, Isabela",
-        profileImage: "/images/students/student_2.jpg",
-    },
-    {
-        id: "angelica_cruz_2",
-        name: "Angelica Cruz",
-        studentNo: "20230002",
-        course: "BSCS",
-        yearBlock: "3-1",
-        email: "angelica.cruz@example.com",
-        address: "Albay, Bicol",
-        profileImage: "/images/students/student_3.jpg",
-    },
-    {
-        id: "daniel_navarro_3",
-        name: "Daniel Navarro",
-        studentNo: "20230003",
-        course: "BSA",
-        yearBlock: "4-2",
-        email: "daniel.navarro@example.com",
-        address: "Taguig City",
-        profileImage: "/images/students/student_4.jpg",
-    },
-    {
-        id: "frances_santos_4",
-        name: "Frances Santos",
-        studentNo: "20230004",
-        course: "BSAIS",
-        yearBlock: "1-3",
-        email: "frances.santos@example.com",
-        address: "Cebu City",
-        profileImage: "/images/students/student_5.jpg",
-    },
-    {
-        id: "mark_yu_5",
-        name: "Mark Yu",
-        studentNo: "20230005",
-        course: "BPA",
-        yearBlock: "2-1",
-        email: "mark.yu@example.com",
-        address: "Naga City",
-        profileImage: "/images/students/student_6.jpg",
-    },
-    {
-        id: "janine_dela_cruz_6",
-        name: "Janine Dela Cruz",
-        studentNo: "20230006",
-        course: "BSE",
-        yearBlock: "3-2",
-        email: "janine.delacruz@example.com",
-        address: "Legazpi City",
-        profileImage: "/images/students/student_7.jpg",
-    },
-    {
-        id: "kevin_bautista_7",
-        name: "Kevin Bautista",
-        studentNo: "20230007",
-        course: "BTVTED",
-        yearBlock: "4-1",
-        email: "kevin.bautista@example.com",
-        address: "Irosin, Sorsogon",
-        profileImage: "/images/students/student_8.jpg",
-    },
-    {
-        id: "ella_manalo_8",
-        name: "Ella Manalo",
-        studentNo: "20230008",
-        course: "BSIT",
-        yearBlock: "1-2",
-        email: "ella.manalo@example.com",
-        address: "Bulusan, Sorsogon",
-        profileImage: "/images/students/student_9.jpg",
-    },
-    {
-        id: "andrew_salazar_9",
-        name: "Andrew Salazar",
-        studentNo: "20230009",
-        course: "BSIS",
-        yearBlock: "2-3",
-        email: "andrew.salazar@example.com",
-        address: "Sampaloc, Manila",
-        profileImage: "/images/students/student_10.jpg",
-    },
-    {
-        id: "patricia_villanueva_10",
-        name: "Patricia Villanueva",
-        studentNo: "20230010",
-        course: "BSCS",
-        yearBlock: "3-1",
-        email: "patricia.villanueva@example.com",
-        address: "Quezon City",
-        profileImage: "/images/students/student_11.jpg",
-    },
-    {
-        id: "justin_reyes_11",
-        name: "Justin Reyes",
-        studentNo: "20230011",
-        course: "BSA",
-        yearBlock: "4-2",
-        email: "justin.reyes@example.com",
-        address: "Masbate City",
-        profileImage: "/images/students/student_12.jpg",
-    },
-    {
-        id: "rica_gonzales_12",
-        name: "Rica Gonzales",
-        studentNo: "20230012",
-        course: "BSAIS",
-        yearBlock: "1-1",
-        email: "rica.gonzales@example.com",
-        address: "Donsol, Sorsogon",
-        profileImage: "/images/students/student_13.jpg",
-    },
-      {
-        id: "leonardo_ortega_13",
-        name: "Leonardo Ortega",
-        studentNo: "20230013",
-        course: "BPA",
-        yearBlock: "2-2",
-        email: "leonardo.ortega@example.com",
-        address: "Juban, Sorsogon",
-        profileImage: "/images/students/student_14.jpg",
-    },
-    {
-        id: "luisa_mendoza_14",
-        name: "Luisa Mendoza",
-        studentNo: "20230014",
-        course: "BSE",
-        yearBlock: "3-2",
-        email: "luisa.mendoza@example.com",
-        address: "Bacolod City",
-        profileImage: "/images/students/student_15.jpg",
-    },
-    {
-        id: "ronald_de_la_cruz_15",
-        name: "Ronald De La Cruz",
-        studentNo: "20230015",
-        course: "BTVTED",
-        yearBlock: "4-1",
-        email: "ronald.delacruz@example.com",
-        address: "Calamba, Laguna",
-        profileImage: "/images/students/student_1.jpg",
-    },
-    {
-        id: "mariel_soriano_16",
-        name: "Mariel Soriano",
-        studentNo: "20230016",
-        course: "BSIT",
-        yearBlock: "1-3",
-        email: "mariel.soriano@example.com",
-        address: "Tuguegarao City",
-        profileImage: "/images/students/student_2.jpg",
-    },
-    {
-        id: "joseph_galang_17",
-        name: "Joseph Galang",
-        studentNo: "20230017",
-        course: "BSIS",
-        yearBlock: "2-1",
-        email: "joseph.galang@example.com",
-        address: "Angeles City",
-        profileImage: "/images/students/student_3.jpg",
-    },
-    {
-        id: "bea_quijano_18",
-        name: "Bea Quijano",
-        studentNo: "20230018",
-        course: "BSCS",
-        yearBlock: "3-2",
-        email: "bea.quijano@example.com",
-        address: "Puerto Princesa",
-        profileImage: "/images/students/student_4.jpg",
-    },
-    {
-        id: "ryan_lopez_19",
-        name: "Ryan Lopez",
-        studentNo: "20230019",
-        course: "BSA",
-        yearBlock: "4-1",
-        email: "ryan.lopez@example.com",
-        address: "Baguio City",
-        profileImage: "/images/students/student_5.jpg",
-    },
-    {
-        id: "katrina_valdez_20",
-        name: "Katrina Valdez",
-        studentNo: "20230020",
-        course: "BSAIS",
-        yearBlock: "1-2",
-        email: "katrina.valdez@example.com",
-        address: "San Pablo City",
-        profileImage: "/images/students/student_6.jpg",
-    },
-    {
-        id: "enzo_ramos_21",
-        name: "Enzo Ramos",
-        studentNo: "20230021",
-        course: "BPA",
-        yearBlock: "2-3",
-        email: "enzo.ramos@example.com",
-        address: "Tarlac City",
-        profileImage: "/images/students/student_7.jpg",
-    },
-    {
-        id: "charmaine_garcia_22",
-        name: "Charmaine Garcia",
-        studentNo: "20230022",
-        course: "BSE",
-        yearBlock: "3-1",
-        email: "charmaine.garcia@example.com",
-        address: "Iloilo City",
-        profileImage: "/images/students/student_8.jpg",
-    },
-    {
-        id: "daryl_morales_23",
-        name: "Daryl Morales",
-        studentNo: "20230023",
-        course: "BTVTED",
-        yearBlock: "4-2",
-        email: "daryl.morales@example.com",
-        address: "Roxas City",
-        profileImage: "/images/students/student_9.jpg",
-    },
-    {
-        id: "sophia_smith_24",
-        name: "Sophia Smith",
-        studentNo: "20230024",
-        course: "BSIT",
-        yearBlock: "1-1",
-        email: "sophia.smith@example.com",
-        address: "Pasay City",
-        profileImage: "/images/students/student_10.jpg",
-    },
-    {
-        id: "ethan_johnson_25",
-        name: "Ethan Johnson",
-        studentNo: "20230025",
-        course: "BSIS",
-        yearBlock: "2-2",
-        email: "ethan.johnson@example.com",
-        address: "Makati City",
-        profileImage: "/images/students/student_11.jpg",
-    },
-    {
-        id: "olivia_williams_26",
-        name: "Olivia Williams",
-        studentNo: "20230026",
-        course: "BSCS",
-        yearBlock: "3-1",
-        email: "olivia.williams@example.com",
-        address: "Mandaluyong City",
-        profileImage: "/images/students/student_12.jpg",
-    },
-     {
-        id: "noah_brown_27",
-        name: "Noah Brown",
-        studentNo: "20230027",
-        course: "BSA",
-        yearBlock: "4-2",
-        email: "noah.brown@example.com",
-        address: "San Juan City",
-        profileImage: "/images/students/student_13.jpg",
-    },
-    {
-        id: "ava_jones_28",
-        name: "Ava Jones",
-        studentNo: "20230028",
-        course: "BSAIS",
-        yearBlock: "1-3",
-        email: "ava.jones@example.com",
-        address: "Las Pinas City",
-        profileImage: "/images/students/student_14.jpg",
-    },
-    {
-        id: "william_garcia_29",
-        name: "William Garcia",
-        studentNo: "20230029",
-        course: "BPA",
-        yearBlock: "2-1",
-        email: "william.garcia@example.com",
-        address: "Paranaque City",
-        profileImage: "/images/students/student_15.jpg",
-    },
-    {
-      id: "isabella_miller_30",
-        name: "Isabella Miller",
-        studentNo: "20230030",
-        course: "BSE",
-        yearBlock: "3-2",
-        email: "isabella.miller@example.com",
-        address: "Muntinlupa City",
-        profileImage: "/images/students/student_1.jpg"
-    },
-    {
-        id: "james_davis_31",
-        name: "James Davis",
-        studentNo: "20230031",
-        course: "BTVTED",
-        yearBlock: "4-1",
-        email: "james.davis@example.com",
-        address: "Valenzuela City",
-        profileImage: "/images/students/student_2.jpg"
-    },
-    {
-        id: "mia_rodriguez_32",
-        name: "Mia Rodriguez",
-        studentNo: "20230032",
-        course: "BSIT",
-        yearBlock: "1-2",
-        email: "mia.rodriguez@example.com",
-        address: "Caloocan City",
-        profileImage: "/images/students/student_3.jpg"
-    },
-    {
-        id: "benjamin_martinez_33",
-        name: "Benjamin Martinez",
-        studentNo: "20230033",
-        course: "BSIS",
-        yearBlock: "2-3",
-        email: "benjamin.martinez@example.com",
-        address: "Navotas City",
-        profileImage: "/images/students/student_4.jpg"
-    },
-    {
-        id: "charlotte_34",
-        name: "Charlotte",
-        studentNo: "20230034",
-        course: "BSCS",
-        yearBlock: "3-1",
-        email: "charlotte@example.com",
-        address: "Bulan, Sorsogon",
-        profileImage: "/images/students/student_5.jpg",
-    }
-];
-
-
-export default function StudentsPage() {
-    const [students, setStudents] = useState(initialStudents);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [courseFilter, setCourseFilter] = useState('all');
-    const [yearBlockFilter, setYearBlockFilter] = useState('all');
-
-    const uniqueCourses = ['all', ...new Set(initialStudents.map(s => s.course).filter(Boolean))];
-    const uniqueYearBlocks = ['all', ...new Set(initialStudents.map(s => s.yearBlock).filter(Boolean))];
-
-    const filteredStudents = students.filter(student => {
-        const searchMatch = student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            (student.studentNo && student.studentNo.includes(searchQuery));
-        const courseMatch = courseFilter === 'all' || student.course === courseFilter;
-        const yearBlockMatch = yearBlockFilter === 'all' || student.yearBlock === yearBlockFilter;
-        return searchMatch && courseMatch && yearBlockMatch;
-    });
-
-    return (
-        <main className="min-h-screen px-4 py-10 bg-[var(--background)]">
-            <div className="max-w-7xl mx-auto">
-                <h1 className="text-3xl font-bold text-center text-[var(--primary)] mb-6">
-                    Student Directory
-                </h1>
-
-                <div className="mb-6 flex flex-wrap items-center gap-4">
-                    <div className="relative flex-grow min-w-[200px]">
-                        <input
-                            type="text"
-                            placeholder="Search by name or ID"
-                            className="w-full px-4 py-2 border border-[var(--border)] rounded-md shadow-sm focus:ring-[var(--primary)] focus:border-[var(--primary)] focus:outline-none"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                            <MagnifyingGlassIcon className="h-5 w-5 text-gray-500" />
-                        </div>
-                    </div>
-
-                    <div className="relative min-w-[150px]">
-                        <select
-                            value={courseFilter}
-                            onChange={(e) => setCourseFilter(e.target.value)}
-                            className="w-full px-4 py-2 border border-[var(--border)] rounded-md shadow-sm focus:ring-[var(--primary)] focus:border-[var(--primary)] focus:outline-none appearance-none pr-8"
-                        >
-                            <option value="all">All Courses</option>
-                            {uniqueCourses.slice(1).map(course => (
-                                <option key={course} value={course}>{course}</option>
-                            ))}
-                        </select>
-                        <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                            <ChevronDownIcon className="h-5 w-5 text-gray-500" />
-                        </div>
-                    </div>
-
-                    <div className="relative min-w-[150px]">
-                        <select
-                            value={yearBlockFilter}
-                            onChange={(e) => setYearBlockFilter(e.target.value)}
-                            className="w-full px-4 py-2 border border-[var(--border)] rounded-md shadow-sm focus:ring-[var(--primary)] focus:border-[var(--primary)] focus:outline-none appearance-none pr-8"
-                        >
-                            <option value="all">All Year/Block</option>
-                            {uniqueYearBlocks.slice(1).map(yearBlock => (
-                                <option key={yearBlock} value={yearBlock}>{yearBlock}</option>
-                            ))}
-                        </select>
-                        <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                            <ChevronDownIcon className="h-5 w-5 text-gray-500" />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                    {filteredStudents.map((student) => (
-                        <Link href={`/students/${student.id}`} key={student.id} passHref>
-                            <motion.div
-                                variants={studentCardVariants}
-                                initial="hidden"
-                                animate="visible"
-                                whileHover="hover"
-                                className="group"
-                            >
-                                <div className="border border-[var(--border)] bg-white dark:bg-[var(--accent)] shadow-md hover:shadow-lg transition-shadow overflow-hidden cursor-pointer rounded-lg">
-                                    <div className="p-6">
-                                        <div className="flex flex-col items-center gap-4 mb-4">
-                                            <div className="student-image-container">
-                                                <img
-                                                    src={student.profileImage || '/images/default.jpeg'}
-                                                    alt={`Profile of ${student.name}`}
-                                                    className="student-image"
-                                                />
-                                            </div>
-                                            <div>
-                                                <h2 className="text-lg font-semibold text-[var(--foreground)] group-hover:text-[var(--primary)] text-center">
-                                                    {student.name}
-                                                </h2>
-                                                <p className="text-sm text-[var(--secondary)] text-center">
-                                                    {student.email}
-                                                </p>
-                                                 <p className="text-xs text-gray-500 text-center">{student.course} - {student.yearBlock}</p>
-                                            </div>
-                                        </div>
-                                        {student.studentNo && (
-                                            <p className="text-sm text-gray-500 text-center student-id">
-                                                ID: {student.studentNo}
-                                            </p>
-                                        )}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </Link>
-                    ))}
-                </div>
-
-                {filteredStudents.length === 0 && (
-                    <p className="text-center text-gray-600 mt-6">No students found matching your criteria.</p>
-                )}
-            </div>
-        </main>
-    );
+interface Comment {
+  user: string;
+  comment: string;
 }
 
+interface Post {
+  id: number;
+  author: string;
+  role: string;
+  title: string;
+  content: string;
+  comments: Comment[];
+  image?: string;
+  isPinned?: boolean;
+  likes?: number;
+}
+
+const PostsPage = () => {
+  const [expandedPostId, setExpandedPostId] = useState<number | null>(null);
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [isCreatingPost, setIsCreatingPost] = useState(false);
+  const [newPost, setNewPost] = useState<Omit<Post, 'id' | 'comments' | 'likes' | 'author' | 'role'>>({
+    title: '',
+    content: '',
+    image: undefined,
+  });
+  const [newComment, setNewComment] = useState('');
+
+  useEffect(() => {
+    const initialPosts: Post[] = [
+      {
+        id: 1,
+        author: 'Prof. Marie Gonzales',
+        role: 'moderator',
+        title: '🎉 Welcome to UniConnect Forum! 🎓',
+        content:
+          'This platform is created to empower every student and faculty member to share knowledge, updates, and insights. Let’s keep the discussions respectful and helpful!',
+        comments: [
+          { user: 'Jonathan', comment: 'This is awesome! Thank you for this initiative.' },
+          { user: 'Irene', comment: 'Looking forward to productive discussions!' },
+        ],
+        isPinned: true,
+        image: '/images/posts/1.png',
+        likes: 5,
+      },
+      {
+        id: 2,
+        author: 'Kaye Santos',
+        role: 'student',
+        title: '📢 Lost & Found Alert!',
+        content: 'Found a black umbrella with a red handle in the library study area. Message me if it’s yours.',
+        comments: [{ user: 'Marco', comment: 'That’s mine! I’ll PM you, thanks!' }],
+        image: 'https://source.unsplash.com/random/800x400/?umbrella,lost,found',
+        likes: 2,
+      },
+      {
+        id: 3,
+        author: 'Student 1',
+        role: 'student',
+        title: 'Question about Midterm Exam',
+        content:
+          'Hi everyone, I have a question about the upcoming midterm exam. Does anyone know what chapters will be covered? Also, is there a study group I can join?',
+        comments: [
+          { user: 'Student 2', comment: 'I heard chapters 3-5 will be on the exam.' },
+          { user: 'Student 3', comment: 'There\'s a study group meeting on Friday in the library!' },
+        ],
+        likes: 7,
+      },
+      {
+        id: 4,
+        author: 'Professor Smith',
+        role: 'moderator',
+        title: 'Office Hours Announcement',
+        content:
+          'My office hours for this week will be on Tuesday and Thursday from 2-4 PM. Please come by if you have any questions about the course material.',
+        comments: [],
+        isPinned: true,
+        likes: 12,
+      },
+      {
+        id: 5,
+        author: 'Club President',
+        role: 'student',
+        title: 'Volunteer Opportunity',
+        content:
+          'The Environmental Club is looking for volunteers for our upcoming tree planting event. It will be on Saturday from 9 AM to 12 PM. Lunch will be provided!',
+        comments: [{ user: 'Student 4', comment: 'I\'d love to volunteer! Where is the meeting location?' }],
+        image: 'https://source.unsplash.com/random/800x400/?tree,planting,volunteer',
+        likes: 20,
+      },
+    ];
+    setPosts(initialPosts);
+  }, []);
+
+  const handleAddPost = () => {
+    if (newPost.title.trim() && newPost.content.trim()) {
+      const latestPost: Post = {
+        id: Math.max(0, ...posts.map((p) => p.id)) + 1,
+        author: 'Current User',
+        role: 'student',
+        comments: [],
+        likes: 0,
+        ...newPost,
+      };
+      setPosts((prev) => [latestPost, ...prev]);
+      setIsCreatingPost(false);
+      setNewPost({ title: '', content: '', image: undefined });
+    } else {
+      alert('Please fill in both title and content!');
+    }
+  };
+
+  const handleAddComment = (postId: number) => {
+    if (newComment.trim()) {
+      const comment: Comment = { user: 'Current User', comment: newComment };
+      setPosts((prev) =>
+        prev.map((p) => (p.id === postId ? { ...p, comments: [...p.comments, comment] } : p))
+      );
+      setNewComment('');
+      setExpandedPostId(null);
+    }
+  };
+
+  const toggleExpand = (id: number) => {
+    setExpandedPostId((prev) => (prev === id ? null : id));
+  };
+
+  const handleLike = (postId: number) => {
+    setPosts((prev) =>
+      prev.map((p) => (p.id === postId ? { ...p, likes: (p.likes || 0) + 1 } : p))
+    );
+  };
+
+  const handleShare = (postId: number) => {
+    alert(`Shared post ${postId}!`);
+  };
+
+  const handlePin = (postId: number) => {
+    setPosts((prev) => {
+      const updated = prev.map((p) => (p.id === postId ? { ...p, isPinned: !p.isPinned } : p));
+      return [...updated].sort((a, b) => {
+        if (a.isPinned && !b.isPinned) return -1;
+        if (!a.isPinned && b.isPinned) return 1;
+        return a.id - b.id;
+      });
+    });
+  };
+
+  const sortedPosts = [...posts].sort((a, b) => {
+    if (a.isPinned && !b.isPinned) return -1;
+    if (!a.isPinned && b.isPinned) return 1;
+    return a.id - b.id;
+  });
+
+  return (
+    <div className="min-h-screen bg-gray-100 py-8 px-4">
+      <div className="post-container">
+        <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">📬 Forum Posts & Announcements</h1>
+
+        <button
+          onClick={() => setIsCreatingPost(!isCreatingPost)}
+          className="mb-6 bg-maroon-600 hover:bg-maroon-700 text-white font-semibold rounded-md px-4 py-2 flex items-center gap-2"
+        >
+          {isCreatingPost ? (
+            <>
+              <XCircle className="w-5 h-5" /> Cancel
+            </>
+          ) : (
+            <>
+              <PlusCircle className="w-5 h-5" /> Create Post
+            </>
+          )}
+        </button>
+
+        {isCreatingPost && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 20 }}
+            transition={{ duration: 0.3 }}
+            className="mb-6 bg-white p-4 rounded-md shadow"
+          >
+            <div className="space-y-4">
+              <input
+                placeholder="Title"
+                value={newPost.title}
+                onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+                className="w-full border px-3 py-2 rounded-md"
+              />
+              <textarea
+                placeholder="Content"
+                value={newPost.content}
+                onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
+                className="w-full border px-3 py-2 rounded-md"
+              />
+              <input
+                placeholder="Image URL (optional)"
+                value={newPost.image || ''}
+                onChange={(e) => setNewPost({ ...newPost, image: e.target.value })}
+                className="w-full border px-3 py-2 rounded-md"
+              />
+              <div className="text-right">
+                <button
+                  onClick={handleAddPost}
+                  className="bg-maroon-600 hover:bg-maroon-800 text-white px-4 py-2 rounded-md"
+                >
+                  Post
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        <div className="space-y-6">
+          {sortedPosts.map((post) => (
+            <motion.div
+              key={post.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="post-card"
+            >
+              <div className="flex justify-between items-start mb-2">
+                <div>
+                  <h2
+                    className="text-lg font-semibold text-maroon-800 cursor-pointer hover:underline"
+                    onClick={() => toggleExpand(post.id)}
+                  >
+                    {post.title}
+                  </h2>
+                  <p className="text-sm text-gray-600 italic">{post.author} ({post.role})</p>
+                </div>
+                {post.role === 'moderator' && (
+                  <button onClick={() => handlePin(post.id)} title="Pin post">
+                    <Pin className="w-4 h-4 text-yellow-600" />
+                  </button>
+                )}
+              </div>
+
+              {post.image && (
+                <img
+                  src={post.image}
+                  alt={`Image for ${post.title}`}
+                  className="post-thumbnail"
+                />
+              )}
+
+              <p className="text-gray-700 mb-6">{post.content}</p>
+
+              {post.comments.length > 0 && (
+                <div className="mb-4">
+                  <h4 className="text-sm font-semibold text-gray-700 mb-2">💬 Comments</h4>
+                  <ul className="space-y-2">
+                    {post.comments.map((comment, index) => (
+                      <li
+                        key={index}
+                        className="bg-gray-100 border border-gray-200 px-3 py-2 rounded-md text-sm"
+                      >
+                        <span className="font-semibold">{comment.user}:</span> {comment.comment}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              <div className="mb-6 mt-2">
+                <textarea
+                  placeholder="Write a comment..."
+                  className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+                  rows={2}
+                  value={post.id === expandedPostId ? newComment : ''}
+                  onChange={(e) => {
+                    setExpandedPostId(post.id);
+                    setNewComment(e.target.value);
+                  }}
+                />
+                <div className="text-right mt-2">
+                  <button
+                    onClick={() => handleAddComment(post.id)}
+                    className="bg-maroon-600 hover:bg-maroon-800 text-white px-4 py-1.5 rounded-md text-sm"
+                  >
+                    Post Comment
+                  </button>
+                </div>
+              </div>
+
+              <div className="flex justify-between">
+                <button
+                  onClick={() => handleLike(post.id)}
+                  className="text-red-500 hover:text-red-700 flex items-center gap-1"
+                >
+                  <Heart className="w-4 h-4" /> {post.likes || 0}
+                </button>
+                <button
+                  onClick={() => handleShare(post.id)}
+                  className="text-blue-500 hover:text-blue-700"
+                >
+                  <Share2 className="w-4 h-4" />
+                </button>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default PostsPage;

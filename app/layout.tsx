@@ -2,10 +2,6 @@
 //      header & footer
 
 
-
-// app/layout.tsx
-//  header & footer
-
 'use client';
 
 import '../styles/globals.css';
@@ -150,3 +146,4 @@ export default function RootLayout({
     </html>
   );
 }
+

@@ -336,3 +336,39 @@ header nav a:hover {
 .student-id {
   margin-bottom: 1rem; /* Increased margin to 1rem */
 }
+
+
+/* Posts Page */
+
+/* Fix post image size */
+img.post-thumbnail {
+  width: 8rem !important;
+  height: 8rem !important;
+  object-fit: cover !important;
+  border-radius: 0.5rem;
+  border: 2px solid #ccc;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 1rem;
+}
+
+/* Style individual post card */
+.post-card {
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  margin-bottom: 2rem;
+  border: 1px solid #e5e7eb;
+}
+
+
+/* Prevent post container from stretching full width */
+.post-container {
+  max-width: 768px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}

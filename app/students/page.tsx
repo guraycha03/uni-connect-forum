@@ -28,7 +28,7 @@ const initialStudents = [
         course: "BSIT",
         yearBlock: "2-1",
         email: "charisse.guray@example.com",
-        address: "Bulan, Sorsogon",
+        address: "Inararan, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (1).jpeg",
     },
     {
@@ -38,7 +38,7 @@ const initialStudents = [
         course: "BSIS",
         yearBlock: "2-2",
         email: "miguel.torres@example.com",
-        address: "Santiago, Isabela",
+        address: "San Vicente, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (2).jpeg",
     },
     {
@@ -48,7 +48,7 @@ const initialStudents = [
         course: "BSCS",
         yearBlock: "3-1",
         email: "angelica.cruz@example.com",
-        address: "Albay, Bicol",
+        address: "Zone 8, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (3).jpeg",
     },
     {
@@ -58,7 +58,7 @@ const initialStudents = [
         course: "BSA",
         yearBlock: "4-2",
         email: "daniel.navarro@example.com",
-        address: "Taguig City",
+        address: "San Juan, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (4).jpeg",
     },
     {
@@ -68,7 +68,7 @@ const initialStudents = [
         course: "BSAIS",
         yearBlock: "1-3",
         email: "frances.santos@example.com",
-        address: "Cebu City",
+        address: "Otavi, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (5).jpeg",
     },
     {
@@ -78,7 +78,7 @@ const initialStudents = [
         course: "BPA",
         yearBlock: "2-1",
         email: "mark.yu@example.com",
-        address: "Naga City",
+        address: "San Ramon, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (6).jpeg",
     },
     {
@@ -88,7 +88,7 @@ const initialStudents = [
         course: "BSE",
         yearBlock: "3-2",
         email: "janine.delacruz@example.com",
-        address: "Legazpi City",
+        address: "Patag, Irosin, Sorsogon",
         profileImage: "/images/students/student_ (7).jpeg",
     },
     {
@@ -98,7 +98,7 @@ const initialStudents = [
         course: "BTVTED",
         yearBlock: "4-1",
         email: "kevin.bautista@example.com",
-        address: "Irosin, Sorsogon",
+        address: "Tughan, Juban, Sorsogon",
         profileImage: "/images/students/student_ (8).jpeg",
     },
     {
@@ -108,7 +108,7 @@ const initialStudents = [
         course: "BSIT",
         yearBlock: "1-2",
         email: "ella.manalo@example.com",
-        address: "Bulusan, Sorsogon",
+        address: "Aguada, Magallanes, Sorsogon",
         profileImage: "/images/students/student_ (9).jpeg",
     },
     {
@@ -118,7 +118,7 @@ const initialStudents = [
         course: "BSIS",
         yearBlock: "2-3",
         email: "andrew.salazar@example.com",
-        address: "Sampaloc, Manila",
+        address: "Balocawe, Matnog, Sorsogon",
         profileImage: "/images/students/student_ (10).jpeg",
     },
     {
@@ -128,7 +128,7 @@ const initialStudents = [
         course: "BSCS",
         yearBlock: "3-1",
         email: "patricia.villanueva@example.com",
-        address: "Quezon City",
+        address: "Dancalan, Bulusan, Sorsogon",
         profileImage: "/images/students/student_ (11).jpeg",
     },
     {
@@ -138,7 +138,7 @@ const initialStudents = [
         course: "BSA",
         yearBlock: "4-2",
         email: "justin.reyes@example.com",
-        address: "Masbate City",
+        address: "San Bernardo, Bulusan, Sorsogon",
         profileImage: "/images/students/student_ (12).jpeg",
     },
     {
@@ -158,7 +158,7 @@ const initialStudents = [
         course: "BPA",
         yearBlock: "2-2",
         email: "leonardo.ortega@example.com",
-        address: "Juban, Sorsogon",
+        address: "Cogon, Juban, Sorsogon",
         profileImage: "/images/students/student_ (14).jpeg",
     },
     {
@@ -168,7 +168,7 @@ const initialStudents = [
         course: "BSE",
         yearBlock: "3-2",
         email: "luisa.mendoza@example.com",
-        address: "Bacolod City",
+        address: "Calomagon, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (15).jpeg",
     },
     {
@@ -178,7 +178,7 @@ const initialStudents = [
         course: "BTVTED",
         yearBlock: "4-1",
         email: "ronald.delacruz@example.com",
-        address: "Calamba, Laguna",
+        address: "Zone 4, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (16).jpeg",
     },
     {
@@ -188,7 +188,7 @@ const initialStudents = [
         course: "BSIT",
         yearBlock: "1-3",
         email: "mariel.soriano@example.com",
-        address: "Tuguegarao City",
+        address: "Sagrada Familia, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (17).jpeg",
     },
     {
@@ -198,7 +198,7 @@ const initialStudents = [
         course: "BSIS",
         yearBlock: "2-1",
         email: "joseph.galang@example.com",
-        address: "Angeles City",
+        address: "Dapdap, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (18).jpeg",
     },
     {
@@ -208,7 +208,7 @@ const initialStudents = [
         course: "BSCS",
         yearBlock: "3-2",
         email: "bea.quijano@example.com",
-        address: "Puerto Princesa",
+        address: "Zone 1, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (19).jpeg",
     },
     {
@@ -218,7 +218,7 @@ const initialStudents = [
         course: "BSA",
         yearBlock: "4-1",
         email: "ryan.lopez@example.com",
-        address: "Baguio City",
+        address: "Zone 2, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (20).jpeg",
     },
     {
@@ -228,7 +228,7 @@ const initialStudents = [
         course: "BSAIS",
         yearBlock: "1-2",
         email: "katrina.valdez@example.com",
-        address: "San Pablo City",
+        address: "Zone 6, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (21).jpeg",
     },
     {
@@ -238,7 +238,7 @@ const initialStudents = [
         course: "BPA",
         yearBlock: "2-3",
         email: "enzo.ramos@example.com",
-        address: "Tarlac City",
+        address: "Zone 3, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (22).jpeg",
     },
     {
@@ -248,7 +248,7 @@ const initialStudents = [
         course: "BSE",
         yearBlock: "3-1",
         email: "charmaine.garcia@example.com",
-        address: "Iloilo City",
+        address: "Zone 7, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (23).jpeg",
     },
     {
@@ -258,7 +258,7 @@ const initialStudents = [
         course: "BTVTED",
         yearBlock: "4-2",
         email: "daryl.morales@example.com",
-        address: "Roxas City",
+        address: "Tughan, Juban, Sorsogon",
         profileImage: "/images/students/student_ (24).jpeg",
     },
     {
@@ -268,7 +268,7 @@ const initialStudents = [
         course: "BSIT",
         yearBlock: "1-1",
         email: "sophia.smith@example.com",
-        address: "Pasay City",
+        address: "Camcaman, Matnog, Sorsogon",
         profileImage: "/images/students/student_ (25).jpeg",
     },
     {
@@ -278,7 +278,7 @@ const initialStudents = [
         course: "BSIS",
         yearBlock: "2-2",
         email: "ethan.johnson@example.com",
-        address: "Makati City",
+        address: "San Bernardo, Bulusan, Sorsogon",
         profileImage: "/images/students/student_ (26).jpeg",
     },
     {
@@ -288,7 +288,7 @@ const initialStudents = [
         course: "BSCS",
         yearBlock: "3-1",
         email: "olivia.williams@example.com",
-        address: "Mandaluyong City",
+        address: "San Juan, Irosin, Sorsogon",
         profileImage: "/images/students/student_ (27).jpeg",
     },
     {
@@ -298,7 +298,7 @@ const initialStudents = [
         course: "BSA",
         yearBlock: "4-2",
         email: "noah.brown@example.com",
-        address: "San Juan City",
+        address: "Binanuahan, Juban, Sorsogon",
         profileImage: "/images/students/student_ (28).jpeg",
     },
     {
@@ -308,7 +308,7 @@ const initialStudents = [
         course: "BSAIS",
         yearBlock: "1-3",
         email: "ava.jones@example.com",
-        address: "Las Pinas City",
+        address: "Incarizan, Magallanes, Sorsogon",
         profileImage: "/images/students/student_ (29).jpeg",
     },
     {
@@ -318,7 +318,7 @@ const initialStudents = [
         course: "BPA",
         yearBlock: "2-1",
         email: "william.garcia@example.com",
-        address: "Paranaque City",
+        address: "Managa-naga, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (30).jpeg",
     },
     {
@@ -328,7 +328,7 @@ const initialStudents = [
         course: "BSE",
         yearBlock: "3-2",
         email: "isabella.miller@example.com",
-        address: "Muntinlupa City",
+        address: "Taromata, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (31).jpeg"
     },
     {
@@ -338,7 +338,7 @@ const initialStudents = [
         course: "BTVTED",
         yearBlock: "4-1",
         email: "james.davis@example.com",
-        address: "Valenzuela City",
+        address: "Zone 1, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (32).jpeg"
     },
     {
@@ -348,7 +348,7 @@ const initialStudents = [
         course: "BSIT",
         yearBlock: "1-2",
         email: "mia.rodriguez@example.com",
-        address: "Caloocan City",
+        address: "San Francisco, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (33).jpeg"
     },
     {
@@ -358,7 +358,7 @@ const initialStudents = [
         course: "BSIS",
         yearBlock: "2-3",
         email: "benjamin.martinez@example.com",
-        address: "Navotas City",
+        address: "San Juan, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (34).jpeg"
     },
     {
@@ -368,7 +368,7 @@ const initialStudents = [
         course: "BSCS",
         yearBlock: "3-1",
         email: "charlotte@example.com",
-        address: "Bulan, Sorsogon",
+        address: "San Vicente, Bulan, Sorsogon",
         profileImage: "/images/students/student_ (35).jpeg",
     }
 ];

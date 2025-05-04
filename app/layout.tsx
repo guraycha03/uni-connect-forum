@@ -2,13 +2,14 @@
 //      header & footer
 
 
+
 'use client';
 
+import React, { useState, useEffect } from 'react';
 import '../styles/globals.css';
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
-import { useState } from 'react';
-import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'; // For mobile menu icon
+import { Menu, X } from 'lucide-react';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -18,10 +19,29 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Check if mounted before rendering client-side components
+  if (!mounted) {
+    return (
+      <html lang="en">
+        <body className={inter.className}>
+          {/* You can render a simple loading indicator here if you want */}
+          <div className="flex justify-center items-center h-screen">
+            <p className="text-gray-700">Loading...</p>
+          </div>
+        </body>
+      </html>
+    );
+  }
 
   return (
     <html lang="en">
@@ -47,7 +67,7 @@ export default function RootLayout({
           </div>
 
           {/* Right Side: Navigation */}
-          <nav className="hidden sm:flex space-x-8"> {/* Removed ml-auto here */}
+          <nav className="hidden sm:flex space-x-8">
             <ul className="flex space-x-8">
               <li>
                 <Link href="/" className="text-maroon-700 hover:text-maroon-900 transition duration-300 font-semibold">
@@ -69,11 +89,14 @@ export default function RootLayout({
 
           {/* Mobile Menu Button */}
           <div className="sm:hidden">
-            <button onClick={toggleMobileMenu} className="text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50">
+            <button
+              onClick={toggleMobileMenu}
+              className="text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-opacity-50"
+            >
               {isMobileMenuOpen ? (
-                <XMarkIcon className="h-6 w-6" aria-hidden="true" />
+                <X className="h-6 w-6" aria-hidden="true" />
               ) : (
-                <Bars3Icon className="h-6 w-6" aria-hidden="true" />
+                <Menu className="h-6 w-6" aria-hidden="true" />
               )}
             </button>
           </div>
@@ -81,15 +104,24 @@ export default function RootLayout({
 
         {/* Mobile Menu (Conditional rendering) */}
         {isMobileMenuOpen && (
-          <div className="sm:hidden bg-maroon-200 py-4 px-4 shadow-md">
+          <div className="sm:hidden bg-maroon-200 py-4 px-4 shadow-md fixed top-0 left-0 right-0 z-50">
             <nav className="flex flex-col space-y-3">
-              <Link href="/" className="block text-white hover:bg-maroon-300 py-2 px-3 rounded-md font-semibold">
+              <Link
+                href="/"
+                className="block text-white hover:bg-maroon-300 py-2 px-3 rounded-md font-semibold"
+              >
                 Home
               </Link>
-              <Link href="/students" className="block text-white hover:bg-maroon-300 py-2 px-3 rounded-md font-semibold">
+              <Link
+                href="/students"
+                className="block text-white hover:bg-maroon-300 py-2 px-3 rounded-md font-semibold"
+              >
                 Student Directory
               </Link>
-              <Link href="/posts" className="block text-white hover:bg-maroon-300 py-2 px-3 rounded-md font-semibold">
+              <Link
+                href="/posts"
+                className="block text-white hover:bg-maroon-300 py-2 px-3 rounded-md font-semibold"
+              >
                 Posts
               </Link>
             </nav>
@@ -99,9 +131,14 @@ export default function RootLayout({
         {/* Main Content */}
         <main className="min-h-screen bg-maroon-100 py-8 px-4 sm:px-8">
           {children}
+          {isMobileMenuOpen && (
+            <div
+              className="fixed inset-0 bg-black bg-opacity-50 z-40"
+              onClick={toggleMobileMenu}
+            />
+          )}
         </main>
 
-        {/* Footer */}
         {/* Footer */}
         <footer className="bg-maroon-800 text-white py-8 px-4 sm:px-8 rounded-t-lg shadow-md">
           <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -109,11 +146,31 @@ export default function RootLayout({
             <div>
               <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
               <ul className="space-y-2">
-                <li><Link href="/" className="hover:text-maroon-200">Home</Link></li>
-                <li><Link href="/students" className="hover:text-maroon-200">Student Directory</Link></li>
-                <li><Link href="/posts" className="hover:text-maroon-200">Forums</Link></li>
-                <li><Link href="/contact" className="hover:text-maroon-200">Contact Us</Link></li>
-                <li><Link href="/faq" className="hover:text-maroon-200">FAQ</Link></li>
+                <li>
+                  <Link href="/" className="hover:text-maroon-200">
+                    Home
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/students" className="hover:text-maroon-200">
+                    Student Directory
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/posts" className="hover:text-maroon-200">
+                    Forums
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/contact" className="hover:text-maroon-200">
+                    Contact Us
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/faq" className="hover:text-maroon-200">
+                    FAQ
+                  </Link>
+                </li>
               </ul>
             </div>
 
@@ -129,16 +186,24 @@ export default function RootLayout({
             <div>
               <h3 className="text-lg font-semibold mb-4">Connect</h3>
               <div className="flex space-x-4">
-                <Link href="#" className="hover:opacity-75">Facebook</Link>
-                <Link href="#" className="hover:opacity-75">Twitter</Link>
+                <Link href="#" className="hover:opacity-75">
+                  Facebook
+                </Link>
+                <Link href="#" className="hover:opacity-75">
+                  Twitter
+                </Link>
               </div>
             </div>
           </div>
           <div className="mt-8 text-center border-t border-maroon-700 pt-6">
             <p>© {new Date().getFullYear()} UniConnect. All rights reserved.</p>
             <p className="mt-2">
-              <Link href="/privacy" className="text-sm hover:text-maroon-200 mr-4">Privacy Policy</Link>
-              <Link href="/terms" className="text-sm hover:text-maroon-200">Terms of Service</Link>
+              <Link href="/privacy" className="text-sm hover:text-maroon-200 mr-4">
+                Privacy Policy
+              </Link>
+              <Link href="/terms" className="text-sm hover:text-maroon-200">
+                Terms of Service
+              </Link>
             </p>
           </div>
         </footer>

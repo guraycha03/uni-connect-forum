@@ -2,13 +2,10 @@
 
 // app/page.tsx
 
-
-// app/page.tsx
-
 'use client';
 
 import React, { useEffect, useRef } from 'react';
-import { Chart } from 'chart.js/auto';
+import { Chart, ChartConfiguration } from 'chart.js/auto';
 import Link from 'next/link';
 import {
     BookOpen,
@@ -74,11 +71,12 @@ const ResourceLink = ({ href, children, icon }: { href: string; children: React.
 
 const HomePage = () => {
     const chartRef = useRef<HTMLCanvasElement>(null);
+    const chartInstance = useRef<Chart | null>(null);
 
     useEffect(() => {
         const ctx = chartRef.current?.getContext('2d');
         if (ctx) {
-            new Chart(ctx, {
+            const config: ChartConfiguration = {
                 type: 'bar',
                 data: {
                     labels: ['Users', 'Posts', 'Comments'],
@@ -134,8 +132,24 @@ const HomePage = () => {
                         },
                     },
                 } as any, // Explicitly type 'any' to avoid ChartConfiguration issues
-            });
+            };
+
+            // Destroy the previous chart instance if it exists
+            if (chartInstance.current) {
+                chartInstance.current.destroy();
+            }
+
+            // Create the new chart instance
+            chartInstance.current = new Chart(ctx, config);
         }
+
+        // Cleanup function to destroy the chart when the component unmounts or re-renders
+        return () => {
+            if (chartInstance.current) {
+                chartInstance.current.destroy();
+                chartInstance.current = null;
+            }
+        };
     }, []);
 
     return (
@@ -194,7 +208,7 @@ const HomePage = () => {
                 </ul>
             </section>
 
-            {/* Chart Section - No Changes */}
+            {/* Chart Section */}
             <section id="chart-section" className="bg-white rounded-xl shadow-md p-8 mb-8">
                 <h2 className="text-2xl font-semibold text-maroon-800 mb-5">Community Statistics</h2>
                 <div className="chart-container">

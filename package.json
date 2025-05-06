@@ -13,8 +13,8 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@tanstack/react-query": "^5.74.4",
-    "apexcharts": "^4.5.0",
-    "axios": "^1.8.4",
+    "apexcharts": "^4.7.0",
+    "axios": "^1.9.0",
     "chart.js": "^4.4.9",
     "framer-motion": "^12.8.0",
     "lucide-react": "^0.503.0",
@@ -25,7 +25,8 @@
     "react-dom": "^19.1.0",
     "recharts": "^2.15.3",
     "styled-components": "^6.1.17",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "zustand": "^5.0.4"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

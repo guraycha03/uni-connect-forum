@@ -1,12 +1,15 @@
 //   Data Visualization using ApexCharts 
-//✅ Visualize total number of users, posts, and comments
-//✅ Chart should auto-update when new data is fetched
-//
+//  app/dashboard/page.tsx
+
+
 
 
 'use client';
 import { useEffect, useState } from 'react';
-import ApexCharts from 'react-apexcharts';
+import dynamic from 'next/dynamic';
+const ApexCharts = dynamic(() => import('react-apexcharts'), { ssr: false });
+
+
 import axios from 'axios';
 
 export default function DashboardPage() {

@@ -19,6 +19,8 @@ npm install chart.js
 yarn add @heroicons/react   ✔
 yarn dev
 
+yarn add zustand
+
 
 /app
   /dashboard

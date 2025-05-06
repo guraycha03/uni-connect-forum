@@ -3,25 +3,24 @@
 // student profile page
 
 
+
+
+
+// student profile page
+
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 
-// Mapbox GL and Geocoding (using CDN, as per your setup)
-// Make sure these are loaded in your main layout or _document.js
-// via script tags, as you're not using npm imports.
-// import mapboxgl from 'mapbox-gl'; // Not used with CDN
-// import MapboxGeocoder from '@mapbox/mapbox-sdk/services/geocoding'; // Not used with CDN
-
 // ===============================
 // Constants
 // ===============================
 
-const MAPBOX_TOKEN = 'YOUR_MAPBOX_TOKEN'; // Replace with your actual Mapbox token
-const DEFAULT_LATITUDE = 37.7749; // San Francisco
-const DEFAULT_LONGITUDE = -122.4194;
+const GOOGLE_MAPS_API_KEY = 'YOUR_GOOGLE_MAPS_API_KEY'; // Replace with your actual Google Maps API key
+const DEFAULT_LATITUDE = 14.5995; // Manila, Philippines (as per your location)
+const DEFAULT_LONGITUDE = 120.9842;
 
 // ===============================
 // Types & Interfaces
@@ -66,49 +65,72 @@ const itemVariants = {
 };
 
 /**
- * Displays a Mapbox map centered on the given coordinates.
+ * Displays a Google Map centered on the given coordinates.
  */
-const MapComponent: React.FC<{ latitude: number; longitude: number; address: string }> = ({ latitude, longitude, address }) => {
+const GoogleMapComponent: React.FC<{ latitude: number; longitude: number; address: string }> = ({ latitude, longitude, address }) => {
     const mapContainerRef = useRef<HTMLDivElement>(null);
-    const mapRef = useRef<mapboxgl.Map | null>(null); // Use the global mapboxgl
+    const mapRef = useRef<google.maps.Map | null>(null); // Use the global google.maps
 
     useEffect(() => {
-        if (!MAPBOX_TOKEN) {
-            console.error('Mapbox token is not set!');
+        if (!GOOGLE_MAPS_API_KEY) {
+            console.error('Google Maps API key is not set!');
             return;
         }
 
-        if (mapRef.current) return; // Map instance already exists
+        const loadGoogleMaps = () => {
+            if (typeof window !== 'undefined' && !window.google) {
+                const script = document.createElement('script');
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`;
+                script.async = true;
+                script.defer = true;
+                document.head.appendChild(script);
+                script.onload = () => {
+                    initMap();
+                };
+            } else {
+                initMap();
+            }
+        };
 
-        // Initialize map
-        try {
-            const map = new mapboxgl.Map({ // Changed to const map
-                container: mapContainerRef.current!,
-                style: 'mapbox://styles/mapbox/streets-v11', // Or any other style
-                center: [longitude, latitude],
-                zoom: 12,
-                accessToken: MAPBOX_TOKEN, // Pass the token here,
-            });
-            mapRef.current = map;
+        const initMap = () => {
+            if (mapRef.current || !mapContainerRef.current || !window.google) return;
 
-            // Add a marker at the address
-            new mapboxgl.Marker()
-                .setLngLat([longitude, latitude])
-                .setPopup(new mapboxgl.Popup().setHTML(`<p>${address}</p>`)) // Add popup
-                .addTo(map);
+            try {
+                const map = new window.google.maps.Map(mapContainerRef.current, {
+                    center: { lat: latitude, lng: longitude },
+                    zoom: 12,
+                });
+                mapRef.current = map;
 
-            // Cleanup
-            return () => {
-                if (mapRef.current) {
-                    mapRef.current.destroy();
-                    mapRef.current = null;
-                }
-            };
-        } catch (error) {
-            console.error("Failed to initialize Mapbox", error);
-            return;
-        }
-    }, [latitude, longitude, address]); // Rerun effect when lat/lng/address change
+                new window.google.maps.Marker({
+                    position: { lat: latitude, lng: longitude },
+                    map: map,
+                    title: address,
+                });
+
+                const infowindow = new window.google.maps.InfoWindow({
+                    content: `<p>${address}</p>`,
+                });
+
+                new window.google.maps.Marker({
+                    position: { lat: latitude, lng: longitude },
+                    map,
+                    title: address,
+                }).addListener('click', () => {
+                    infowindow.open(map);
+                });
+
+            } catch (error) {
+                console.error("Failed to initialize Google Maps", error);
+            }
+        };
+
+        loadGoogleMaps();
+
+        return () => {
+            // Cleanup if needed
+        };
+    }, [latitude, longitude, address]);
 
     return (
         <div className="w-full h-[300px] rounded-lg shadow-lg" ref={mapContainerRef} />
@@ -128,10 +150,10 @@ const StudentProfilePage: React.FC = () => {
             name: "Charisse Guray",
             studentNo: "20230000",
             course: "BSIT",
-            yearBlock: "1-1",
+            yearBlock: "2-1",
             email: "charisse.guray@example.com",
             address: "Bulan, Sorsogon",
-            profileImage: "/images/students/student_ (1).jpeg",
+            profileImage: "/images/students/cha.gif",
         },
         {
             id: "miguel_torres_1",

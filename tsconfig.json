@@ -1,6 +1,7 @@
 //tsconfig.json
 
 
+
 {
   "compilerOptions": {
     "jsx": "preserve",
@@ -21,6 +22,10 @@
     "incremental": true,
     "module": "esnext",
     "resolveJsonModule": true,
+    "baseUrl": ".",                        
+    "paths": {                              
+      "@/*": ["./*"]
+    },
     "plugins": [
       {
         "name": "next"
@@ -28,8 +33,8 @@
     ]
   },
   "include": [
-  "app/**/*",
-  ".next/types/**/*.ts"
+    "app/**/*",
+    ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

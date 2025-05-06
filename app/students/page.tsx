@@ -29,7 +29,7 @@ const initialStudents = [
         yearBlock: "2-1",
         email: "charisse.guray@example.com",
         address: "Inararan, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (1).jpeg",
+        profileImage: "/images/students/cha.gif",
     },
     {
         id: "miguel_torres_1",

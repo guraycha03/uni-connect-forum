@@ -2,15 +2,21 @@
 // student directory page
 
 
-// app/students/page.tsx
-// student directory page
-
 'use client';
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { MagnifyingGlassIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+
+import { useStudentStore } from '@/store/studentStore'; // adjust the path
+
+// inside component
+const setStudentsToStore = useStudentStore((state) => state.setStudents);
+useEffect(() => {
+  setStudentsToStore(initialStudents);
+}, []);
+
 
 const cn = (...args: any[]) => args.filter(Boolean).join(' ');
 

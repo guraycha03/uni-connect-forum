@@ -19,6 +19,12 @@ const HomePage = () => {
   const [chartSeries, setChartSeries] = useState<number[] | null>(null);
 
   useEffect(() => {
+    console.log('Chart watching posts:', posts);
+    // rest of your logic...
+  }, [posts]);
+  
+
+  useEffect(() => {
     const fetchInitialUsers = async () => {
       try {
         const response = await axios.get('https://jsonplaceholder.typicode.com/users');

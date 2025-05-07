@@ -23,6 +23,7 @@ yarn add zustand
 yarn add uuid
 npm install apexcharts react-apexcharts      or
 yarn add apexcharts react-apexcharts
+yarn add react@latest react-dom@latest
 
 
 

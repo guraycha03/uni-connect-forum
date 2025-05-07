@@ -3,6 +3,7 @@
 // app/page.tsx
 
 
+
 'use client';
 
 import React, { useEffect, useState } from 'react';
@@ -22,7 +23,6 @@ const HomePage = () => {
     console.log('Chart watching posts:', posts);
     // rest of your logic...
   }, [posts]);
-  
 
   useEffect(() => {
     const fetchInitialUsers = async () => {

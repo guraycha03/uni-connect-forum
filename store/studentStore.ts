@@ -1,25 +1,23 @@
 // store/studentStore.ts
 
 
+
+
 import { create } from 'zustand';
 
 interface Student {
   id: string;
   name: string;
-  studentNo: string;
-  course: string;
-  yearBlock: string;
-  email: string;
-  address: string;
-  profileImage: string;
 }
 
-interface StudentStore {
+interface StudentState {
   students: Student[];
-  setStudents: (students: Student[]) => void;
+  addStudent: (student: Student) => void;
 }
 
-export const useStudentStore = create<StudentStore>((set) => ({
+export const useStudentStore = create<StudentState>((set) => ({
   students: [],
-  setStudents: (students) => set({ students }),
+  addStudent: (student) => set((state) => ({
+    students: [...state.students, student], // Add new student to the list
+  })),
 }));

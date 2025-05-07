@@ -2,10 +2,9 @@
 //jsconfig.json
 
 
-// jsconfig.json
 {
   "compilerOptions": {
-    "target": "es5",
+    "target": "es6",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -19,19 +18,19 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
-    "baseUrl": ".", // This tells the compiler that non-relative modules are rooted here
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"],          // Maps @/* to the root of your project
-      "@/lib/*": ["./lib/*"]   // Maps @/lib/* to the lib folder at the root
-    },
-    "plugins": [{ "name": "next" }]
+      "@/components/*": ["components/*"],
+      "@/*": ["*"]
+    }
   },
   "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx",
-    "**/*.js", // Add this if you have .js files you want included
+    "app/**/*",
+    "components/**/*",
+    "pages/**/*",
     ".next/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }

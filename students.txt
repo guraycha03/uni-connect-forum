@@ -1,503 +1,733 @@
-// app/students/page.tsx
-// student directory page
+
+
+// student profile page
+
 
 
 'use client';
 
-import Link from 'next/link';
-import { motion } from 'framer-motion';
-import { useState } from 'react';
-import { MagnifyingGlassIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams } from 'next/navigation';
+import { motion, AnimatePresence } from 'framer-motion';
+import { MapPin, Mail, BookOpen, User, Home, Loader2 } from 'lucide-react'; // Import icons
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { cn } from '@/lib/utils';
 
-import { useStudentStore } from '@/store/studentStore'; // adjust the path
+// ===============================
+// Constants
+// ===============================
 
-// inside component
-const setStudentsToStore = useStudentStore((state) => state.setStudents);
-useEffect(() => {
-  setStudentsToStore(initialStudents);
-}, []);
+const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY; // Use environment variable
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN; // Use environment variable
+const DEFAULT_LATITUDE = 14.5995; // Manila, Philippines (as per your location)
+const DEFAULT_LONGITUDE = 120.9842;
 
+// ===============================
+// Types & Interfaces
+// ===============================
 
-const cn = (...args: any[]) => args.filter(Boolean).join(' ');
-
-const studentCardVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeInOut' } },
-    hover: { scale: 1.03, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', transition: { duration: 0.2 } },
-};
-
-const initialStudents = [
-    {
-        id: "charisse_guray_0",
-        name: "Charisse Guray",
-        studentNo: "20230000",
-        course: "BSIT",
-        yearBlock: "2-1",
-        email: "charisse.guray@example.com",
-        address: "Inararan, Bulan, Sorsogon",
-        profileImage: "/images/students/cha.gif",
-    },
-    {
-        id: "miguel_torres_1",
-        name: "Miguel Torres",
-        studentNo: "20230001",
-        course: "BSIS",
-        yearBlock: "2-2",
-        email: "miguel.torres@example.com",
-        address: "San Vicente, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (2).jpeg",
-    },
-    {
-        id: "angelica_cruz_2",
-        name: "Angelica Cruz",
-        studentNo: "20230002",
-        course: "BSCS",
-        yearBlock: "3-1",
-        email: "angelica.cruz@example.com",
-        address: "Zone 8, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (3).jpeg",
-    },
-    {
-        id: "daniel_navarro_3",
-        name: "Daniel Navarro",
-        studentNo: "20230003",
-        course: "BSA",
-        yearBlock: "4-2",
-        email: "daniel.navarro@example.com",
-        address: "San Juan, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (4).jpeg",
-    },
-    {
-        id: "frances_santos_4",
-        name: "Frances Santos",
-        studentNo: "20230004",
-        course: "BSAIS",
-        yearBlock: "1-3",
-        email: "frances.santos@example.com",
-        address: "Otavi, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (5).jpeg",
-    },
-    {
-        id: "mark_yu_5",
-        name: "Mark Yu",
-        studentNo: "20230005",
-        course: "BPA",
-        yearBlock: "2-1",
-        email: "mark.yu@example.com",
-        address: "San Ramon, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (6).jpeg",
-    },
-    {
-        id: "janine_dela_cruz_6",
-        name: "Janine Dela Cruz",
-        studentNo: "20230006",
-        course: "BSE",
-        yearBlock: "3-2",
-        email: "janine.delacruz@example.com",
-        address: "Patag, Irosin, Sorsogon",
-        profileImage: "/images/students/student_ (7).jpeg",
-    },
-    {
-        id: "kevin_bautista_7",
-        name: "Kevin Bautista",
-        studentNo: "20230007",
-        course: "BTVTED",
-        yearBlock: "4-1",
-        email: "kevin.bautista@example.com",
-        address: "Tughan, Juban, Sorsogon",
-        profileImage: "/images/students/student_ (8).jpeg",
-    },
-    {
-        id: "ella_manalo_8",
-        name: "Ella Manalo",
-        studentNo: "20230008",
-        course: "BSIT",
-        yearBlock: "1-2",
-        email: "ella.manalo@example.com",
-        address: "Aguada, Magallanes, Sorsogon",
-        profileImage: "/images/students/student_ (9).jpeg",
-    },
-    {
-        id: "andrew_salazar_9",
-        name: "Andrew Salazar",
-        studentNo: "20230009",
-        course: "BSIS",
-        yearBlock: "2-3",
-        email: "andrew.salazar@example.com",
-        address: "Balocawe, Matnog, Sorsogon",
-        profileImage: "/images/students/student_ (10).jpeg",
-    },
-    {
-        id: "patricia_villanueva_10",
-        name: "Patricia Villanueva",
-        studentNo: "20230010",
-        course: "BSCS",
-        yearBlock: "3-1",
-        email: "patricia.villanueva@example.com",
-        address: "Dancalan, Bulusan, Sorsogon",
-        profileImage: "/images/students/student_ (11).jpeg",
-    },
-    {
-        id: "justin_reyes_11",
-        name: "Justin Reyes",
-        studentNo: "20230011",
-        course: "BSA",
-        yearBlock: "4-2",
-        email: "justin.reyes@example.com",
-        address: "San Bernardo, Bulusan, Sorsogon",
-        profileImage: "/images/students/student_ (12).jpeg",
-    },
-    {
-        id: "rica_gonzales_12",
-        name: "Rica Gonzales",
-        studentNo: "20230012",
-        course: "BSAIS",
-        yearBlock: "1-1",
-        email: "rica.gonzales@example.com",
-        address: "Donsol, Sorsogon",
-        profileImage: "/images/students/student_ (13).jpeg",
-    },
-    {
-        id: "leonardo_ortega_13",
-        name: "Leonardo Ortega",
-        studentNo: "20230013",
-        course: "BPA",
-        yearBlock: "2-2",
-        email: "leonardo.ortega@example.com",
-        address: "Cogon, Juban, Sorsogon",
-        profileImage: "/images/students/student_ (14).jpeg",
-    },
-    {
-        id: "luisa_mendoza_14",
-        name: "Luisa Mendoza",
-        studentNo: "20230014",
-        course: "BSE",
-        yearBlock: "3-2",
-        email: "luisa.mendoza@example.com",
-        address: "Calomagon, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (15).jpeg",
-    },
-    {
-        id: "ronald_de_la_cruz_15",
-        name: "Ronald De La Cruz",
-        studentNo: "20230015",
-        course: "BTVTED",
-        yearBlock: "4-1",
-        email: "ronald.delacruz@example.com",
-        address: "Zone 4, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (16).jpeg",
-    },
-    {
-        id: "mariel_soriano_16",
-        name: "Mariel Soriano",
-        studentNo: "20230016",
-        course: "BSIT",
-        yearBlock: "1-3",
-        email: "mariel.soriano@example.com",
-        address: "Sagrada Familia, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (17).jpeg",
-    },
-    {
-        id: "joseph_galang_17",
-        name: "Joseph Galang",
-        studentNo: "20230017",
-        course: "BSIS",
-        yearBlock: "2-1",
-        email: "joseph.galang@example.com",
-        address: "Dapdap, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (18).jpeg",
-    },
-    {
-        id: "bea_quijano_18",
-        name: "Bea Quijano",
-        studentNo: "20230018",
-        course: "BSCS",
-        yearBlock: "3-2",
-        email: "bea.quijano@example.com",
-        address: "Zone 1, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (19).jpeg",
-    },
-    {
-        id: "ryan_lopez_19",
-        name: "Ryan Lopez",
-        studentNo: "20230019",
-        course: "BSA",
-        yearBlock: "4-1",
-        email: "ryan.lopez@example.com",
-        address: "Zone 2, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (20).jpeg",
-    },
-    {
-        id: "katrina_valdez_20",
-        name: "Katrina Valdez",
-        studentNo: "20230020",
-        course: "BSAIS",
-        yearBlock: "1-2",
-        email: "katrina.valdez@example.com",
-        address: "Zone 6, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (21).jpeg",
-    },
-    {
-        id: "enzo_ramos_21",
-        name: "Enzo Ramos",
-        studentNo: "20230021",
-        course: "BPA",
-        yearBlock: "2-3",
-        email: "enzo.ramos@example.com",
-        address: "Zone 3, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (22).jpeg",
-    },
-    {
-        id: "charmaine_garcia_22",
-        name: "Charmaine Garcia",
-        studentNo: "20230022",
-        course: "BSE",
-        yearBlock: "3-1",
-        email: "charmaine.garcia@example.com",
-        address: "Zone 7, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (23).jpeg",
-    },
-    {
-        id: "daryl_morales_23",
-        name: "Daryl Morales",
-        studentNo: "20230023",
-        course: "BTVTED",
-        yearBlock: "4-2",
-        email: "daryl.morales@example.com",
-        address: "Tughan, Juban, Sorsogon",
-        profileImage: "/images/students/student_ (24).jpeg",
-    },
-    {
-        id: "sophia_smith_24",
-        name: "Sophia Smith",
-        studentNo: "20230024",
-        course: "BSIT",
-        yearBlock: "1-1",
-        email: "sophia.smith@example.com",
-        address: "Camcaman, Matnog, Sorsogon",
-        profileImage: "/images/students/student_ (25).jpeg",
-    },
-    {
-        id: "ethan_johnson_25",
-        name: "Ethan Johnson",
-        studentNo: "20230025",
-        course: "BSIS",
-        yearBlock: "2-2",
-        email: "ethan.johnson@example.com",
-        address: "San Bernardo, Bulusan, Sorsogon",
-        profileImage: "/images/students/student_ (26).jpeg",
-    },
-    {
-        id: "olivia_williams_26",
-        name: "Olivia Williams",
-        studentNo: "20230026",
-        course: "BSCS",
-        yearBlock: "3-1",
-        email: "olivia.williams@example.com",
-        address: "San Juan, Irosin, Sorsogon",
-        profileImage: "/images/students/student_ (27).jpeg",
-    },
-    {
-        id: "noah_brown_27",
-        name: "Noah Brown",
-        studentNo: "20230027",
-        course: "BSA",
-        yearBlock: "4-2",
-        email: "noah.brown@example.com",
-        address: "Binanuahan, Juban, Sorsogon",
-        profileImage: "/images/students/student_ (28).jpeg",
-    },
-    {
-        id: "ava_jones_28",
-        name: "Ava Jones",
-        studentNo: "20230028",
-        course: "BSAIS",
-        yearBlock: "1-3",
-        email: "ava.jones@example.com",
-        address: "Incarizan, Magallanes, Sorsogon",
-        profileImage: "/images/students/student_ (29).jpeg",
-    },
-    {
-        id: "william_garcia_29",
-        name: "William Garcia",
-        studentNo: "20230029",
-        course: "BPA",
-        yearBlock: "2-1",
-        email: "william.garcia@example.com",
-        address: "Managa-naga, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (30).jpeg",
-    },
-    {
-        id: "isabella_miller_30",
-        name: "Isabella Miller",
-        studentNo: "20230030",
-        course: "BSE",
-        yearBlock: "3-2",
-        email: "isabella.miller@example.com",
-        address: "Taromata, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (31).jpeg"
-    },
-    {
-        id: "james_davis_31",
-        name: "James Davis",
-        studentNo: "20230031",
-        course: "BTVTED",
-        yearBlock: "4-1",
-        email: "james.davis@example.com",
-        address: "Zone 1, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (32).jpeg"
-    },
-    {
-        id: "mia_rodriguez_32",
-        name: "Mia Rodriguez",
-        studentNo: "20230032",
-        course: "BSIT",
-        yearBlock: "1-2",
-        email: "mia.rodriguez@example.com",
-        address: "San Francisco, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (33).jpeg"
-    },
-    {
-        id: "benjamin_martinez_33",
-        name: "Benjamin Martinez",
-        studentNo: "20230033",
-        course: "BSIS",
-        yearBlock: "2-3",
-        email: "benjamin.martinez@example.com",
-        address: "San Juan, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (34).jpeg"
-    },
-    {
-        id: "charlotte_34",
-        name: "Charlotte",
-        studentNo: "20230034",
-        course: "BSCS",
-        yearBlock: "3-1",
-        email: "charlotte@example.com",
-        address: "San Vicente, Bulan, Sorsogon",
-        profileImage: "/images/students/student_ (35).jpeg",
-    }
-];
-
-
-export default function StudentsPage() {
-    const [students, setStudents] = useState(initialStudents);
-    const [searchQuery, setSearchQuery] = useState('');
-    const [courseFilter, setCourseFilter] = useState('all');
-    const [yearBlockFilter, setYearBlockFilter] = useState('all');
-
-    const uniqueCourses = ['all', ...new Set(initialStudents.map(s => s.course).filter(Boolean))];
-    const uniqueYearBlocks = ['all', ...new Set(initialStudents.map(s => s.yearBlock).filter(Boolean))];
-
-    const filteredStudents = students.filter(student => {
-        const searchMatch = student.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                            (student.studentNo && student.studentNo.includes(searchQuery));
-        const courseMatch = courseFilter === 'all' || student.course === courseFilter;
-        const yearBlockMatch = yearBlockFilter === 'all' || student.yearBlock === yearBlockFilter;
-        return searchMatch && courseMatch && yearBlockMatch;
-    });
-
-    return (
-        <main className="min-h-screen px-4 py-10 bg-[var(--background)]">
-            <div className="max-w-7xl mx-auto">
-                <h1 className="text-3xl font-bold text-center text-[var(--primary)] mb-6">
-                    Student Directory
-                </h1>
-
-                <div className="mb-6 flex flex-wrap items-center gap-4">
-                    <div className="relative flex-grow min-w-[200px]">
-                        <input
-                            type="text"
-                            placeholder="Search by name or ID"
-                            className="w-full px-4 py-2 border border-[var(--border)] rounded-md shadow-sm focus:ring-[var(--primary)] focus:border-[var(--primary)] focus:outline-none"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                        <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-                            <MagnifyingGlassIcon className="h-5 w-5 text-gray-500" />
-                        </div>
-                    </div>
-
-                    <div className="relative min-w-[150px]">
-                        <select
-                            value={courseFilter}
-                            onChange={(e) => setCourseFilter(e.target.value)}
-                            className="w-full px-4 py-2 border border-[var(--border)] rounded-md shadow-sm focus:ring-[var(--primary)] focus:border-[var(--primary)] focus:outline-none appearance-none pr-8"
-                        >
-                            <option value="all">All Courses</option>
-                            {uniqueCourses.slice(1).map(course => (
-                                <option key={course} value={course}>{course}</option>
-                            ))}
-                        </select>
-                        <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                            <ChevronDownIcon className="h-5 w-5 text-gray-500" />
-                        </div>
-                    </div>
-
-                    <div className="relative min-w-[150px]">
-                        <select
-                            value={yearBlockFilter}
-                            onChange={(e) => setYearBlockFilter(e.target.value)}
-                            className="w-full px-4 py-2 border border-[var(--border)] rounded-md shadow-sm focus:ring-[var(--primary)] focus:border-[var(--primary)] focus:outline-none appearance-none pr-8"
-                        >
-                            <option value="all">All Year/Block</option>
-                            {uniqueYearBlocks.slice(1).map(yearBlock => (
-                                <option key={yearBlock} value={yearBlock}>{yearBlock}</option>
-                            ))}
-                        </select>
-                        <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                            <ChevronDownIcon className="h-5 w-5 text-gray-500" />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
-                    {filteredStudents.map((student) => (
-                        <Link href={`/students/${student.id}`} key={student.id} passHref>
-                            <motion.div
-                                variants={studentCardVariants}
-                                initial="hidden"
-                                animate="visible"
-                                whileHover="hover"
-                                className="group"
-                            >
-                                <div className="border border-[var(--border)] bg-white dark:bg-[var(--accent)] shadow-md hover:shadow-lg transition-shadow overflow-hidden cursor-pointer rounded-lg">
-                                    <div className="p-6">
-                                        <div className="flex flex-col items-center gap-4 mb-4">
-                                            <div className="student-image-container">
-                                                <img
-                                                    src={student.profileImage || '/images/default.jpeg'}
-                                                    alt={`Profile of ${student.name}`}
-                                                    className="student-image"
-                                                />
-                                            </div>
-                                            <div>
-                                                <h2 className="text-lg font-semibold text-[var(--foreground)] group-hover:text-[var(--primary)] text-center">
-                                                    {student.name}
-                                                </h2>
-                                                <p className="text-sm text-[var(--secondary)] text-center">
-                                                    {student.email}
-                                                </p>
-                                                <p className="text-xs text-gray-500 text-center">{student.course} - {student.yearBlock}</p>
-                                            </div>
-                                        </div>
-                                        {student.studentNo && (
-                                            <p className="text-sm text-gray-500 text-center student-id">
-                                                ID: {student.studentNo}
-                                            </p>
-                                        )}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </Link>
-                    ))}
-                </div>
-
-                {filteredStudents.length === 0 && (
-                    <p className="text-center text-gray-600 mt-6">No students found matching your criteria.</p>
-                )}
-            </div>
-        </main>
-    );
+interface Student {
+    id: string;
+    name: string;
+    studentNo: string;
+    course: string;
+    yearBlock: string;
+    email: string;
+    address: string;
+    profileImage: string;
 }
 
+interface Post {
+    id: number;
+    userId: number;
+    title: string;
+    body: string;
+}
+
+// ===============================
+// Helper Functions
+// ===============================
+
+// Animation variants
+const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.2, // Stagger the appearance of children
+        },
+    },
+};
+
+const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 },
+};
+
+/**
+ * Displays a Google Map centered on the given coordinates.
+ */
+const MapComponent: React.FC<{ latitude: number; longitude: number; address: string }> = ({ latitude, longitude, address }) => {
+    const mapContainerRef = useRef<HTMLDivElement>(null);
+    const mapRef = useRef<google.maps.Map | null>(null); // Use the global google.maps
+
+    useEffect(() => {
+        if (!GOOGLE_MAPS_API_KEY) {
+            console.error('Google Maps API key is not set!');
+            return;
+        }
+
+        const loadGoogleMaps = () => {
+            if (typeof window !== 'undefined' && !window.google) {
+                const script = document.createElement('script');
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`;
+                script.async = true;
+                script.defer = true;
+                document.head.appendChild(script);
+                script.onload = () => {
+                    initMap();
+                };
+            } else {
+                initMap();
+            }
+        };
+
+        const initMap = () => {
+            if (mapRef.current || !mapContainerRef.current || !window.google) return;
+
+            try {
+                const map = new window.google.maps.Map(mapContainerRef.current, {
+                    center: { lat: latitude, lng: longitude },
+                    zoom: 12,
+                });
+                mapRef.current = map;
+
+                const marker = new window.google.maps.Marker({
+                    position: { lat: latitude, lng: longitude },
+                    map: map,
+                    title: address,
+                });
+
+                const infowindow = new window.google.maps.InfoWindow({
+                    content: `<div class="p-2">
+                                <h3 class="font-bold text-lg">${address}</h3>
+                            </div>`,
+                });
+
+                marker.addListener('click', () => {
+                    infowindow.open(map, marker);
+                });
+
+            } catch (error) {
+                console.error("Failed to initialize Google Maps", error);
+            }
+        };
+
+        loadGoogleMaps();
+
+        return () => {
+            // Cleanup if needed
+        };
+    }, [latitude, longitude, address]);
+
+    return (
+        <div className="w-full h-[300px] rounded-lg shadow-lg border border-gray-200" ref={mapContainerRef} />
+    );
+};
+
+/**
+ * Displays a single student's profile information.
+ */
+const StudentProfilePage: React.FC = () => {
+    const { id } = useParams();
+
+    //  Use the initialStudents data directly.  No need to duplicate.
+    const initialStudents: Student[] = [
+        {
+            id: "charisse_guray_0",
+            name: "Charisse Guray",
+            studentNo: "20230000",
+            course: "BSIT",
+            yearBlock: "2-1",
+            email: "charisse.guray@example.com",
+            address: "Inararan, Bulan, Sorsogon",
+            profileImage: "/images/students/cha.gif",
+        },
+        {
+            id: "miguel_torres_1",
+            name: "Miguel Torres",
+            studentNo: "20230001",
+            course: "BSIS",
+            yearBlock: "2-2",
+            email: "miguel.torres@example.com",
+            address: "San Vicente, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (2).jpeg",
+        },
+        {
+            id: "angelica_cruz_2",
+            name: "Angelica Cruz",
+            studentNo: "20230002",
+            course: "BSCS",
+            yearBlock: "3-1",
+            email: "angelica.cruz@example.com",
+            address: "Zone 8, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (3).jpeg",
+        },
+        {
+            id: "daniel_navarro_3",
+            name: "Daniel Navarro",
+            studentNo: "20230003",
+            course: "BSA",
+            yearBlock: "4-2",
+            email: "daniel.navarro@example.com",
+            address: "San Juan, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (4).jpeg",
+        },
+        {
+            id: "frances_santos_4",
+            name: "Frances Santos",
+            studentNo: "20230004",
+            course: "BSAIS",
+            yearBlock: "1-3",
+            email: "frances.santos@example.com",
+            address: "Otavi, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (5).jpeg",
+        },
+        {
+            id: "mark_yu_5",
+            name: "Mark Yu",
+            studentNo: "20230005",
+            course: "BPA",
+            yearBlock: "2-1",
+            email: "mark.yu@example.com",
+            address: "San Ramon, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (6).jpeg",
+        },
+        {
+            id: "janine_dela_cruz_6",
+            name: "Janine Dela Cruz",
+            studentNo: "20230006",
+            course: "BSE",
+            yearBlock: "3-2",
+            email: "janine.delacruz@example.com",
+            address: "Patag, Irosin, Sorsogon",
+            profileImage: "/images/students/student_ (7).jpeg",
+        },
+        {
+            id: "kevin_bautista_7",
+            name: "Kevin Bautista",
+            studentNo: "20230007",
+            course: "BTVTED",
+            yearBlock: "4-1",
+            email: "kevin.bautista@example.com",
+            address: "Tughan, Juban, Sorsogon",
+            profileImage: "/images/students/student_ (8).jpeg",
+        },
+        {
+            id: "ella_manalo_8",
+            name: "Ella Manalo",
+            studentNo: "20230008",
+            course: "BSIT",
+            yearBlock: "1-2",
+            email: "ella.manalo@example.com",
+            address: "Aguada, Magallanes, Sorsogon",
+            profileImage: "/images/students/student_ (9).jpeg",
+        },
+        {
+            id: "andrew_salazar_9",
+            name: "Andrew Salazar",
+            studentNo: "20230009",
+            course: "BSIS",
+            yearBlock: "2-3",
+            email: "andrew.salazar@example.com",
+            address: "Balocawe, Matnog, Sorsogon",
+            profileImage: "/images/students/student_ (10).jpeg",
+        },
+        {
+            id: "patricia_villanueva_10",
+            name: "Patricia Villanueva",
+            studentNo: "20230010",
+            course: "BSCS",
+            yearBlock: "3-1",
+            email: "patricia.villanueva@example.com",
+            address: "Dancalan, Bulusan, Sorsogon",
+            profileImage: "/images/students/student_ (11).jpeg",
+        },
+        {
+            id: "justin_reyes_11",
+            name: "Justin Reyes",
+            studentNo: "20230011",
+            course: "BSA",
+            yearBlock: "4-2",
+            email: "justin.reyes@example.com",
+            address: "San Bernardo, Bulusan, Sorsogon",
+            profileImage: "/images/students/student_ (12).jpeg",
+        },
+        {
+            id: "rica_gonzales_12",
+            name: "Rica Gonzales",
+            studentNo: "20230012",
+            course: "BSAIS",
+            yearBlock: "1-1",
+            email: "rica.gonzales@example.com",
+            address: "Donsol, Sorsogon",
+            profileImage: "/images/students/student_ (13).jpeg",
+        },
+        {
+            id: "leonardo_ortega_13",
+            name: "Leonardo Ortega",
+            studentNo: "20230013",
+            course: "BPA",
+            yearBlock: "2-2",
+            email: "leonardo.ortega@example.com",
+            address: "Cogon, Juban, Sorsogon",
+            profileImage: "/images/students/student_ (14).jpeg",
+        },
+        {
+            id: "luisa_mendoza_14",
+            name: "Luisa Mendoza",
+            studentNo: "20230014",
+            course: "BSE",
+            yearBlock: "3-2",
+            email: "luisa.mendoza@example.com",
+            address: "Calomagon, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (15).jpeg",
+        },
+        {
+            id: "ronald_de_la_cruz_15",
+            name: "Ronald De La Cruz",
+            studentNo: "20230015",
+            course: "BTVTED",
+            yearBlock: "4-1",
+            email: "ronald.delacruz@example.com",
+            address: "Zone 4, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (16).jpeg",
+        },
+        {
+            id: "mariel_soriano_16",
+            name: "Mariel Soriano",
+            studentNo: "20230016",
+            course: "BSIT",
+            yearBlock: "1-3",
+            email: "mariel.soriano@example.com",
+            address: "Sagrada Familia, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (17).jpeg",
+        },
+        {
+            id: "joseph_galang_17",
+            name: "Joseph Galang",
+            studentNo: "20230017",
+            course: "BSIS",
+            yearBlock: "2-1",
+            email: "joseph.galang@example.com",
+            address: "Dapdap, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (18).jpeg",
+        },
+        {
+            id: "bea_quijano_18",
+            name: "Bea Quijano",
+            studentNo: "20230018",
+            course: "BSCS",
+            yearBlock: "3-2",
+            email: "bea.quijano@example.com",
+            address: "Zone 1, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (19).jpeg",
+        },
+        {
+            id: "ryan_lopez_19",
+            name: "Ryan Lopez",
+            studentNo: "20230019",
+            course: "BSA",
+            yearBlock: "4-1",
+            email: "ryan.lopez@example.com",
+            address: "Zone 2, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (20).jpeg",
+        },
+        {
+            id: "katrina_valdez_20",
+            name: "Katrina Valdez",
+            studentNo: "20230020",
+            course: "BSAIS",
+            yearBlock: "1-2",
+            email: "katrina.valdez@example.com",
+            address: "Zone 6, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (21).jpeg",
+        },
+        {
+            id: "enzo_ramos_21",
+            name: "Enzo Ramos",
+            studentNo: "20230021",
+            course: "BPA",
+            yearBlock: "2-3",
+            email: "enzo.ramos@example.com",
+            address: "Zone 3, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (22).jpeg",
+        },
+        {
+            id: "charmaine_garcia_22",
+            name: "Charmaine Garcia",
+            studentNo: "20230022",
+            course: "BSE",
+            yearBlock: "3-1",
+            email: "charmaine.garcia@example.com",
+            address: "Zone 7, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (23).jpeg",
+        },
+        {
+            id: "daryl_morales_23",
+            name: "Daryl Morales",
+            studentNo: "20230023",
+            course: "BTVTED",
+            yearBlock: "4-2",
+            email: "daryl.morales@example.com",
+            address: "Tughan, Juban, Sorsogon",
+            profileImage: "/images/students/student_ (24).jpeg",
+        },
+        {
+            id: "sophia_smith_24",
+            name: "Sophia Smith",
+            studentNo: "20230024",
+            course: "BSIT",
+            yearBlock: "1-1",
+            email: "sophia.smith@example.com",
+            address: "Camcaman, Matnog, Sorsogon",
+            profileImage: "/images/students/student_ (25).jpeg",
+        },
+        {
+            id: "ethan_johnson_25",
+            name: "Ethan Johnson",
+            studentNo: "20230025",
+            course: "BSIS",
+            yearBlock: "2-2",
+            email: "ethan.johnson@example.com",
+            address: "San Bernardo, Bulusan, Sorsogon",
+            profileImage: "/images/students/student_ (26).jpeg",
+        },
+        {
+            id: "olivia_williams_26",
+            name: "Olivia Williams",
+            studentNo: "20230026",
+            course: "BSCS",
+            yearBlock: "3-1",
+            email: "olivia.williams@example.com",
+            address: "San Juan, Irosin, Sorsogon",
+            profileImage: "/images/students/student_ (27).jpeg",
+        },
+        {
+            id: "noah_brown_27",
+            name: "Noah Brown",
+            studentNo: "20230027",
+            course: "BSA",
+            yearBlock: "4-2",
+            email: "noah.brown@example.com",
+            address: "Binanuahan, Juban, Sorsogon",
+            profileImage: "/images/students/student_ (28).jpeg",
+        },
+        {
+            id: "ava_jones_28",
+            name: "Ava Jones",
+            studentNo: "20230028",
+            course: "BSAIS",
+            yearBlock: "1-3",
+            email: "ava.jones@example.com",
+            address: "Incarizan, Magallanes, Sorsogon",
+            profileImage: "/images/students/student_ (29).jpeg",
+        },
+        {
+            id: "william_garcia_29",
+            name: "William Garcia",
+            studentNo: "20230029",
+            course: "BPA",
+            yearBlock: "2-1",
+            email: "william.garcia@example.com",
+            address: "Managa-naga, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (30).jpeg",
+        },
+        {
+            id: "isabella_miller_30",
+            name: "Isabella Miller",
+            studentNo: "20230030",
+            course: "BSE",
+            yearBlock: "3-2",
+            email: "isabella.miller@example.com",
+            address: "Taromata, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (31).jpeg"
+        },
+        {
+            id: "james_davis_31",
+            name: "James Davis",
+            studentNo: "20230031",
+            course: "BTVTED",
+            yearBlock: "4-1",
+            email: "james.davis@example.com",
+            address: "Zone 1, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (32).jpeg"
+        },
+        {
+            id: "mia_rodriguez_32",
+            name: "Mia Rodriguez",
+            studentNo: "20230032",
+            course: "BSIT",
+            yearBlock: "1-2",
+            email: "mia.rodriguez@example.com",
+            address: "San Francisco, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (33).jpeg"
+        },
+        {
+            id: "benjamin_martinez_33",
+            name: "Benjamin Martinez",
+            studentNo: "20230033",
+            course: "BSIS",
+            yearBlock: "2-3",
+            email: "benjamin.martinez@example.com",
+            address: "San Juan, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (34).jpeg"
+        },
+        {
+            id: "charlotte_34",
+            name: "Charlotte",
+            studentNo: "20230034",
+            course: "BSCS",
+            yearBlock: "3-1",
+            email: "charlotte@example.com",
+            address: "San Vicente, Bulan, Sorsogon",
+            profileImage: "/images/students/student_ (35).jpeg",
+        }
+    ];
+
+    const student = initialStudents.find((s) => s.id === id);
+
+    if (!student) {
+        return (
+            <div className="flex items-center justify-center h-screen">
+                <Card className="max-w-md w-full">
+                    <CardHeader>
+                        <CardTitle className="text-center text-2xl font-semibold text-red-500">
+                            Student Not Found
+                        </CardTitle>
+                        <CardDescription className="text-center text-gray-500">
+                            Sorry, we couldn't find the student you were looking for.
+                        </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Button
+                            as="a"
+                            href="/students" // Redirect to the students page
+                            className="w-full"
+                        >
+                            <Home className="mr-2 h-4 w-4" />
+                            Back to Students
+                        </Button>
+                    </CardContent>
+                </Card>
+            </div>
+        );
+    }
+
+    // Geocode the student's address using Mapbox Geocoding API (using fetch)
+    const [geocodeData, setGeocodeData] = useState<{ latitude: number; longitude: number } | null>(null);
+    const [studentPosts, setStudentPosts] = useState<Post[]>([]);
+    const [loadingPosts, setLoadingPosts] = useState(false);
+    const [postsError, setPostsError] = useState<string | null>(null);
+    const [loadingMap, setLoadingMap] = useState(true); // Add loading state for map
+
+    useEffect(() => {
+        const geocodeAddress = async (address: string) => {
+            if (!MAPBOX_TOKEN) {
+                console.error('Mapbox token is not set!');
+                setGeocodeData(null); // Ensure geocodeData is set to null to prevent map from rendering
+                setLoadingMap(false);
+                return;
+            }
+            const encodedAddress = encodeURIComponent(address);
+            const url = `https://api.mapbox.com/geocoding/v5/mapbox.places/${encodedAddress}.json?access_token=${MAPBOX_TOKEN}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) { // added error check
+                    throw new Error(`Failed to geocode address: ${response.status} - ${response.statusText}`);
+                }
+                const data = await response.json();
+
+                if (data.features && data.features.length > 0) {
+                    const [longitude, latitude] = data.features[0].center;
+                    setGeocodeData({ latitude, longitude });
+                } else {
+                    console.error('Address not found on Mapbox');
+                    setGeocodeData(null); // set null, so the map doesn't render with default coords.
+                }
+            } catch (error) {
+                console.error('Error geocoding address:', error);
+                setGeocodeData(null);           //set null on error
+            } finally {
+                setLoadingMap(false);
+            }
+        };
+
+        geocodeAddress(student.address);
+    }, [student.address]);
+
+    // Fetch posts for the selected student
+    useEffect(() => {
+        const fetchStudentPosts = async () => {
+            setLoadingPosts(true);
+            setPostsError(null);
+            try {
+                // Simulate a random number of posts (0-5) for each student.
+                const numberOfPosts = Math.floor(Math.random() * 6);
+                let fetchedPosts: Post[] = [];
+
+                if (numberOfPosts > 0) {
+                    // Fetch posts only if numberOfPosts is greater than 0
+                    const response = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${student.id}`);
+                    if (!response.ok) {
+                        throw new Error(`Failed to fetch posts for student ${student.id}`);
+                    }
+                    const data: Post[] = await response.json();
+                    fetchedPosts = data.slice(0, numberOfPosts); // Get only the required number of posts
+                }
+                setStudentPosts(fetchedPosts);
+            } catch (error: any) {
+                setPostsError(error.message);
+            } finally {
+                setLoadingPosts(false);
+            }
+        };
+
+        fetchStudentPosts();
+    }, [student.id]);
+
+    return (
+        <motion.div
+            className="max-w-3xl mx-auto mt-8 space-y-6"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+        >
+            <div className="flex flex-col sm:flex-row items-center gap-6">
+                <motion.img
+                    src={student.profileImage}
+                    alt={`${student.name}'s profile`}
+                    className="w-32 h-32 rounded-full object-cover border-4 border-maroon-500 shadow-lg"
+                    variants={itemVariants}
+                />
+                <motion.div variants={itemVariants} className="space-y-2">
+                    <h1 className="text-3xl font-bold text-gray-900">{student.name}</h1>
+                    <Badge variant="outline" className="bg-maroon-100 text-maroon-800 border-maroon-500/50">
+                        {student.course}
+                    </Badge>
+                </motion.div>
+            </div>
+
+            <Card className="shadow-lg border-gray-200">
+                <CardHeader>
+                    <CardTitle className="text-2xl font-semibold text-gray-900">
+                        <User className="mr-2 h-5 w-5 inline-block" />
+                        Student Information
+                    </CardTitle>
+                    <CardDescription>
+                        Details about the student
+                    </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <motion.div variants={itemVariants} className="flex items-center gap-2">
+                        <span className="font-semibold text-gray-700">Student No:</span>
+                        <span className="text-gray-900">{student.studentNo}</span>
+                    </motion.div>
+                    <motion.div variants={itemVariants} className="flex items-center gap-2">
+                        <span className="font-semibold text-gray-700">Course:</span>
+                        <span className="text-gray-900">{student.course}</span>
+                    </motion.div>
+                    <motion.div variants={itemVariants} className="flex items-center gap-2">
+                        <span className="font-semibold text-gray-700">Year & Block:</span>
+                        <span className="text-gray-900">{student.yearBlock}</span>
+                    </motion.div>
+                    <motion.div variants={itemVariants} className="flex items-center gap-2">
+                        <Mail className="h-4 w-4 text-gray-500" />
+                        <span className="text-gray-900">{student.email}</span>
+                    </motion.div>
+                    <motion.div variants={itemVariants} className="flex items-start gap-2">
+                        <MapPin className="h-4 w-4 mt-1 text-gray-500" />
+                        <span className="text-gray-900">{student.address}</span>
+                    </motion.div>
+                </CardContent>
+            </Card>
+
+            <Card className="shadow-lg border-gray-200">
+                <CardHeader>
+                    <CardTitle className="text-2xl font-semibold text-gray-900">
+                        <MapPin className="mr-2 h-5 w-5 inline-block" />
+                        Student Location
+                    </CardTitle>
+                    <CardDescription>
+                        Location of the student's address
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    {loadingMap ? (
+                        <div className="flex items-center justify-center h-[300px]">
+                            <Loader2 className="animate-spin h-8 w-8 text-gray-500" />
+                        </div>
+                    ) : geocodeData ? (
+                        <MapComponent
+                            latitude={geocodeData.latitude}
+                            longitude={geocodeData.longitude}
+                            address={student.address}
+                        />
+                    ) : (
+                        <div className="text-center py-8 bg-gray-100 rounded-lg border border-dashed border-gray-400">
+                            <p className="text-gray-500">
+                                Unable to display map.  Address not found.
+                            </p>
+                        </div>
+                    )}
+                </CardContent>
+            </Card>
+
+            {/* Display Student Posts */}
+            <Card className="shadow-lg border-gray-200">
+                <CardHeader>
+                    <CardTitle className="text-2xl font-semibold text-gray-900">
+                        <BookOpen className="mr-2 h-5 w-5 inline-block" />
+                        Student Posts
+                    </CardTitle>
+                    <CardDescription>
+                        Posts by {student.name}
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    {loadingPosts ? (
+                        <div className="flex items-center justify-center py-8">
+                            <Loader2 className="animate-spin h-8 w-8 text-gray-500" />
+                        </div>
+                    ) : postsError ? (
+                        <p className="text-red-500">Error: {postsError}</p>
+                    ) : studentPosts.length > 0 ? (
+                        <AnimatePresence>
+                            {studentPosts.map((post) => (
+                                <motion.div
+                                    key={post.id}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    exit={{ opacity: 0, x: 20 }}
+                                    className="mb-4 p-4 bg-gray-50 rounded-lg shadow-md border border-gray-200"
+                                >
+                                    <h3 className="text-lg font-semibold text-gray-900">{post.title}</h3>
+                                    <p className="text-sm text-gray-700">
+                                        {post.body}
+                                    </p>
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
+                    ) : (
+                        <p className="text-gray-500 py-8 text-center">No posts found for this student.</p>
+                    )}
+                </CardContent>
+            </Card>
+        </motion.div>
+    );
+};
+
+export default StudentProfilePage;

@@ -1,62 +1,58 @@
-const initialPosts: Post[] = [
-                {
-                    id: 1,
-                    author: 'Prof. Marie Gonzales',
-                    role: 'moderator',
-                    title: '🎉 Welcome to UniConnect Forum! 🎓',
-                    content: 'This platform is created to empower every student and faculty member to share knowledge, updates, and insights. Let’s keep the discussions respectful and helpful!',
-                    comments: [
-                        { user: 'Jonathan', comment: 'This is awesome! Thank you for this initiative.' },
-                        { user: 'Irene', comment: 'Looking forward to productive discussions!' },
-                    ],
-                    isPinned: true, // Pinned post
-                    image: '/images/posts/1.png',
-                    likes: 5,
-                },
-                {
-                    id: 2,
-                    author: 'Kaye Santos',
-                    role: 'student',
-                    title: '📢 Lost & Found Alert!',
-                    content: 'Found a black umbrella with a red handle in the library study area. Message me if it’s yours.',
-                    comments: [{ user: 'Marco', comment: 'That’s mine! I’ll PM you, thanks!' }],
-                    image: 'https://source.unsplash.com/random/800x400/?umbrella,lost,found',
-                    likes: 2,
-                },
-                {
-                    id: 3,
-                    author: "Student 1",
-                    role: "student",
-                    title: "Question about Midterm Exam",
-                    content: "Hi everyone, I have a question about the upcoming midterm exam.  Does anyone know what chapters will be covered?  Also, is there a study group I can join?",
-                    comments: [
-                        { user: "Student 2", comment: "I heard chapters 3-5 will be on the exam." },
-                        { user: "Student 3", comment: "There's a study group meeting on Friday in the library!" },
-                    ],
-                    likes: 7,
-                },
-                {
-                    id: 4,
-                    author: "Professor Smith",
-                    role: "moderator",
-                    title: "Office Hours Announcement",
-                    content: "My office hours for this week will be on Tuesday and Thursday from 2-4 PM.  Please come by if you have any questions about the course material.",
-                    comments: [],
-                    isPinned: true,
-                    likes: 12,
-                },
-                {
-                    id: 5,
-                    author: "Club President",
-                    role: "student",
-                    title: "Volunteer Opportunity",
-                    content: "The Environmental Club is looking for volunteers for our upcoming tree planting event.  It will be on Saturday from 9 AM to 12 PM.  Lunch will be provided!",
-                    comments: [
-                        { user: "Student 4", comment: "I'd love to volunteer!  Where is the meeting location?" },
-                    ],
-                    image: "https://source.unsplash.com/random/800x400/?tree,planting,volunteer",
-                    likes: 20,
-                },
-            ];
-        setPosts(initialPosts);
-    }, []);
+'use client';
+
+import { useState } from 'react';
+
+interface Student {
+  id: number;
+  name: string;
+  course: string;
+  year: string;
+}
+
+const studentsData: Student[] = [
+  { id: 1, name: 'Alice Santiago', course: 'BSIT', year: '1st Year' },
+  { id: 2, name: 'Brian Cruz', course: 'BSCS', year: '2nd Year' },
+  { id: 3, name: 'Carla Dizon', course: 'BSIS', year: '3rd Year' },
+  { id: 4, name: 'Daniel Reyes', course: 'BSIT', year: '4th Year' },
+  { id: 5, name: 'Elaine Velasco', course: 'BSCS', year: '1st Year' },
+];
+
+export default function StudentsPage() {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const filteredStudents = studentsData.filter((student) =>
+    student.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  return (
+    <div className="max-w-5xl mx-auto p-4">
+      <h1 className="text-3xl font-bold mb-4 text-maroon-700">Student Directory</h1>
+
+      <input
+        type="text"
+        placeholder="Search students..."
+        className="w-full p-2 mb-4 border border-gray-300 rounded"
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+      />
+
+      <ul className="space-y-3">
+        {filteredStudents.length > 0 ? (
+          filteredStudents.map((student) => (
+            <li
+              key={student.id}
+              className="p-4 border rounded bg-white shadow-sm hover:bg-gray-50"
+            >
+              <p className="text-lg font-semibold">{student.name}</p>
+              <p className="text-sm text-gray-600">
+                {student.course} • {student.year}
+              </p>
+            </li>
+          ))
+        ) : (
+          <p className="text-gray-500">No students found.</p>
+        )}
+      </ul>
+    </div>
+  );
+}

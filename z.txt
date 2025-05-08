@@ -28,6 +28,9 @@ yarn add react@latest react-dom@latest
 
 
 
+
+yarn add next@latest
+
 /app
   /dashboard
     page.tsx

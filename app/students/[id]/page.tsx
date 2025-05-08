@@ -7,7 +7,6 @@
 
 
 // student profile page
-
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
@@ -21,6 +20,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 const GOOGLE_MAPS_API_KEY = 'YOUR_GOOGLE_MAPS_API_KEY'; // Replace with your actual Google Maps API key
 const DEFAULT_LATITUDE = 14.5995; // Manila, Philippines (as per your location)
 const DEFAULT_LONGITUDE = 120.9842;
+const MAPBOX_TOKEN = process.env.NEXT_PUBLIC_MAPBOX_TOKEN; // Ensure you have this in your .env.local file
 
 // ===============================
 // Types & Interfaces
@@ -175,6 +175,7 @@ const StudentProfilePage: React.FC = () => {
             address: "Albay, Bicol",
             profileImage: "/images/students/student_ (3).jpeg",
         },
+    ];
     const student = initialStudents.find((s) => s.id === id);
 
     if (!student) {
@@ -214,12 +215,12 @@ const StudentProfilePage: React.FC = () => {
                 }
             } catch (error) {
                 console.error('Error geocoding address:', error);
-                setGeocodeData(null);    //set null on error
+                setGeocodeData(null);     //set null on error
             }
         };
 
         geocodeAddress(student.address);
-    }, [student.address]);
+    }, [student.address, MAPBOX_TOKEN]);
 
     // Fetch posts for the selected student
     useEffect(() => {
@@ -300,7 +301,7 @@ const StudentProfilePage: React.FC = () => {
             <motion.div className="mt-8" variants={itemVariants}>
                 <h2 className="text-2xl font-semibold mb-4 text-[var(--foreground)]">Student Location</h2>
                 {geocodeData && (
-                    <MapComponent
+                    <GoogleMapComponent
                         latitude={geocodeData.latitude}
                         longitude={geocodeData.longitude}
                         address={student.address}

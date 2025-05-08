@@ -2,86 +2,62 @@
 //  app/dashboard/page.tsx
 
 
-
-
+// app/dashboard/page.tsx
 'use client';
 
-import { useEffect, useState } from 'react';
-import { useStudentStore } from '@/store/studentStore';
-import { Chart } from 'chart.js';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
 
-// Register chart components
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+// Use a dynamic import to handle client-side rendering for ApexCharts
+const DashboardChart = dynamic(() => import('@/components/DashboardChart'), {
+    ssr: false, // Ensure the component is only rendered on the client-side
+});
 
-export default function DashboardPage() {
-  const students = useStudentStore((state) => state.students); // Get students from the store
-  const loadStudents = useStudentStore((state) => state.loadStudents); // Load students from localStorage
-
-  const [studentCount, setStudentCount] = useState(0);
-
-  // Load students from localStorage when the component mounts
-  useEffect(() => {
-    loadStudents(); // Load students into the Zustand store from localStorage
-  }, [loadStudents]);
-
-  // Update student count whenever students change
-  useEffect(() => {
-    setStudentCount(students.length); // Update student count on students change
-  }, [students]);
-
-  // Chart data configuration
-  const chartData = {
-    labels: ['Students'],
-    datasets: [
-      {
-        label: 'Number of Students',
-        data: [studentCount], // Use the current student count
-        borderColor: 'rgba(75, 192, 192, 1)',
-        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-        fill: true,
-      },
-    ],
-  };
-
-  // Chart options configuration
-  const chartOptions = {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-      },
-      title: {
-        display: true,
-        text: 'Current Student Count',
-      },
-    },
-  };
-
-  return (
-    <div className="p-6 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold text-maroon-800 mb-6 text-center">
-        📊 UniConnect Dashboard
-      </h1>
-
-      <div className="bg-white p-4 rounded-lg shadow-sm">
-        <h2 className="text-xl font-bold mb-4">Student Directory</h2>
-        <ul>
-          {students.length > 0 ? (
-            students.map((student) => (
-              <li key={student.id} className="text-lg">{student.name}</li>
-            ))
-          ) : (
-            <li>No students added yet.</li>
-          )}
-        </ul>
-      </div>
-
-      <div className="mt-6">
-        <h2 className="text-2xl font-bold mb-4 text-center">Student Count Chart</h2>
-        <Line data={chartData} options={chartOptions} />
-      </div>
-    </div>
-  );
+interface Student {
+    id: number;
+    name: string;
+    course: string;
+    year: string;
 }
+
+const studentsData: Student[] = [
+    { id: 1, name: 'Alice Santiago', course: 'BSIT', year: '1st Year' },
+    { id: 2, name: 'Brian Cruz', course: 'BSCS', year: '2nd Year' },
+    { id: 3, name: 'Carla Dizon', course: 'BSIS', year: '3rd Year' },
+    { id: 4, name: 'Daniel Reyes', course: 'BSIT', year: '4th Year' },
+    { id: 5, name: 'Elaine Velasco', course: 'BSCS', year: '1st Year' },
+];
+
+const DashboardPage = () => {
+    // Static initial values for posts and comments.
+    // In a real application, you would fetch these from your data source
+    const [initialPosts, setInitialPosts] = useState(5);
+    const [initialComments, setInitialComments] = useState(6);
+
+
+    return (
+        <main className="p-6 bg-maroon-100 min-h-screen">
+            <h1 className="text-3xl font-bold mb-6 text-maroon-900">🎓 Dashboard</h1>
+
+            <section className="bg-white rounded-lg shadow-md p-6 min-h-[500px]" aria-labelledby="campus-stats">
+                <h2 id="campus-stats" className="text-2xl font-semibold mb-4 text-maroon-800">
+                    📊 Live Campus Statistics
+                </h2>
+
+                <DashboardChart
+                    students={studentsData}
+                    initialPosts={initialPosts}
+                    initialComments={initialComments}
+                />
+
+                <ul className="mt-6 space-y-2 text-gray-700 text-lg">
+                    <li><strong>Total Students:</strong> {studentsData.length}</li>
+                    <li><strong>Total Posts:</strong> {initialPosts}</li>
+                    <li><strong>Total Comments:</strong> {initialComments}</li>
+                </ul>
+            </section>
+        </main>
+    );
+};
+
+export default DashboardPage;

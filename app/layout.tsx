@@ -1,6 +1,7 @@
 // app/layout.tsx
 //      header & footer
 
+
 // app/layout.tsx
 'use client';
 
@@ -22,37 +23,37 @@ const cn = (...args: any[]): string => {
 // Create a new QueryClient instance
 const queryClient = new QueryClient();
 
-// Define a simple Button component locally to avoid the import error.  In a real app,
-// you'd want to make sure this path is correct, or the component is globally available.
+// Define a simple Button component locally to avoid the module error.  If you have a
+// more complex Button component, you should ensure it's correctly set up and exported
+// in your project.
 const Button = ({
+    children,
     variant,
     size,
     onClick,
     className,
-    children,
-    'aria-label': ariaLabel
+    ariaLabel
 }: {
-    variant?: string;
-    size?: string;
+    children: React.ReactNode;
+    variant?: 'default' | 'ghost' | 'outline' | 'secondary'; // Add more variants as needed
+    size?: 'default' | 'icon';
     onClick?: () => void;
     className?: string;
-    children?: React.ReactNode;
-    'aria-label'?: string;
+    ariaLabel?: string; // Add ariaLabel prop
 }) => {
-    const baseClasses =
-        'inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none';
+    const baseClasses = "inline-flex items-center justify-center rounded-md font-medium transition-colors";
     const variantClasses = {
-        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        ghost: 'text-foreground hover:bg-accent hover:text-accent-foreground',
-        outline:
-            'border border-input bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground',
+        default: "bg-maroon-500 text-white hover:bg-maroon-600", // Use your maroon color
+        ghost: "text-white hover:bg-maroon-700/20",
+        outline: "border border-maroon-500 text-maroon-500 hover:bg-maroon-500/10",
+        secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700", // Example
     };
     const sizeClasses = {
-        default: 'px-4 py-2',
-        icon: 'h-9 w-9 p-0',
+        default: "px-4 py-2",
+        icon: "h-9 w-9", // Example, adjust as needed
     };
 
-    const combinedClasses = cn(
+    const classes = cn(
         baseClasses,
         variantClasses[variant || 'default'],
         sizeClasses[size || 'default'],
@@ -60,7 +61,7 @@ const Button = ({
     );
 
     return (
-        <button onClick={onClick} className={combinedClasses} aria-label={ariaLabel}>
+        <button onClick={onClick} className={classes} aria-label={ariaLabel}>
             {children}
         </button>
     );
@@ -114,7 +115,7 @@ export default function RootLayout({
                     <header className="bg-maroon-200 shadow-md rounded-b-lg py-4 px-4 sm:px-8 border-b-4 border-red-500">
                         <div className="flex items-center justify-between flex-wrap">
                             {/* Left Side: Logo and Header Text */}
-                            <div className="flex items-center flex-shrink-0 mr-4 mb-2 sm:mb-0">
+                            <div className="flex items-center  flex-shrink-0  mb-2 sm:mb-0">
                                 <Link href="/" className="flex items-center hover:text-inherit">
                                     <div className="relative w-10 h-10 mr-3">
                                         <img
@@ -139,27 +140,28 @@ export default function RootLayout({
                             </div>
 
                             {/* Right Side: Navigation */}
-                            <div className="flex items-center">
+                            <div className="flex items-center flex-grow justify-center"> {/* Added flex-grow and justify-center */}
                                 {isMobile && (
                                     <Button
                                         variant="ghost"
                                         size="icon"
                                         onClick={toggleMenu}
                                         className="text-white hover:bg-maroon-700 mr-4"
-                                        aria-label="Toggle Menu"
+                                        ariaLabel="Toggle Menu"
                                     >
                                         <Menu className="h-6 w-6" />
                                     </Button>
                                 )}
                                 <nav
                                     className={cn(
-                                        "flex space-x-8 flex-grow justify-center sm:justify-end transition-all duration-300",
+                                        "flex space-x-8 transition-all duration-300",
                                         isMobile
                                             ? isMenuOpen
                                                 ? "fixed top-0 right-0 h-full w-64 bg-maroon-200 bg-opacity-90 z-50 flex flex-col items-start p-6 space-y-6"
                                                 : "hidden"
                                             : "flex space-x-8"
                                     )}
+
                                 >
                                     {isMobile && (
                                         <Button
@@ -167,7 +169,7 @@ export default function RootLayout({
                                             size="icon"
                                             onClick={toggleMenu}
                                             className="absolute top-4 right-4 text-white hover:bg-maroon-700"
-                                            aria-label="Close Menu"
+                                            ariaLabel="Close Menu"
                                         >
                                             {/* Replace this with an X icon */}
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -176,31 +178,42 @@ export default function RootLayout({
 
                                         </Button>
                                     )}
-                                    <ul
-                                        className={cn(
-                                            "flex space-x-8",
-                                            isMobile ? "flex-col items-start space-y-4" : "flex space-x-8",
-                                            isMobile && "mt-16"
+                                    <ul className={cn(
+                                            "flex space-x-8 items-center",
+                                            isMobile ? "flex-col items-start space-y-4" : "flex space-x-8"
                                         )}
                                     >
                                         <li>
-                                            <Link href="/" className="text-maroon-700 hover:text-maroon-900 transition duration-300 font-semibold">
+                                            <Link href="/" className="text-white hover:text-gray-200 transition duration-300 font-semibold">
                                                 Home
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/students" className="text-maroon-700 hover:text-maroon-900 transition duration-300 font-semibold">
+                                            <Link href="/students" className="text-white hover:text-gray-200 transition duration-300 font-semibold">
                                                 Student Directory
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/posts" className="text-maroon-700 hover:text-maroon-900 transition duration-300 font-semibold">
+                                            <Link href="/posts" className="text-white hover:text-gray-200 transition duration-300 font-semibold">
                                                 Posts
                                             </Link>
                                         </li>
                                     </ul>
                                 </nav>
                             </div>
+                             {isMobile && (
+                                <div className="flex items-center">
+                                    <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        onClick={toggleMenu}
+                                        className="text-white hover:bg-maroon-700 mr-4"
+                                        ariaLabel="Toggle Menu"
+                                    >
+                                        <Menu className="h-6 w-6" />
+                                    </Button>
+                                </div>
+                            )}
                         </div>
                     </header>
 
@@ -218,5 +231,13 @@ export default function RootLayout({
         </QueryClientProvider>
     );
 }
+
+
+
+
+
+
+
+
 
 

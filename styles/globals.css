@@ -286,8 +286,8 @@ header nav a:hover {
 }
 
 .student-profile-image {
-  width: 3.5rem;
-  height: 3.5rem;
+  /* width: 3.5rem;
+  height: 3.5rem; */
   border-radius: 0.75rem;
   object-fit: cover;
   border-width: 2px;
@@ -297,8 +297,8 @@ header nav a:hover {
 }
 
 .student-profile-image-small {
-  width: calc(100% / 3); /* Make it one-third of the original size */
-  height: auto; /* Maintain aspect ratio */
+  /* width: calc(100% / 3); 
+  height: auto;  */
   border-radius: 50%;
   object-fit: cover;
   aspect-ratio: 1;

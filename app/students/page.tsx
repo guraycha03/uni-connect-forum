@@ -108,7 +108,18 @@ const initialStudents: Student[] = [
         email: "kevin.bautista@example.com",
         address: "Tughan, Juban, Sorsogon",
         profileImage: "/images/students/student_ (8).jpeg",
-    }
+    },
+    {
+        id: "ella_manalo_8",
+        name: "Ella Manalo",
+        studentNo: "20230008",
+        course: "BSIT",
+        yearBlock: "1-2",
+        email: "ella.manalo@example.com",
+        address: "Aguada, Magallanes, Sorsogon",
+        profileImage: "/images/students/student_ (9).jpeg",
+    },
+
 ];
 
 export default function StudentsPage() {

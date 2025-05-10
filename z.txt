@@ -25,7 +25,7 @@ npm install apexcharts react-apexcharts      or
 yarn add apexcharts react-apexcharts
 yarn add react@latest react-dom@latest
 
-
+yarn add @radix-ui/react-alert-dialog
 
 
 

@@ -2,14 +2,13 @@
 
 
 
-// app/posts/page.tsx   ← List of posts
-
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { motion } from 'framer-motion';
-import { Heart, Share2, Pin, MessageCircle, PlusCircle, XCircle } from 'lucide-react';
-import { usePostCommentStore } from '@/store/postCommentStore'; // Adjust import path
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Heart, Share2, Pin, Trash2, PlusCircle, XCircle, Edit, CheckCircle } from 'lucide-react';
+import { create } from 'zustand';
+import { cn } from "@/lib/utils" // Import cn
 
 interface Comment {
     user: string;
@@ -26,17 +25,95 @@ interface Post {
     image?: string;
     isPinned?: boolean;
     likes?: number;
+    edited?: boolean;
 }
 
-const getInitialPosts = (): Post[] => {
-    return [
+interface PostCommentState {
+    posts: Post[];
+    initializePosts: (posts: Post[]) => void;
+    addPost: (post: Omit<Post, 'id' | 'comments' | 'likes'>) => void;
+    addComment: (postId: number, comment: string) => void;
+    updateLike: (postId: number) => void;
+    pinPost: (postId: number) => void;
+    deletePost: (postId: number) => void;
+    updatePost: (postId: number, updatedPost: Partial<Omit<Post, 'id' | 'author' | 'role' | 'comments' | 'likes'>>) => void;
+}
+
+const usePostCommentStore = create<PostCommentState>((set, get) => ({
+    posts: [],
+    initializePosts: (initialPosts) => {
+        set({ posts: initialPosts });
+    },
+    addPost: (newPost) => {
+        const newPostToAdd: Post = {
+            id: get().posts.length + 1,
+            author: 'Moderator',
+            role: 'moderator',
+            likes: 0,
+            comments: [],
+            ...newPost,
+        };
+        set(state => ({ posts: [...state.posts, newPostToAdd] }));
+    },
+    addComment: (postId, commentText) =>
+        set(state => ({
+            posts: state.posts.map(post =>
+                post.id === postId
+                    ? {
+                        ...post,
+                        comments: [...post.comments, { user: 'Anonymous', comment: commentText }],
+                    }
+                    : post
+            )
+        })),
+    updateLike: (postId) =>
+        set(state => ({
+            posts: state.posts.map(post =>
+                post.id === postId ? { ...post, likes: (post.likes || 0) + 1 } : post
+            )
+        })),
+    pinPost: (postId) => {
+        set(state => ({
+            posts: state.posts.map(post =>
+                post.id === postId ? { ...post, isPinned: !post.isPinned } : post
+            )
+        }));
+    },
+    deletePost: (postId) => {
+        set(state => ({
+            posts: state.posts.filter(post => post.id !== postId)
+        }));
+    },
+    updatePost: (postId, updatedPost) => {
+        set(state => ({
+            posts: state.posts.map(post =>
+                post.id === postId ? { ...post, ...updatedPost, edited: true } : post
+            )
+        }));
+    }
+}));
+
+const PostsPage = () => {
+    const { posts, addPost, addComment: addCommentToStore, initializePosts, updateLike, pinPost, deletePost, updatePost } = usePostCommentStore();
+    const [expandedPostId, setExpandedPostId] = useState<number | null>(null);
+    const [isCreatingPost, setIsCreatingPost] = useState(false);
+    const [newPost, setNewPost] = useState<Omit<Post, 'id' | 'comments' | 'likes' | 'author' | 'role'>>({
+        title: '',
+        content: '',
+        image: undefined,
+    });
+    const [newComment, setNewComment] = useState('');
+    const [editingPostId, setEditingPostId] = useState<number | null>(null);
+    const [editedPostContent, setEditedPostContent] = useState('');
+
+    const initialPosts: Post[] = [
         {
             id: 1,
-            author: 'Prof. Marie Gonzales',
+            author: 'Moderator',
             role: 'moderator',
             title: '🎉 Welcome to UniConnect Forum! 🎓',
             content:
-                'This platform is created to empower every student and faculty member to share knowledge, updates, and insights. Let’s keep the discussions respectful and helpful!',
+                'This platform is created to empower every student and faculty member to share knowledge, updates, and insights. Let’s keep the discussions respectful and helpful!\n\nHere, you can:\n\n* Share posts and comments with fellow students\n* Receive important updates from moderators\n* Access academic tools and resources\n\nReminder: Please keep your posts respectful and relevant. Moderators are here to ensure a safe and informative environment.\n\nStay tuned for upcoming features and announcements!\n\n#BSUPortal #StudentUpdates #CampusLife',
             comments: [
                 { user: 'Jonathan', comment: 'This is awesome! Thank you for this initiative.' },
                 { user: 'Irene', comment: 'Looking forward to productive discussions!' },
@@ -47,8 +124,8 @@ const getInitialPosts = (): Post[] => {
         },
         {
             id: 2,
-            author: 'Kaye Santos',
-            role: 'student',
+            author: 'Moderator',
+            role: 'moderator',
             title: '📢 Lost & Found Alert!',
             content: 'Found a black umbrella with a red handle in the library study area. Message me if it’s yours.',
             comments: [{ user: 'Marco', comment: 'That’s mine! I’ll PM you, thanks!' }],
@@ -57,11 +134,11 @@ const getInitialPosts = (): Post[] => {
         },
         {
             id: 3,
-            author: 'Student 1',
-            role: 'student',
+            author: 'Moderator',
+            role: 'moderator',
             title: 'Question about Midterm Exam',
             content:
-                'Hi everyone, I have a question about the upcoming midterm exam. Does anyone know what chapters will be covered? Also, is there a study group I can join?',
+                'Hi everyone, I have a question about the upcoming midterm exam.\n\nDoes anyone know what chapters will be covered? Also, is there a study group I can join?',
             comments: [
                 { user: 'Student 2', comment: 'I heard chapters 3-5 will be on the exam.' },
                 { user: 'Student 3', comment: 'There\'s a study group meeting on Friday in the library!' },
@@ -70,48 +147,50 @@ const getInitialPosts = (): Post[] => {
         },
         {
             id: 4,
-            author: 'Professor Smith',
+            author: 'Moderator',
             role: 'moderator',
             title: 'Office Hours Announcement',
             content:
-                'My office hours for this week will be on Tuesday and Thursday from 2-4 PM. Please come by if you have any questions about the course material.',
+                'My office hours for this week will be on Tuesday and Thursday from 2-4 PM.\nPlease come by if you have any questions about the course material.',
             comments: [],
             isPinned: true,
             likes: 12,
         },
         {
             id: 5,
-            author: 'Club President',
-            role: 'student',
+            author: 'Moderator',
+            role: 'moderator',
             title: 'Volunteer Opportunity',
             content:
-                'The Environmental Club is looking for volunteers for our upcoming tree planting event. It will be on Saturday from 9 AM to 12 PM. Lunch will be provided!',
+                'The Environmental Club is looking for volunteers for our upcoming tree planting event.\n\nIt will be on Saturday from 9 AM to 12 PM. Lunch will be provided!',
             comments: [{ user: 'Student 4', comment: 'I\'d love to volunteer! Where is the meeting location?' }],
             image: 'https://source.unsplash.com/random/800x400/?tree,planting,volunteer',
             likes: 20,
         },
     ];
-};
-
-const PostsPage = () => {
-    const posts = usePostCommentStore((state) => state.posts);
-    const addPost = usePostCommentStore((state) => state.addPost);
-    const addCommentToStore = usePostCommentStore((state) => state.addComment);
-    const initializePosts = usePostCommentStore((state) => state.initializePosts);
-    const [expandedPostId, setExpandedPostId] = useState<number | null>(null);
-    const [isCreatingPost, setIsCreatingPost] = useState(false);
-    const [newPost, setNewPost] = useState<Omit<Post, 'id' | 'comments' | 'likes' | 'author' | 'role'>>({
-        title: '',
-        content: '',
-        image: undefined,
-    });
-    const [newComment, setNewComment] = useState('');
 
     useEffect(() => {
-        // Fetch initial posts here and then call initializePosts
-        const initialData = getInitialPosts();
+        const savedPosts = localStorage.getItem('forumPosts');
+        let initialData: Post[] = [];
+        try {
+            if (savedPosts) {
+                initialData = JSON.parse(savedPosts);
+            } else {
+                initialData = initialPosts;
+            }
+        } catch (error) {
+            console.error("Failed to parse stored posts:", error);
+            localStorage.removeItem('forumPosts');
+            initialData = initialPosts;
+        }
         initializePosts(initialData);
     }, [initializePosts]);
+
+    useEffect(() => {
+        if (posts.length > 0) {
+            localStorage.setItem('forumPosts', JSON.stringify(posts));
+        }
+    }, [posts]);
 
     const handleAddPost = () => {
         if (newPost.title.trim() && newPost.content.trim()) {
@@ -135,29 +214,35 @@ const PostsPage = () => {
         setExpandedPostId((prev) => (prev === id ? null : id));
     };
 
-    const handleLike = (postId: number) => {
-        // You might want to update likes in the store as well for global consistency
-        // const updateLike = usePostCommentStore((state) => state.updateLike);
-        // updateLike(postId);
-        setPosts((prev) =>
-            prev.map((p) => (p.id === postId ? { ...p, likes: (p.likes || 0) + 1 } : p))
-        );
+    const handleLikeClick = (postId: number) => {
+        updateLike(postId);
     };
 
     const handleShare = (postId: number) => {
         alert(`Shared post ${postId}!`);
     };
 
-    const handlePin = (postId: number) => {
-        // You might want to update pin status in the store as well
-        setPosts((prev) => {
-            const updated = prev.map((p) => (p.id === postId ? { ...p, isPinned: !p.isPinned } : p));
-            return [...updated].sort((a, b) => {
-                if (a.isPinned && !b.isPinned) return -1;
-                if (!a.isPinned && b.isPinned) return 1;
-                return a.id - b.id;
-            });
-        });
+    const handlePinClick = (postId: number) => {
+        pinPost(postId);
+    };
+
+    const handleDeletePost = (postId: number) => {
+        deletePost(postId);
+    };
+
+    const handleEditPost = (postId: number, currentContent: string) => {
+        setEditingPostId(postId);
+        setEditedPostContent(currentContent);
+    };
+
+    const handleSavePost = (postId: number) => {
+        if (editedPostContent.trim()) {
+            updatePost(postId, { content: editedPostContent });
+            setEditingPostId(null);
+            setEditedPostContent('');
+        } else {
+            alert('Please enter content before saving.');
+        }
     };
 
     const sortedPosts = [...posts].sort((a, b) => {
@@ -171,154 +256,230 @@ const PostsPage = () => {
             <div className="post-container">
                 <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">📬 Forum Posts & Announcements</h1>
 
-                <button
-                    onClick={() => setIsCreatingPost(!isCreatingPost)}
-                    className="mb-6 bg-maroon-600 hover:bg-maroon-700 text-white font-semibold rounded-md px-4 py-2 flex items-center gap-2"
-                >
-                    {isCreatingPost ? (
-                        <>
-                            <XCircle className="w-5 h-5" /> Cancel
-                        </>
-                    ) : (
-                        <>
-                            <PlusCircle className="w-5 h-5" /> Create Post
-                        </>
-                    )}
-                </button>
-
-                {isCreatingPost && (
-                    <motion.div
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 20 }}
-                        transition={{ duration: 0.3 }}
-                        className="mb-6 bg-white p-4 rounded-md shadow"
+                <div className="create-post-button-container mb-8">
+                    {/* Added margin below the button. Increased from mb-6 to mb-8 */}
+                    <button
+                        onClick={() => setIsCreatingPost(!isCreatingPost)}
+                        className="bg-maroon-600 hover:bg-maroon-700 text-white font-semibold rounded-md px-4 py-2 flex items-center gap-2"
                     >
-                        <div className="space-y-4">
-                            <input
-                                placeholder="Title"
-                                value={newPost.title}
-                                onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-                                className="w-full border px-3 py-2 rounded-md"
-                            />
-                            <textarea
-                                placeholder="Content"
-                                value={newPost.content}
-                                onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
-                                className="w-full border px-3 py-2 rounded-md"
-                            />
-                            <input
-                                placeholder="Image URL (optional)"
-                                value={newPost.image || ''}
-                                onChange={(e) => setNewPost({ ...newPost, image: e.target.value })}
-                                className="w-full border px-3 py-2 rounded-md"
-                            />
-                            <div className="text-right">
-                                <button
-                                    onClick={handleAddPost}
-                                    className="bg-maroon-600 hover:bg-maroon-800 text-white px-4 py-2 rounded-md"
-                                >
-                                    Post
-                                </button>
-                            </div>
-                        </div>
-                    </motion.div>
-                )}
+                        {isCreatingPost ? (
+                            <>
+                                <XCircle className="w-5 h-5" /> Cancel
+                            </>
+                        ) : (
+                            <>
+                                <PlusCircle className="w-5 h-5" /> Create Post
+                            </>
+                        )}
+                    </button>
+                </div>
 
-                <div className="space-y-6">
-                    {sortedPosts.map((post) => (
+                <AnimatePresence>
+                    {isCreatingPost && (
                         <motion.div
-                            key={post.id}
-                            initial={{ opacity: 0, y: 20 }}
+                            initial={{ opacity: 0, y: -20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -20 }}
+                            exit={{ opacity: 0, y: 20 }}
                             transition={{ duration: 0.3 }}
-                            className="post-card bg-white rounded-md shadow-md p-4"
+                            className="mb-6 bg-white p-4 rounded-md shadow"
                         >
-                            <div className="flex justify-between items-start mb-2">
-                                <div>
-                                    <h2
-                                        className="text-lg font-semibold text-maroon-800 cursor-pointer hover:underline"
-                                        onClick={() => toggleExpand(post.id)}
-                                    >
-                                        {post.title}
-                                    </h2>
-                                    <p className="text-sm text-gray-600 italic">{post.author} ({post.role})</p>
-                                </div>
-                                {post.role === 'moderator' && (
-                                    <button onClick={() => handlePin(post.id)} title="Pin post">
-                                        <Pin className="w-4 h-4 text-yellow-600" />
-                                    </button>
-                                )}
-                            </div>
-
-                            {post.image && (
-                                <img
-                                    src={post.image}
-                                    alt={`Image for ${post.title}`}
-                                    className="post-thumbnail rounded-md mb-4"
+                            <div className="space-y-4">
+                                <input
+                                    placeholder="Title"
+                                    value={newPost.title}
+                                    onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
+                                    className="w-full border px-3 py-2 rounded-md"
                                 />
-                            )}
-
-                            <p className="text-gray-700 mb-4">{post.content}</p>
-
-                            {post.comments.length > 0 && (
-                                <div className="mb-4">
-                                    <h4 className="text-sm font-semibold text-gray-700 mb-2">💬 Comments</h4>
-                                    <ul className="space-y-2">
-                                        {post.comments.map((comment, index) => (
-                                            <li
-                                                key={index}
-                                                className="bg-gray-50 border border-gray-200 px-3 py-2 rounded-lg text-sm"
-                                            >
-                                                <span className="font-semibold">{comment.user}:</span> {comment.comment}
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
-                            )}
-
-                            <div className="mb-2 mt-2">
                                 <textarea
-                                    placeholder="Write a comment..."
-                                    className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
-                                    rows={2}
-                                    value={post.id === expandedPostId ? newComment : ''}
-                                    onChange={(e) => {
-                                        setExpandedPostId(post.id);
-                                        setNewComment(e.target.value);
-                                    }}
+                                    placeholder="Content"
+                                    value={newPost.content}
+                                    onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
+                                    className="w-full border px-3 py-2 rounded-md"
+                                    rows={4} // Add rows attribute for a larger initial size
                                 />
-                                <div className="text-right mt-2">
+                                <input
+                                    placeholder="Image URL (optional)"
+                                    value={newPost.image || ''}
+                                    onChange={(e) => setNewPost({ ...newPost, image: e.target.value })}
+                                    className="w-full border px-3 py-2 rounded-md"
+                                />
+                                 <p className="text-sm text-gray-500">
+                                    Use Shift+Enter for line breaks.
+                                </p>
+                                <div className="text-right">
                                     <button
-                                        onClick={() => handleAddComment(post.id)}
-                                        className="bg-maroon-600 hover:bg-maroon-800 text-white px-4 py-1.5 rounded-md text-sm"
+                                        onClick={handleAddPost}
+                                        className="bg-maroon-600 hover:bg-maroon-800 text-white px-4 py-2 rounded-md"
                                     >
-                                        Post Comment
+                                        Post
                                     </button>
                                 </div>
-                            </div>
-
-                            <div className="flex justify-between">
-                                <button
-                                    onClick={() => handleLike(post.id)}
-                                    className="text-red-500 hover:text-red-700 flex items-center gap-1"
-                                >
-                                    <Heart className="w-4 h-4" /> {post.likes || 0}
-                                </button>
-                                <button
-                                    onClick={() => handleShare(post.id)}
-                                    className="text-blue-500 hover:text-blue-700"
-                                >
-                                    <Share2 className="w-4 h-4" />
-                                </button>
                             </div>
                         </motion.div>
-                    ))}
+                    )}
+                </AnimatePresence>
+
+                <div className="posts-list space-y-8">
+                    <AnimatePresence>
+                        {sortedPosts.map((post) => (
+                            <motion.div
+                                key={post.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -20 }}
+                                transition={{ duration: 0.3 }}
+                                className="post-card bg-white rounded-md shadow-md p-4 relative"
+                            >
+                                <div className="flex justify-between items-start mb-2">
+                                    <div>
+                                        <h2
+                                            className="text-lg font-semibold text-maroon-800 cursor-pointer hover:underline"
+                                            onClick={() => toggleExpand(post.id)}
+                                        >
+                                            {post.title}
+                                        </h2>
+                                        <p className="text-sm text-gray-600 italic">{post.author} ({post.role})</p>
+                                        {post.edited && <p className="text-xs text-gray-500 italic">Edited</p>}
+                                    </div>
+                                    <div className="flex items-center gap-2">
+                                        <button
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={() => handlePinClick(post.id)}
+                                            title="Pin post"
+                                        >
+                                            <Pin className={cn("w-4 h-4", post.isPinned ? "text-yellow-600" : "text-gray-500")} />
+                                        </button>
+                                        {editingPostId === post.id ? (
+                                            <button
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => handleSavePost(post.id)}
+                                                title="Save Post"
+                                            >
+                                                <CheckCircle className="w-4 h-4 text-green-500" />
+                                            </button>
+                                        ) : (
+                                            <button
+                                                variant="ghost"
+                                                size="icon"
+                                                onClick={() => handleEditPost(post.id, post.content)}
+                                                title="Edit Post"
+                                            >
+                                                <Edit className="w-4 h-4 text-gray-500 hover:text-blue-500" />
+                                            </button>
+                                        )}
+                                        <button
+                                            variant="ghost"
+                                            size="icon"
+                                            onClick={() => handleDeletePost(post.id)}
+                                            title="Delete Post"
+                                        >
+                                            <Trash2 className="w-4 h-4 text-gray-500 hover:text-red-500" />
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {post.image && (
+                                    <img
+                                        src={post.image}
+                                        alt={`Image for ${post.title}`}
+                                        className="post-thumbnail rounded-md mb-4 w-full h-auto object-cover"
+                                    />
+                                )}
+
+                                {editingPostId === post.id ? (
+                                    <textarea
+                                        value={editedPostContent}
+                                        onChange={(e) => setEditedPostContent(e.target.value)}
+                                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm mb-4"
+                                        rows={4}
+                                        placeholder="Edit your post content..."
+                                    />
+                                ) : (
+                                    <p className="text-gray-700 mb-4 whitespace-pre-line">{post.content}</p>
+                                )}
+
+                                {post.comments.length > 0 && (
+                                    <div className="mb-4">
+                                        <h4 className="text-sm font-semibold text-gray-700 mb-2">💬 Comments</h4>
+                                        <ul className="space-y-2">
+                                            {post.comments.map((comment, index) => (
+                                                <li
+                                                    key={index}
+                                                    className="bg-gray-50 border border-gray-200 px-3 py-2 rounded-lg text-sm"
+                                                >
+                                                    <span className="font-semibold">{comment.user}:</span> {comment.comment}
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
+
+                                <div className="mb-4 mt-3">
+                                    <textarea
+                                        placeholder="Write a comment..."
+                                        className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
+                                        rows={2}
+                                        value={post.id === expandedPostId ? newComment : ''}
+                                         onChange={(e) => {
+                                            setExpandedPostId(post.id);
+                                            setNewComment(e.target.value);
+                                        }}
+                                    />
+                                    <div className="text-right mt-2">
+                                        <button
+                                            onClick={() => handleAddComment(post.id)}
+                                            className="bg-maroon-600 hover:bg-maroon-800 text-white px-4 py-1.5 rounded-md text-sm comment-button-spacing"
+                                        >
+                                            Post Comment
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-between items-center button-spacing">
+                                    <button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => handleLikeClick(post.id)}
+                                        className="text-red-500 hover:text-red-700 flex items-center gap-1"
+                                    >
+                                        <Heart className="w-4 h-4" />  {post.likes || 0}
+                                    </button>
+                                    <button
+                                        variant="ghost"
+                                        size="sm"
+                                        onClick={() => handleShare(post.id)}
+                                        className="text-blue-500 hover:text-blue-700"
+                                    >
+                                        <Share2 className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
                 </div>
             </div>
+            <style jsx>{`
+                .create-post-button-container {
+                    margin-bottom: 2rem;
+                }
+                .posts-list > * + * {
+                    margin-top: 2.5rem;
+                }
+                .comment-button-spacing {
+                    margin-top: 1rem;
+                }
+                .button-spacing > * + * {
+                    margin-left: 0.5rem;
+                }
+                .whitespace-pre-line {
+                  white-space: pre-line;
+                }
+            `}</style>
         </div>
     );
 };
 
 export default PostsPage;
+

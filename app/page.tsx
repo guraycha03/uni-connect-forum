@@ -1,6 +1,7 @@
-//pThis file defines the content that will be displayed at the root of the website. This is the home page or index page.
-
+// home page
 // app/page.tsx
+
+
 
 'use client';
 
@@ -138,30 +139,36 @@ const HomePage = () => {
             <div className="p-6 bg-maroon-100/80 backdrop-blur-md flex items-center justify-center">
                 {/* Introduction Text */}
                 <motion.div
-                    className="text-center p-4"
+                    className="flex items-center justify-center min-h-screen p-6"
                     variants={introVariants}
                     initial="hidden"
                     animate="visible"
                 >
-                    <div className="bg-white/80 rounded-xl p-8 max-w-3xl mx-auto  border border-maroon-200"
-                         style={{ paddingLeft: '8rem', paddingRight: '8rem' }}
-                    >
-                        <h2 className="text-5xl font-extrabold text-maroon-900 mb-8 tracking-tight drop-shadow-2xl text-stroke-2 text-stroke-maroon-300">
-                            <span className="bg-gradient-to-r from-maroon-500 to-maroon-700 text-transparent bg-clip-text">
-                                Connecting Our Campus Community
-                            </span>
-                        </h2>
-                        <p className="text-3xl text-gray-800 leading-relaxed font-black">
-                            <span className="font-black text-maroon-600">UniConnect</span> is your central hub for staying connected with everything
-                            happening at our university. From keeping up with campus news and events to
-                            collaborating with fellow students, <span className="font-black text-maroon-600">UniConnect</span> provides the tools you need to
-                            thrive.
+                    <div className="bg-white/70 rounded-2xl shadow-xl border border-maroon-200 px-10 py-12 max-w-4xl mx-auto backdrop-blur-sm">
+                        <h1 className="text-4xl md:text-5xl font-extrabold text-maroon-800 mb-6 text-center leading-tight drop-shadow">
+                            🎓 Welcome to the Official Student Portal of Bulan State University!
+                        </h1>
+                        <p className="text-xl md:text-2xl text-gray-800 leading-relaxed mb-6 text-center">
+                            This platform is designed to connect, inform, and support every BSU student.
+                            <br />
+                            From announcements and academic schedules to student discussions and organization activities — everything you need is just a click away.
                         </p>
-                        <p className="text-2xl text-gray-700 mt-8  ">
-                            <span className="font-bold">Embrace the future of campus connectivity!</span>
+                        <ul className="text-lg md:text-xl text-gray-700 font-medium mb-6 text-center space-y-2">
+                            <li>🔐 Your voice matters.</li>
+                            <li>📢 Stay updated.</li>
+                            <li>🤝 Engage with the community.</li>
+                        </ul>
+                        <p className="text-xl md:text-2xl text-gray-800 text-center font-semibold">
+                            Whether you're here to check your exam schedules, post ideas, or connect with fellow students, this is your digital home at BSU.
+                            <br />
+                            <span className="block mt-4 text-maroon-700 font-bold">
+                                Let’s build a smarter, stronger, and more united student community — together.
+                            </span>
                         </p>
                     </div>
                 </motion.div>
+
+
             </div>
         </main>
     );

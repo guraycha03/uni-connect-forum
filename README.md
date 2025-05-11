@@ -45,6 +45,7 @@ UniConnect is a modern, student-centered online forum designed to enhance commun
 ## Contributing
 
 Emelson Gipa 
+
 •	Handled the student directory page
 
 •	Data fetching and display of student profiles
@@ -52,6 +53,7 @@ Emelson Gipa
 •	Compilation of all the requirements for the documentation.
 
 Charisse Guray
+
 •	Designed and developed the main layout of the website.
 
 •	Implemented the responsive navigation for home, student directory and post.
@@ -59,6 +61,7 @@ Charisse Guray
 •	Creates an accessible, user-friendly and simple interface
 
 Jenny Rose Formanes
+
 •	Implemented the post and comment system.
 
 •	Built a posting system for students to create a post about academic suggestions and respectful post
@@ -66,6 +69,7 @@ Jenny Rose Formanes
 •	Integrated comments feature under posts
 
 Ryan Joseph De Leon
+
 •	Integrates the ApexCharts for the total posts, comments, and users
 
 •	Ensure the chart automatically updates with new data.

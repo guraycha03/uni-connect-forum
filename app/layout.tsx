@@ -138,46 +138,29 @@ export default function RootLayout({
                             </div>
 
                             {/* Right Side: Navigation */}
-                            <div className="flex items-center flex-grow justify-center"> {/* Added flex-grow and justify-center */}
-                                {isMobile && (
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        onClick={toggleMenu}
-                                        className="text-white hover:bg-maroon-700 mr-4"
-                                        ariaLabel="Toggle Menu"
-                                    >
-                                        <Menu className="h-6 w-6" />
-                                    </Button>
-                                )}
+                            <div className="flex items-center flex-grow justify-center">
                                 <nav
                                     className={cn(
                                         "flex space-x-8 transition-all duration-300",
-                                        isMobile
-                                            ? isMenuOpen
-                                                ? "fixed top-0 right-0 h-full w-64 bg-maroon-200 bg-opacity-90 z-50 flex flex-col items-start p-6 space-y-6"
-                                                : "hidden"
-                                            : "flex space-x-8"
+                                        isMobile ? "flex-col items-center w-full" : "flex space-x-8" // Make nav vertical on small screens
                                     )}
-
                                 >
                                     <ul className={cn(
                                         "flex space-x-8 items-center",
-                                        isMobile ? "flex-col items-start space-y-4" : "flex space-x-8"
-                                    )}
-                                    >
+                                        isMobile ? "flex-col items-center space-y-4 w-full" : "flex space-x-8" // Make nav items vertical, full width on small screens
+                                    )}>
                                         <li>
-                                            <Link href="/" className="text-white hover:text-gray-200 transition duration-300 font-semibold">
+                                            <Link href="/" className="text-white hover:text-gray-200 transition duration-300 font-semibold w-full text-center">
                                                 Home
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/students" className="text-white hover:text-gray-200 transition duration-300 font-semibold">
+                                            <Link href="/students" className="text-white hover:text-gray-200 transition duration-300 font-semibold w-full text-center">
                                                 Student Directory
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/posts" className="text-white hover:text-gray-200 transition duration-300 font-semibold">
+                                            <Link href="/posts" className="text-white hover:text-gray-200 transition duration-300 font-semibold w-full text-center">
                                                 Posts
                                             </Link>
                                         </li>
@@ -240,5 +223,7 @@ export default function RootLayout({
         </QueryClientProvider>
     );
 }
+
+
 
 

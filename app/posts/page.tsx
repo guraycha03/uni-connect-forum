@@ -1,13 +1,14 @@
 // app/posts/page.tsx   ← List of posts
 
 
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Share2, Pin, Trash2, PlusCircle, XCircle, Edit, CheckCircle } from 'lucide-react';
 import { create } from 'zustand';
-import { cn } from "@/lib/utils" 
+import { cn } from "@/lib/utils"
 import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -29,14 +30,14 @@ interface Post {
     edited?: boolean;
 }
 
-interface User {  
+interface User {
     id: string;
     name: string;
 }
 
 interface PostCommentState {
     posts: Post[];
-    users: User[]; 
+    users: User[];
     initializePosts: (posts: Omit<Post, 'id'>[]) => void;
     addPost: (post: Omit<Post, 'id' | 'author' | 'role' | 'comments' | 'likes'>) => void;
     addComment: (postId: string, comment: string) => void;
@@ -44,12 +45,12 @@ interface PostCommentState {
     pinPost: (postId: string) => void;
     deletePost: (postId: string) => void;
     updatePost: (postId: string, updatedPost: Partial<Omit<Post, 'id' | 'author' | 'role' | 'comments' | 'likes'>>) => void;
-    initializeUsers: (users: User[]) => void; 
+    initializeUsers: (users: User[]) => void;
 }
 
 const usePostCommentStore = create<PostCommentState>((set, get) => ({
     posts: [],
-    users: [], 
+    users: [],
     initializePosts: (posts) =>
         set(() => ({
             posts: posts.map((p) => ({
@@ -71,7 +72,7 @@ const usePostCommentStore = create<PostCommentState>((set, get) => ({
                     comments: [],
                     ...newPost,
                 },
-                ...state.posts, 
+                ...state.posts,
             ],
         })),
 
@@ -113,7 +114,7 @@ const usePostCommentStore = create<PostCommentState>((set, get) => ({
             )
         }));
     },
-    initializeUsers: (users) => set({ users }), 
+    initializeUsers: (users) => set({ users }),
 }));
 
 const PostsPage = () => {
@@ -188,7 +189,7 @@ const PostsPage = () => {
         },
     ];
 
-    const mockUsers: User[] = [ 
+    const mockUsers: User[] = [
         { id: '1', name: 'Miguel' },
         { id: '2', name: '"Angelica ' },
         { id: '3', name: '"Daniel ' },
@@ -226,7 +227,7 @@ const PostsPage = () => {
             initialData = mockInitialPosts;
         }
         initializePosts(initialData);
-        initializeUsers(mockUsers); 
+        initializeUsers(mockUsers);
     }, [initializePosts, initializeUsers]);
 
     useEffect(() => {
@@ -298,23 +299,14 @@ const PostsPage = () => {
     const [chartData, setChartData] = useState({
         series: [
             {
-                name: 'Posts',
-                data: [posts.length],
-            },
-            {
-                name: 'Comments',
-                data: [posts.reduce((acc, post) => acc + post.comments.length, 0)],
-            },
-            {
-                name: 'Students',
-                data: [users.length], // Use the length of the users array
+                name: 'Data',
+                data: [posts.length, posts.reduce((acc, post) => acc + post.comments.length, 0), users.length],
             },
         ],
         options: {
             chart: {
-                type: 'bar',
+                type: 'bar', // Changed to bar chart
                 height: 350,
-                stacked: true, 
                 animations: {
                     enabled: true,
                     easing: 'easeinout',
@@ -329,34 +321,53 @@ const PostsPage = () => {
                     }
                 }
             },
+            colors: ['#8b0000', '#b22222', '#dc143c'], // Updated colors to maroon shades
             plotOptions: {
                 bar: {
-                    columnWidth: '80%',
+                    borderRadius: 8,
+                    dataLabels: {
+                        position: 'top', // Position the data labels at the top of the bars
+                    },
                 },
             },
             dataLabels: {
                 enabled: true,
+                offsetY: -20,
                 style: {
-                    colors: ['#FFFFFF'] 
+                    fontSize: '12px',
+                    colors: ["#301e1e"]
                 }
             },
             xaxis: {
-                categories: ['Data'], 
+                categories: ['Posts', 'Comments', 'Students'],
+                title: {
+                    text: 'Category',
+                    style: {
+                        color: '#4b5563'
+                    }
+                }
             },
             yaxis: {
                 title: {
-                    text: 'Total Count',
+                    text: 'Count',
+                    style: {
+                        color: '#4b5563'
+                    }
                 },
+                labels: {
+                    formatter: (val: number) => {
+                        return val;
+                    }
+                }
             },
             title: {
-                text: 'Total Posts, Comments, and Students',
+                text: 'Posts, Comments, and Students Overview',
                 align: 'center',
                 style: {
                     fontSize: '20px',
                     fontWeight: 'bold',
-                    fontFamily: undefined,
-                    color: '#263238'
-                },
+                    color: '#1f2937'
+                }
             },
             tooltip: {
                 y: {
@@ -368,22 +379,13 @@ const PostsPage = () => {
         },
     });
 
-   
     useEffect(() => {
         setChartData(prevData => ({
             ...prevData,
             series: [
                 {
-                    name: 'Posts',
-                    data: [posts.length],
-                },
-                {
-                    name: 'Comments',
-                    data: [posts.reduce((acc, post) => acc + post.comments.length, 0)],
-                },
-                {
-                    name: 'Students',
-                    data: [users.length], 
+                    name: 'Data',
+                    data: [posts.length, posts.reduce((acc, post) => acc + post.comments.length, 0), users.length],
                 },
             ],
         }));
@@ -582,7 +584,7 @@ const PostsPage = () => {
                                         onClick={() => handleLikeClick(post.id)}
                                         className="text-red-500 hover:text-red-700 flex items-center gap-1"
                                     >
-                                        <Heart className="w-4 h-4" />  {post.likes || 0}
+                                        <Heart className="w-4 h-4" /> {post.likes || 0}
                                     </button>
                                     <button
                                         variant="ghost"
@@ -602,7 +604,7 @@ const PostsPage = () => {
                     <Chart
                         options={chartData.options}
                         series={chartData.series}
-                        type="bar"
+                        type="bar" // Explicitly set the type to "bar"
                         height={350}
                     />
                 </div>
@@ -611,15 +613,19 @@ const PostsPage = () => {
                 .create-post-button-container {
                     margin-bottom: 2rem;
                 }
+
                 .posts-list > * + * {
                     margin-top: 2.5rem;
                 }
+
                 .comment-button-spacing {
                     margin-top: 1rem;
                 }
+
                 .button-spacing > * + * {
                     margin-left: 0.5rem;
                 }
+
                 .whitespace-pre-line {
                     white-space: pre-line;
                 }
@@ -629,4 +635,3 @@ const PostsPage = () => {
 };
 
 export default PostsPage;
-

@@ -67,7 +67,7 @@ const initialStudents: Student[] = [
         yearBlock: "2-1",
         email: "mark.yu@gmail.com",
         address: "San Ramon, Bulan, Sorsogon",
-        profileImage: "/images/students/yu.jpeg",
+        profileImage: "/images/students/yu.png",
     },
     {
         id: "5",
@@ -117,7 +117,7 @@ const initialStudents: Student[] = [
         yearBlock: "3-1",
         email: "patricia.villanueva@example.com",
         address: "Dancalan, Bulusan, Sorsogon",
-        profileImage: "/images/students/pat.jpeg",
+        profileImage: "/images/students/pat.png",
     },
     {
         id: "10",
@@ -197,7 +197,7 @@ const initialStudents: Student[] = [
         yearBlock: "1-2",
         email: "katrina.valdez@example.com",
         address: "Zone 6, Bulan, Sorsogon",
-        profileImage: "/images/students/kat.jpeg",
+        profileImage: "/images/students/kat.png",
     },
     {
         id: "18",

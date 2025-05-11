@@ -103,7 +103,7 @@ const StudentProfilePage: React.FC = () => {
             yearBlock: "2-1",
             email: "mark.yu@gmail.com",
             address: "San Ramon, Bulan, Sorsogon",
-            profileImage: "/images/students/yu.jpeg",
+            profileImage: "/images/students/yu.png",
             mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=San+Ramon%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://testosteronetherapy.org/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">testosteronetherapy.org</a></div>',
         },
         {
@@ -126,6 +126,7 @@ const StudentProfilePage: React.FC = () => {
             email: "kevin.bautista@gmail.com",
             address: "Tughan, Juban, Sorsogon",
             profileImage: "/images/students/kev.jpeg",
+            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Tughan%2C+Juban%2C+Sorsogon&output=embed"></iframe></div><a href="https://tariffcalculator.us/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">tariffcalculator.us</a></div>',
         },
         {
             id: "7",
@@ -157,7 +158,7 @@ const StudentProfilePage: React.FC = () => {
             yearBlock: "3-1",
             email: "patricia.villanueva@example.com",
             address: "Dancalan, Bulusan, Sorsogon",
-            profileImage: "/images/students/pat.jpeg",
+            profileImage: "/images/students/pat.png",
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Dancalan%2C+Bulusan%2C+Sorsogon&output=embed"></iframe></div><a href="https://aitohumanizetextconverter.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">aitohumanizetextconverter.com</a></div>',
         },
         {
@@ -245,7 +246,7 @@ const StudentProfilePage: React.FC = () => {
             yearBlock: "1-2",
             email: "katrina.valdez@example.com",
             address: "Zone 6, Bulan, Sorsogon",
-            profileImage: "/images/students/kat.jpeg",
+            profileImage: "/images/students/kat.png",
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+6%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://freeairecipegenerator.com" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">freeairecipegenerator.com</a></div>',
         },
         {

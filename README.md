@@ -1,4 +1,4 @@
-# Bulan University Social and Information System, Online
+# Bulan University Social and Information System
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Bulan University Logo](public/your-logo.png) ## Overview

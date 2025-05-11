@@ -1,6 +1,10 @@
 // app/layout.tsx
 //      header & footer
 
+
+
+
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -110,7 +114,10 @@ export default function RootLayout({
             <html lang="en">
                 <body className={inter.className}>
                     {/* Header */}
-                    <header className="bg-maroon-200 shadow-md rounded-b-lg py-4 px-4 sm:px-8 border-b-4 border-red-500">
+                    <header className={cn(
+                        "bg-maroon-200 shadow-md rounded-b-lg py-4 px-4 sm:px-8 border-b-4 border-red-500",
+                        isMobile ? "h-auto" : "h-auto" // Adjust height for mobile
+                    )}>
                         <div className="flex items-center justify-between flex-wrap">
                             {/* Left Side: Logo and Header Text */}
                             <div className="flex items-center  flex-shrink-0  mb-2 sm:mb-0">
@@ -223,7 +230,5 @@ export default function RootLayout({
         </QueryClientProvider>
     );
 }
-
-
 
 

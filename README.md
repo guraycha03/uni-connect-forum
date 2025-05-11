@@ -1,9 +1,13 @@
-# UniConnect - Your Campus, Online
+# Bulan University Social and Information System, Online
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![UniConnect Logo](public/your-logo.png) ## Overview
+![Bulan University Logo](public/your-logo.png) ## Overview
 
-UniConnect is a modern, student-centered online forum designed to enhance communication, collaboration, and community-building within the university. It serves as a central digital hub where students, faculty, and organizations can engage, share resources, and stay informed about everything happening on campus.
+Bulan University Social and Information System is a web application designed for a University, serving both online forum and a student portal.  This platform allows students to engage in discussions and share information through comments and this will also serve as the record of students that is enrolled in this university, fostering a sense of community and facilitating communication.  However, a crucial aspect of this social and information system is its moderation system, ensuring responsible use and data protection.
+ 
+A key feature of this web app is the role of the moderator, who has access to and control over all student information.  This allows for effective management of the platform, addressing any issues that may arise, and maintaining the privacy and security of student data. This moderation ensures a safe and productive environment for all users.
+ 
+The zero count displayed in the home screen likely represents the number of posts or similar metrics, suggesting a fresh start. There is also a navigation menu which is the home, student directory and post.The overall design prioritizes student and moderator to access and use it easily and also accessibility for students while maintaining a secure environment for sensitive information.
 
 ## Key Features
 

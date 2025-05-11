@@ -2,7 +2,6 @@
 //      header & footer
 
 
-// app/layout.tsx
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -163,25 +162,10 @@ export default function RootLayout({
                                     )}
 
                                 >
-                                    {isMobile && (
-                                        <Button
-                                            variant="ghost"
-                                            size="icon"
-                                            onClick={toggleMenu}
-                                            className="absolute top-4 right-4 text-white hover:bg-maroon-700"
-                                            ariaLabel="Close Menu"
-                                        >
-                                            {/* Replace this with an X icon */}
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                            </svg>
-
-                                        </Button>
-                                    )}
                                     <ul className={cn(
-                                            "flex space-x-8 items-center",
-                                            isMobile ? "flex-col items-start space-y-4" : "flex space-x-8"
-                                        )}
+                                        "flex space-x-8 items-center",
+                                        isMobile ? "flex-col items-start space-y-4" : "flex space-x-8"
+                                    )}
                                     >
                                         <li>
                                             <Link href="/" className="text-white hover:text-gray-200 transition duration-300 font-semibold">
@@ -201,7 +185,7 @@ export default function RootLayout({
                                     </ul>
                                 </nav>
                             </div>
-                             {isMobile && (
+                            {isMobile && (
                                 <div className="flex items-center">
                                     <Button
                                         variant="ghost"
@@ -231,13 +215,6 @@ export default function RootLayout({
         </QueryClientProvider>
     );
 }
-
-
-
-
-
-
-
 
 
 

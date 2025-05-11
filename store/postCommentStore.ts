@@ -2,6 +2,8 @@
 
 
 
+// store/postCommentStore.ts
+
 import { create } from 'zustand';
 
 interface Comment {
@@ -10,7 +12,7 @@ interface Comment {
 }
 
 interface Post {
-  id: number;
+  id: string;
   title: string;
   content: string;
   author: string;
@@ -25,9 +27,10 @@ interface PostCommentState {
   posts: Post[];
   users: { id: string; name: string }[];
   addUser: (user: { id: string; name: string }) => void;
-  initializePosts: (posts: Post[]) => void;
+  initializePosts: (posts: Omit<Post, 'id'>[]) => void;
   addPost: (post: Omit<Post, 'id' | 'author' | 'role' | 'comments' | 'likes'>) => void;
-  addComment: (postId: number, comment: string) => void;
+  addComment: (postId: string, comment: string) => void;
+  deletePost: (postId: string) => void;
 }
 
 export const usePostCommentStore = create<PostCommentState>((set) => ({
@@ -37,22 +40,24 @@ export const usePostCommentStore = create<PostCommentState>((set) => ({
     set((state) => ({
       users: [...state.users, user],
     })),
+
   initializePosts: (posts) =>
     set(() => ({
-      posts: posts.map((p, i) => ({
+      posts: posts.map((p) => ({
         ...p,
-        id: i + 1,
+        id: crypto.randomUUID(),
         likes: p.likes || 0,
         comments: p.comments || [],
       })),
     })),
+
   addPost: (newPost) =>
     set((state) => ({
       posts: [
         ...state.posts,
         {
-          id: state.posts.length + 1,
-          author: 'Student', // default author
+          id: crypto.randomUUID(),
+          author: 'Student',
           role: 'student',
           likes: 0,
           comments: [],
@@ -60,6 +65,7 @@ export const usePostCommentStore = create<PostCommentState>((set) => ({
         },
       ],
     })),
+
   addComment: (postId, commentText) =>
     set((state) => ({
       posts: state.posts.map((post) =>
@@ -70,5 +76,10 @@ export const usePostCommentStore = create<PostCommentState>((set) => ({
             }
           : post
       ),
+    })),
+
+  deletePost: (postId) =>
+    set((state) => ({
+      posts: state.posts.filter((post) => post.id !== postId),
     })),
 }));

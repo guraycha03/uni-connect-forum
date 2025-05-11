@@ -2,6 +2,7 @@
 
 
 
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -9,6 +10,9 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Share2, Pin, Trash2, PlusCircle, XCircle, Edit, CheckCircle } from 'lucide-react';
 import { create } from 'zustand';
 import { cn } from "@/lib/utils" // Import cn
+// ApexCharts and react-apexcharts (assumed to be installed)
+import dynamic from 'next/dynamic';
+const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
 interface Comment {
     user: string;
@@ -16,7 +20,7 @@ interface Comment {
 }
 
 interface Post {
-    id: number;
+    id: string;
     author: string;
     role: string;
     title: string;
@@ -28,50 +32,71 @@ interface Post {
     edited?: boolean;
 }
 
+interface User {  // Added User interface
+    id: string;
+    name: string;
+}
+
 interface PostCommentState {
     posts: Post[];
-    initializePosts: (posts: Post[]) => void;
-    addPost: (post: Omit<Post, 'id' | 'comments' | 'likes'>) => void;
-    addComment: (postId: number, comment: string) => void;
-    updateLike: (postId: number) => void;
-    pinPost: (postId: number) => void;
-    deletePost: (postId: number) => void;
-    updatePost: (postId: number, updatedPost: Partial<Omit<Post, 'id' | 'author' | 'role' | 'comments' | 'likes'>>) => void;
+    users: User[]; // Added users to the state
+    initializePosts: (posts: Omit<Post, 'id'>[]) => void;
+    addPost: (post: Omit<Post, 'id' | 'author' | 'role' | 'comments' | 'likes'>) => void;
+    addComment: (postId: string, comment: string) => void;
+    updateLike: (postId: string) => void;
+    pinPost: (postId: string) => void;
+    deletePost: (postId: string) => void;
+    updatePost: (postId: string, updatedPost: Partial<Omit<Post, 'id' | 'author' | 'role' | 'comments' | 'likes'>>) => void;
+    initializeUsers: (users: User[]) => void; // Added initializeUsers
 }
 
 const usePostCommentStore = create<PostCommentState>((set, get) => ({
     posts: [],
-    initializePosts: (initialPosts) => {
-        set({ posts: initialPosts });
-    },
-    addPost: (newPost) => {
-        const newPostToAdd: Post = {
-            id: get().posts.length + 1,
-            author: 'Moderator',
-            role: 'moderator',
-            likes: 0,
-            comments: [],
-            ...newPost,
-        };
-        set(state => ({ posts: [...state.posts, newPostToAdd] }));
-    },
+    users: [], // Initialize users array
+    initializePosts: (posts) =>
+        set(() => ({
+            posts: posts.map((p) => ({
+                ...p,
+                id: crypto.randomUUID(),
+                likes: p.likes || 0,
+                comments: p.comments || [],
+            })),
+        })),
+
+    addPost: (newPost) =>
+        set((state) => ({
+            posts: [
+                {
+                    id: crypto.randomUUID(),
+                    author: 'Student',
+                    role: 'student',
+                    likes: 0,
+                    comments: [],
+                    ...newPost,
+                },
+                ...state.posts, // Add new post to the beginning of the array
+            ],
+        })),
+
     addComment: (postId, commentText) =>
-        set(state => ({
-            posts: state.posts.map(post =>
+        set((state) => ({
+            posts: state.posts.map((post) =>
                 post.id === postId
                     ? {
                         ...post,
                         comments: [...post.comments, { user: 'Anonymous', comment: commentText }],
                     }
                     : post
-            )
+            ),
         })),
+
     updateLike: (postId) =>
-        set(state => ({
-            posts: state.posts.map(post =>
+        set((state) => ({
+            posts: state.posts.map((post) =>
                 post.id === postId ? { ...post, likes: (post.likes || 0) + 1 } : post
-            )
+            ),
         })),
+
     pinPost: (postId) => {
         set(state => ({
             posts: state.posts.map(post =>
@@ -90,12 +115,13 @@ const usePostCommentStore = create<PostCommentState>((set, get) => ({
                 post.id === postId ? { ...post, ...updatedPost, edited: true } : post
             )
         }));
-    }
+    },
+    initializeUsers: (users) => set({ users }), // Added initializeUsers
 }));
 
 const PostsPage = () => {
-    const { posts, addPost, addComment: addCommentToStore, initializePosts, updateLike, pinPost, deletePost, updatePost } = usePostCommentStore();
-    const [expandedPostId, setExpandedPostId] = useState<number | null>(null);
+    const { posts, addPost, addComment: addCommentToStore, initializePosts, updateLike, pinPost, deletePost, updatePost, initializeUsers, users } = usePostCommentStore();
+    const [expandedPostId, setExpandedPostId] = useState<string | null>(null);
     const [isCreatingPost, setIsCreatingPost] = useState(false);
     const [newPost, setNewPost] = useState<Omit<Post, 'id' | 'comments' | 'likes' | 'author' | 'role'>>({
         title: '',
@@ -103,12 +129,12 @@ const PostsPage = () => {
         image: undefined,
     });
     const [newComment, setNewComment] = useState('');
-    const [editingPostId, setEditingPostId] = useState<number | null>(null);
+    const [editingPostId, setEditingPostId] = useState<string | null>(null);
     const [editedPostContent, setEditedPostContent] = useState('');
 
-    const initialPosts: Post[] = [
+    // --- Mock Data for demonstration ---
+    const mockInitialPosts: Omit<Post, 'id'>[] = [
         {
-            id: 1,
             author: 'Moderator',
             role: 'moderator',
             title: '🎉 Welcome to UniConnect Forum! 🎓',
@@ -123,7 +149,6 @@ const PostsPage = () => {
             likes: 5,
         },
         {
-            id: 2,
             author: 'Moderator',
             role: 'moderator',
             title: '📢 Lost & Found Alert!',
@@ -133,7 +158,6 @@ const PostsPage = () => {
             likes: 2,
         },
         {
-            id: 3,
             author: 'Moderator',
             role: 'moderator',
             title: 'Question about Midterm Exam',
@@ -146,7 +170,6 @@ const PostsPage = () => {
             likes: 7,
         },
         {
-            id: 4,
             author: 'Moderator',
             role: 'moderator',
             title: 'Office Hours Announcement',
@@ -157,7 +180,6 @@ const PostsPage = () => {
             likes: 12,
         },
         {
-            id: 5,
             author: 'Moderator',
             role: 'moderator',
             title: 'Volunteer Opportunity',
@@ -169,22 +191,46 @@ const PostsPage = () => {
         },
     ];
 
+    const mockUsers: User[] = [ // Added mock users
+        { id: '1', name: 'Alice' },
+        { id: '2', name: 'Bob' },
+        { id: '3', name: 'Charlie' },
+        { id: '4', name: 'David' },
+        { id: '5', name: 'Eve' },
+        { id: '6', name: 'Fiona' },
+        { id: '7', name: 'George' },
+        { id: '8', name: 'Hannah' },
+        { id: '9', name: 'Isaac' },
+        { id: '10', name: 'Jack' },
+        { id: '11', name: 'Kelly' },
+        { id: '12', name: 'Liam' },
+        { id: '13', name: 'Mia' },
+        { id: '14', name: 'Noah' },
+        { id: '15', name: 'Olivia' },
+        { id: '16', name: 'Peter' },
+        { id: '17', name: 'Quinn' },
+        { id: '18', name: 'Ryan' },
+        { id: '19', name: 'Sophia' },
+        { id: '20', name: 'Thomas' },
+    ];
+
     useEffect(() => {
         const savedPosts = localStorage.getItem('forumPosts');
-        let initialData: Post[] = [];
+        let initialData: Omit<Post, 'id'>[] = [];
         try {
             if (savedPosts) {
                 initialData = JSON.parse(savedPosts);
             } else {
-                initialData = initialPosts;
+                initialData = mockInitialPosts;
             }
         } catch (error) {
             console.error("Failed to parse stored posts:", error);
             localStorage.removeItem('forumPosts');
-            initialData = initialPosts;
+            initialData = mockInitialPosts;
         }
         initializePosts(initialData);
-    }, [initializePosts]);
+        initializeUsers(mockUsers); // Initialize users
+    }, [initializePosts, initializeUsers]);
 
     useEffect(() => {
         if (posts.length > 0) {
@@ -202,7 +248,7 @@ const PostsPage = () => {
         }
     };
 
-    const handleAddComment = (postId: number) => {
+    const handleAddComment = (postId: string) => {
         if (newComment.trim()) {
             addCommentToStore(postId, newComment);
             setNewComment('');
@@ -210,32 +256,32 @@ const PostsPage = () => {
         }
     };
 
-    const toggleExpand = (id: number) => {
+    const toggleExpand = (id: string) => {
         setExpandedPostId((prev) => (prev === id ? null : id));
     };
 
-    const handleLikeClick = (postId: number) => {
+    const handleLikeClick = (postId: string) => {
         updateLike(postId);
     };
 
-    const handleShare = (postId: number) => {
+    const handleShare = (postId: string) => {
         alert(`Shared post ${postId}!`);
     };
 
-    const handlePinClick = (postId: number) => {
+    const handlePinClick = (postId: string) => {
         pinPost(postId);
     };
 
-    const handleDeletePost = (postId: number) => {
+    const handleDeletePost = (postId: string) => {
         deletePost(postId);
     };
 
-    const handleEditPost = (postId: number, currentContent: string) => {
+    const handleEditPost = (postId: string, currentContent: string) => {
         setEditingPostId(postId);
         setEditedPostContent(currentContent);
     };
 
-    const handleSavePost = (postId: number) => {
+    const handleSavePost = (postId: string) => {
         if (editedPostContent.trim()) {
             updatePost(postId, { content: editedPostContent });
             setEditingPostId(null);
@@ -248,8 +294,103 @@ const PostsPage = () => {
     const sortedPosts = [...posts].sort((a, b) => {
         if (a.isPinned && !b.isPinned) return -1;
         if (!a.isPinned && b.isPinned) return 1;
-        return a.id - b.id;
+        return 0;
     });
+
+    // --- ApexCharts Data and Options ---
+    const [chartData, setChartData] = useState({
+        series: [
+            {
+                name: 'Posts',
+                data: [posts.length],
+            },
+            {
+                name: 'Comments',
+                data: [posts.reduce((acc, post) => acc + post.comments.length, 0)],
+            },
+            {
+                name: 'Students',
+                data: [users.length], // Use the length of the users array
+            },
+        ],
+        options: {
+            chart: {
+                type: 'bar',
+                height: 350,
+                stacked: true, // Stack the bars for comparison
+                animations: {
+                    enabled: true,
+                    easing: 'easeinout',
+                    speed: 800,
+                    animateGradually: {
+                        enabled: true,
+                        delay: 150
+                    },
+                    dynamicAnimation: {
+                        enabled: true,
+                        speed: 350
+                    }
+                }
+            },
+            plotOptions: {
+                bar: {
+                    columnWidth: '80%',
+                },
+            },
+            dataLabels: {
+                enabled: true,
+                style: {
+                    colors: ['#FFFFFF'] // Make data labels white for better visibility
+                }
+            },
+            xaxis: {
+                categories: ['Data'], // Single category for the totals
+            },
+            yaxis: {
+                title: {
+                    text: 'Total Count',
+                },
+            },
+            title: {
+                text: 'Total Posts, Comments, and Students',
+                align: 'center',
+                style: {
+                    fontSize: '20px',
+                    fontWeight: 'bold',
+                    fontFamily: undefined,
+                    color: '#263238'
+                },
+            },
+            tooltip: {
+                y: {
+                    formatter: function (val: number) {
+                        return val;
+                    }
+                }
+            },
+        },
+    });
+
+    // Update chart data whenever posts or users change
+    useEffect(() => {
+        setChartData(prevData => ({
+            ...prevData,
+            series: [
+                {
+                    name: 'Posts',
+                    data: [posts.length],
+                },
+                {
+                    name: 'Comments',
+                    data: [posts.reduce((acc, post) => acc + post.comments.length, 0)],
+                },
+                {
+                    name: 'Students',
+                    data: [users.length], // Update with the current number of users
+                },
+            ],
+        }));
+    }, [posts.length, users.length]);
 
     return (
         <div className="min-h-screen bg-gray-100 py-8 px-4">
@@ -303,7 +444,7 @@ const PostsPage = () => {
                                     onChange={(e) => setNewPost({ ...newPost, image: e.target.value })}
                                     className="w-full border px-3 py-2 rounded-md"
                                 />
-                                 <p className="text-sm text-gray-500">
+                                <p className="text-sm text-gray-500">
                                     Use Shift+Enter for line breaks.
                                 </p>
                                 <div className="text-right">
@@ -422,7 +563,7 @@ const PostsPage = () => {
                                         className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm"
                                         rows={2}
                                         value={post.id === expandedPostId ? newComment : ''}
-                                         onChange={(e) => {
+                                        onChange={(e) => {
                                             setExpandedPostId(post.id);
                                             setNewComment(e.target.value);
                                         }}
@@ -459,6 +600,15 @@ const PostsPage = () => {
                         ))}
                     </AnimatePresence>
                 </div>
+                {/* Chart Display */}
+                <div className="mt-8">
+                    <Chart
+                        options={chartData.options}
+                        series={chartData.series}
+                        type="bar"
+                        height={350}
+                    />
+                </div>
             </div>
             <style jsx>{`
                 .create-post-button-container {
@@ -474,7 +624,7 @@ const PostsPage = () => {
                     margin-left: 0.5rem;
                 }
                 .whitespace-pre-line {
-                  white-space: pre-line;
+                    white-space: pre-line;
                 }
             `}</style>
         </div>

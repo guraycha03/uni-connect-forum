@@ -1,7 +1,5 @@
 //   ← Post details with comments
 
-//   ← Post details with comments
-
 
 'use client';
 import React, { useEffect, useState } from 'react';
@@ -39,7 +37,7 @@ const PostDetailPage = () => {
     const router = useRouter();
     const [post, setPost] = useState<Post | null>(null);
     const [comments, setComments] = useState<Comment[]>([]);
-    const [isDeleting, setIsDeleting] = useState(false); // Track deletion state
+    const [isDeleting, setIsDeleting] = useState(false); 
 
     useEffect(() => {
         if (!id) return;
@@ -50,8 +48,8 @@ const PostDetailPage = () => {
                 setPost(res.data);
             } catch (error) {
                 console.error("Error fetching post:", error);
-                // Consider showing a user-friendly error message
-                setPost(null); // Set post to null to prevent further errors
+              
+                setPost(null); 
             }
         };
 
@@ -61,7 +59,7 @@ const PostDetailPage = () => {
                 setComments(res.data);
             } catch (error) {
                 console.error("Error fetching comments:", error);
-                // Optionally handle comment fetch error
+              
                 setComments([]);
             }
         };
@@ -73,7 +71,7 @@ const PostDetailPage = () => {
     const handleDeletePost = async () => {
         if (!post) return;
 
-        setIsDeleting(true); // Set deleting to true to show loading state
+        setIsDeleting(true); 
 
         try {
             // Delete the post
@@ -84,7 +82,7 @@ const PostDetailPage = () => {
             console.error("Error deleting post:", error);
             // Handle error, show message to user (optional)
         } finally {
-            setIsDeleting(false); // Set deleting back to false
+            setIsDeleting(false); 
         }
     };
 
@@ -120,8 +118,8 @@ const PostDetailPage = () => {
                             <AlertDialogCancel>Cancel</AlertDialogCancel>
                             <AlertDialogAction
                                 onClick={handleDeletePost}
-                                disabled={isDeleting} // Disable during deletion
-                                className={isDeleting ? "opacity-70 cursor-not-allowed" : ""} // Style during deletion
+                                disabled={isDeleting} 
+                                className={isDeleting ? "opacity-70 cursor-not-allowed" : ""} 
                             >
                                 {isDeleting ? 'Deleting...' : 'Delete'}
                             </AlertDialogAction>

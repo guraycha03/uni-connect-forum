@@ -1,16 +1,13 @@
 // app/posts/page.tsx   ← List of posts
 
 
-
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Heart, Share2, Pin, Trash2, PlusCircle, XCircle, Edit, CheckCircle } from 'lucide-react';
 import { create } from 'zustand';
-import { cn } from "@/lib/utils" // Import cn
-// ApexCharts and react-apexcharts (assumed to be installed)
+import { cn } from "@/lib/utils" 
 import dynamic from 'next/dynamic';
 const Chart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -32,14 +29,14 @@ interface Post {
     edited?: boolean;
 }
 
-interface User {  // Added User interface
+interface User {  
     id: string;
     name: string;
 }
 
 interface PostCommentState {
     posts: Post[];
-    users: User[]; // Added users to the state
+    users: User[]; 
     initializePosts: (posts: Omit<Post, 'id'>[]) => void;
     addPost: (post: Omit<Post, 'id' | 'author' | 'role' | 'comments' | 'likes'>) => void;
     addComment: (postId: string, comment: string) => void;
@@ -47,12 +44,12 @@ interface PostCommentState {
     pinPost: (postId: string) => void;
     deletePost: (postId: string) => void;
     updatePost: (postId: string, updatedPost: Partial<Omit<Post, 'id' | 'author' | 'role' | 'comments' | 'likes'>>) => void;
-    initializeUsers: (users: User[]) => void; // Added initializeUsers
+    initializeUsers: (users: User[]) => void; 
 }
 
 const usePostCommentStore = create<PostCommentState>((set, get) => ({
     posts: [],
-    users: [], // Initialize users array
+    users: [], 
     initializePosts: (posts) =>
         set(() => ({
             posts: posts.map((p) => ({
@@ -74,7 +71,7 @@ const usePostCommentStore = create<PostCommentState>((set, get) => ({
                     comments: [],
                     ...newPost,
                 },
-                ...state.posts, // Add new post to the beginning of the array
+                ...state.posts, 
             ],
         })),
 
@@ -116,7 +113,7 @@ const usePostCommentStore = create<PostCommentState>((set, get) => ({
             )
         }));
     },
-    initializeUsers: (users) => set({ users }), // Added initializeUsers
+    initializeUsers: (users) => set({ users }), 
 }));
 
 const PostsPage = () => {
@@ -191,26 +188,26 @@ const PostsPage = () => {
         },
     ];
 
-    const mockUsers: User[] = [ // Added mock users
-        { id: '1', name: 'Alice' },
-        { id: '2', name: 'Bob' },
-        { id: '3', name: 'Charlie' },
-        { id: '4', name: 'David' },
-        { id: '5', name: 'Eve' },
-        { id: '6', name: 'Fiona' },
-        { id: '7', name: 'George' },
-        { id: '8', name: 'Hannah' },
-        { id: '9', name: 'Isaac' },
-        { id: '10', name: 'Jack' },
-        { id: '11', name: 'Kelly' },
-        { id: '12', name: 'Liam' },
-        { id: '13', name: 'Mia' },
-        { id: '14', name: 'Noah' },
-        { id: '15', name: 'Olivia' },
-        { id: '16', name: 'Peter' },
-        { id: '17', name: 'Quinn' },
-        { id: '18', name: 'Ryan' },
-        { id: '19', name: 'Sophia' },
+    const mockUsers: User[] = [ 
+        { id: '1', name: 'Miguel' },
+        { id: '2', name: '"Angelica ' },
+        { id: '3', name: '"Daniel ' },
+        { id: '4', name: '"Mark ' },
+        { id: '5', name: '"Janine ' },
+        { id: '6', name: '"Ella ' },
+        { id: '7', name: '"Andrew ' },
+        { id: '8', name: '"Patricia ' },
+        { id: '9', name: '"Justin ' },
+        { id: '10', name: '"Luisa ' },
+        { id: '11', name: '"Ronald ' },
+        { id: '12', name: '"Sophia ' },
+        { id: '13', name: '"Joseph ' },
+        { id: '14', name: '"Bea ' },
+        { id: '15', name: '"Ryan ' },
+        { id: '16', name: '"Katrina ' },
+        { id: '17', name: '"Enzo ' },
+        { id: '18', name: '"Charmaine ' },
+        { id: '19', name: '"Daryl ' },
         { id: '20', name: 'Thomas' },
     ];
 
@@ -229,7 +226,7 @@ const PostsPage = () => {
             initialData = mockInitialPosts;
         }
         initializePosts(initialData);
-        initializeUsers(mockUsers); // Initialize users
+        initializeUsers(mockUsers); 
     }, [initializePosts, initializeUsers]);
 
     useEffect(() => {
@@ -317,7 +314,7 @@ const PostsPage = () => {
             chart: {
                 type: 'bar',
                 height: 350,
-                stacked: true, // Stack the bars for comparison
+                stacked: true, 
                 animations: {
                     enabled: true,
                     easing: 'easeinout',
@@ -340,11 +337,11 @@ const PostsPage = () => {
             dataLabels: {
                 enabled: true,
                 style: {
-                    colors: ['#FFFFFF'] // Make data labels white for better visibility
+                    colors: ['#FFFFFF'] 
                 }
             },
             xaxis: {
-                categories: ['Data'], // Single category for the totals
+                categories: ['Data'], 
             },
             yaxis: {
                 title: {
@@ -371,7 +368,7 @@ const PostsPage = () => {
         },
     });
 
-    // Update chart data whenever posts or users change
+   
     useEffect(() => {
         setChartData(prevData => ({
             ...prevData,
@@ -386,7 +383,7 @@ const PostsPage = () => {
                 },
                 {
                     name: 'Students',
-                    data: [users.length], // Update with the current number of users
+                    data: [users.length], 
                 },
             ],
         }));

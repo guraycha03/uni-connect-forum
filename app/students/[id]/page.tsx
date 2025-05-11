@@ -63,7 +63,7 @@ const StudentProfilePage: React.FC = () => {
     const setInitialStudents = useStudentStore((state) => state.setInitialStudents);
     const initialStudents: Student[] = [
         {
-            id: "miguel_torres_1",
+            id: "1",
             name: "Miguel Torres",
             studentNo: "20230001",
             course: "BSIS",
@@ -74,7 +74,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=San+Vicente%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://embedcodesgenerator.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embedcodesgenerator.com</a></div>',
         },
         {
-            id: "angelica_cruz_2",
+            id: "2",
             name: "Angelica Cruz",
             studentNo: "20230002",
             course: "BSCS",
@@ -85,7 +85,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+8%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://testosteronetherapy.org/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">testosteronetherapy.org</a></div>',
         },
         {
-            id: "daniel_navarro_3",
+            id: "3",
             name: "Daniel Navarro",
             studentNo: "20230003",
             course: "BSA",
@@ -96,7 +96,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=San+Juan%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="http://aiyoutubetitlegenerator.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">aiyoutubetitlegenerator.com</a></div>',
         },
         {
-            id: "mark_yu_5",
+            id: "4",
             name: "Mark Yu",
             studentNo: "20230005",
             course: "BPA",
@@ -107,7 +107,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=San+Ramon%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://testosteronetherapy.org/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">testosteronetherapy.org</a></div>',
         },
         {
-            id: "janine_dela_cruz_6",
+            id: "5",
             name: "Janine Dela Cruz",
             studentNo: "20230006",
             course: "BSE",
@@ -118,7 +118,17 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Patag%2C+Irosin%2C+Sorsogon&output=embed"></iframe></div><a href="https://testosteronetherapy.org/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">testosteronetherapy.org</a></div>',
         },
         {
-            id: "ella_manalo_8",
+            id: "6",
+            name: "Kevin Bautista",
+            studentNo: "20230007",
+            course: "BTVTED",
+            yearBlock: "4-1",
+            email: "kevin.bautista@gmail.com",
+            address: "Tughan, Juban, Sorsogon",
+            profileImage: "/images/students/kev.jpeg",
+        },
+        {
+            id: "7",
             name: "Ella Manalo",
             studentNo: "20230008",
             course: "BSIT",
@@ -129,7 +139,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode: '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3876.2872390702715!2d123.83442433503198!3d12.607119169472146!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33a07f418c99539d%3A0x745915782989b17f!2sMagallanes%2C%20Sorsogon!5e0!3m2!1sen!2sph!4v1708089702299!5m2!1sen!2sph" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>',
         },
         {
-            id: "andrew_salazar_9",
+            id: "8",
             name: "Andrew Salazar",
             studentNo: "20230009",
             course: "BSIS",
@@ -140,7 +150,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Balocawe%2C+Matnog%2C+Sorsogon&output=embed"></iframe></div><a href="https://embeddablemap.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embeddablemap.com</a></div>',
         },
         {
-            id: "patricia_villanueva_10",
+            id: "9",
             name: "Patricia Villanueva",
             studentNo: "20230010",
             course: "BSCS",
@@ -151,7 +161,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Dancalan%2C+Bulusan%2C+Sorsogon&output=embed"></iframe></div><a href="https://aitohumanizetextconverter.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">aitohumanizetextconverter.com</a></div>',
         },
         {
-            id: "justin_reyes_11",
+            id: "10",
             name: "Justin Reyes",
             studentNo: "20230011",
             course: "BSA",
@@ -162,7 +172,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=San+Bernardo%2C+Bulusan%2C+Sorsogon&output=embed"></iframe></div><a href="https://viralnado.net/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">viralnado.net</a></div>',
         },
         {
-            id: "luisa_mendoza_14",
+            id: "11",
             name: "Luisa Mendoza",
             studentNo: "20230014",
             course: "BSE",
@@ -173,7 +183,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Calomagon%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://freeairecipegenerator.com" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">freeairecipegenerator.com</a></div>',
         },
         {
-            id: "ronald_de_la_cruz_15",
+            id: "12",
             name: "Ronald De La Cruz",
             studentNo: "20230015",
             course: "BTVTED",
@@ -184,7 +194,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+4%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://embedcodesgenerator.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embedcodesgenerator.com</a></div>',
         },
         {
-            id: "sophia_soriano_16",
+            id: "13",
             name: "Sophia Soriano",
             studentNo: "20230016",
             course: "BSIT",
@@ -195,7 +205,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Sagrada+Familia%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://embedcodesgenerator.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embedcodesgenerator.com</a></div>',
         },
         {
-            id: "joseph_galang_17",
+            id: "14",
             name: "Joseph Galang",
             studentNo: "20230017",
             course: "BSIS",
@@ -206,7 +216,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Inararan%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://viralnado.net/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">viralnado.net</a></div>',
         },
         {
-            id: "bea_quijano_18",
+            id: "15",
             name: "Bea Quijano",
             studentNo: "20230018",
             course: "BSCS",
@@ -217,7 +227,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+1%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://embeddablemap.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embeddablemap.com</a></div>',
         },
         {
-            id: "ryan_lopez_19",
+            id: "16",
             name: "Ryan Lopez",
             studentNo: "20230019",
             course: "BSA",
@@ -228,7 +238,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+2%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://embedcodesgenerator.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embedcodesgenerator.com</a></div>',
         },
         {
-            id: "katrina_valdez_20",
+            id: "17",
             name: "Katrina Valdez",
             studentNo: "20230020",
             course: "BSAIS",
@@ -239,7 +249,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+6%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://freeairecipegenerator.com" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">freeairecipegenerator.com</a></div>',
         },
         {
-            id: "enzo_ramos_21",
+            id: "18",
             name: "Enzo Ramos",
             studentNo: "20230021",
             course: "BPA",
@@ -250,7 +260,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+3%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="http://aiyoutubetitlegenerator.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">aiyoutubetitlegenerator.com</a></div>',
         },
         {
-            id: "charmaine_garcia_22",
+            id: "19",
             name: "Charmaine Garcia",
             studentNo: "20230022",
             course: "BSE",
@@ -261,7 +271,7 @@ const StudentProfilePage: React.FC = () => {
             mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+7%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://eatcolumbus.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">eatcolumbus.com</a></div>',
         },
         {
-            id: "daryl_morales_23",
+            id: "20",
             name: "Daryl Morales",
             studentNo: "20230023",
             course: "BTVTED",

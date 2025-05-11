@@ -2,22 +2,20 @@
 
 // app/page.tsx
 
-
-
-
 'use client';
 
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { usePostCommentStore } from '@/store/postCommentStore';
-import { useStudentStore } from '@/store/studentStore'; // Import the student store
+import { useStudentStore } from '@/store/studentStore';
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
+import { cn } from "@/lib/utils"
 
 // 1. Define a simple loading component
 const ChartLoading = () => <p>Loading Chart...</p>;
 
-// 2. Dynamically import ApexCharts, ensuring client-side rendering
+// 2. Dynamically import ApexCharts, ensuring client-side rendering - Not used, but kept for potential future use
 const ApexChart = dynamic(() => import('react-apexcharts'), {
     ssr: false,
     loading: ChartLoading,
@@ -27,8 +25,8 @@ const HomePage = () => {
     const posts = usePostCommentStore((state) => state.posts);
     const users = usePostCommentStore((state) => state.users);
     const addUser = usePostCommentStore((state) => state.addUser);
-    const students = useStudentStore((state) => state.students); // Get students from the store
-    const [chartData, setChartData] = useState<number[] | null>(null);
+    const students = useStudentStore((state) => state.students);
+    const [chartData, setChartData] = useState<number[] | null>(null); // Not used, but kept for potential future use
     const [isClient, setIsClient] = useState(false);
 
     useEffect(() => {
@@ -51,11 +49,11 @@ const HomePage = () => {
 
     useEffect(() => {
         if (isClient) {
-            setChartData([students.length, posts.length, posts.reduce((sum, post) => sum + post.comments.length, 0)]);
+            setChartData([students.length, posts.length, posts.reduce((sum, post) => sum + post.comments.length, 0)]); // Not used
         }
     }, [students, posts, isClient]);
 
-    // 4. ApexCharts options
+    // 4. ApexCharts options - Not used
     const chartOptions = {
         chart: {
             type: 'radialBar',
@@ -68,7 +66,7 @@ const HomePage = () => {
                 },
             },
         },
-        series: chartData || [], // Use the chartData state
+        series: chartData || [],
         labels: ['Total Students', 'Total Posts', 'Total Comments'],
         colors: ['#4fc3f7', '#81c784', '#ffb74d'],
         plotOptions: {
@@ -83,6 +81,9 @@ const HomePage = () => {
                     value: {
                         fontSize: '18px',
                         color: '#212121',
+                        formatter: function (val: any) {
+                            return val;
+                        }
                     },
                     total: {
                         show: true,
@@ -103,79 +104,67 @@ const HomePage = () => {
         },
     };
 
-    // Animation variants for the chart container
+    // Animation variants - Not used
     const chartVariants = {
         hidden: { opacity: 0, y: 50 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: 'easeInOut' } },
     };
 
-    // Style for number
+    // Style for number - Not used
     const numberStyle = {
         fontSize: '24px',
         fontWeight: 'bold',
         color: '#212121',
     };
 
+    // Variants for the introduction text
+    const introVariants = {
+        hidden: { opacity: 0, scale: 0.8 },
+        visible: {
+            opacity: 1,
+            scale: 1,
+            transition: {
+                duration: 0.6,
+                ease: 'easeInOut',
+            },
+        },
+    };
+
     return (
-        <main className="p-6 bg-maroon-100 min-h-screen">
-            <h1 className="text-3xl font-bold mb-6 text-maroon-900">🎓 Welcome to UniConnect</h1>
-            <section
-                className="bg-white rounded-lg shadow-md p-6 min-h-[500px]"
-                aria-labelledby="campus-stats"
-            >
-                <h2
-                    id="campus-stats"
-                    className="text-2xl font-semibold mb-4 text-maroon-800"
-                >
-                    📊 Live Campus Statistics
-                </h2>
+        <main
+            className="min-h-screen bg-cover bg-center relative"
+            style={{ backgroundImage: "url('/images/campus.jpg')" }}
+        >
+            <div className="p-6 bg-maroon-100/80 backdrop-blur-md flex items-center justify-center">
+                {/* Introduction Text */}
                 <motion.div
-                    className="w-full h-[400px] flex items-center justify-center"
-                    variants={chartVariants}
+                    className="text-center p-4"
+                    variants={introVariants}
                     initial="hidden"
                     animate="visible"
                 >
-                    <AnimatePresence>
-                        {isClient && chartData && (
-                            <div className="w-full max-w-md h-[400px] mx-auto">
-                                <ApexChart
-                                    options={chartOptions}
-                                    series={chartData}
-                                    type="radialBar"
-                                    height={350}
-                                    key={chartData.join('-')}
-                                />
-                            </div>
-                        )}
-                        {!isClient && <ChartLoading />}
-                    </AnimatePresence>
+                    <div className="bg-white/80 rounded-xl p-8 max-w-3xl mx-auto  border border-maroon-200"
+                         style={{ paddingLeft: '8rem', paddingRight: '8rem' }}
+                    >
+                        <h2 className="text-5xl font-extrabold text-maroon-900 mb-8 tracking-tight drop-shadow-2xl text-stroke-2 text-stroke-maroon-300">
+                            <span className="bg-gradient-to-r from-maroon-500 to-maroon-700 text-transparent bg-clip-text">
+                                Connecting Our Campus Community
+                            </span>
+                        </h2>
+                        <p className="text-3xl text-gray-800 leading-relaxed font-black">
+                            <span className="font-black text-maroon-600">UniConnect</span> is your central hub for staying connected with everything
+                            happening at our university. From keeping up with campus news and events to
+                            collaborating with fellow students, <span className="font-black text-maroon-600">UniConnect</span> provides the tools you need to
+                            thrive.
+                        </p>
+                        <p className="text-2xl text-gray-700 mt-8  ">
+                            <span className="font-bold">Embrace the future of campus connectivity!</span>
+                        </p>
+                    </div>
                 </motion.div>
-                <ul className="mt-6 space-y-4 text-gray-700 text-lg">
-                    <li className="flex justify-between items-center">
-                        <span>
-                            <strong>Total Students:</strong>
-                        </span>{' '}
-                        <span style={numberStyle}>{students.length}</span>
-                    </li>
-                    <li className="flex justify-between items-center">
-                        <span>
-                            <strong>Total Posts:</strong>
-                        </span>{' '}
-                        <span style={numberStyle}>{posts.length}</span>
-                    </li>
-                    <li className="flex justify-between items-center">
-                        <span>
-                            <strong>Total Comments:</strong>
-                        </span>
-                        <span style={numberStyle}>
-                            {posts.reduce((sum, post) => sum + post.comments.length, 0)}
-                        </span>
-                    </li>
-                </ul>
-            </section>
+            </div>
         </main>
     );
 };
 
 export default HomePage;
-

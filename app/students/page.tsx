@@ -30,7 +30,7 @@ const studentCardVariants = {
 
 const initialStudents: Student[] = [
     {
-        id: "miguel_torres_1",
+        id: "1",
         name: "Miguel Torres",
         studentNo: "20230001",
         course: "BSIS",
@@ -40,7 +40,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/migs.jpeg",
     },
     {
-        id: "angelica_cruz_2",
+        id: "2",
         name: "Angelica Cruz",
         studentNo: "20230002",
         course: "BSCS",
@@ -50,7 +50,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/angel.jpeg",
     },
     {
-        id: "daniel_navarro_3",
+        id: "3",
         name: "Daniel Navarro",
         studentNo: "20230003",
         course: "BSA",
@@ -60,7 +60,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/dan.jpeg",
     },
     {
-        id: "mark_yu_5",
+        id: "4",
         name: "Mark Yu",
         studentNo: "20230005",
         course: "BPA",
@@ -70,7 +70,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/yu.jpeg",
     },
     {
-        id: "janine_dela_cruz_6",
+        id: "5",
         name: "Janine Dela Cruz",
         studentNo: "20230006",
         course: "BSE",
@@ -80,7 +80,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/janine.jpeg",
     },
     {
-        id: "kevin_bautista_7",
+        id: "6",
         name: "Kevin Bautista",
         studentNo: "20230007",
         course: "BTVTED",
@@ -90,7 +90,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/kev.jpeg",
     },
     {
-        id: "ella_manalo_8",
+        id: "7",
         name: "Ella Manalo",
         studentNo: "20230008",
         course: "BSIT",
@@ -100,7 +100,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/ella.jpeg",
     },
     {
-        id: "andrew_salazar_9",
+        id: "8",
         name: "Andrew Salazar",
         studentNo: "20230009",
         course: "BSIS",
@@ -110,7 +110,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/andrew.jpeg",
     },
     {
-        id: "patricia_villanueva_10",
+        id: "9",
         name: "Patricia Villanueva",
         studentNo: "20230010",
         course: "BSCS",
@@ -120,7 +120,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/pat.jpeg",
     },
     {
-        id: "justin_reyes_11",
+        id: "10",
         name: "Justin Reyes",
         studentNo: "20230011",
         course: "BSA",
@@ -130,7 +130,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/reyes.jpeg",
     },
     {
-        id: "luisa_mendoza_14",
+        id: "11",
         name: "Luisa Mendoza",
         studentNo: "20230014",
         course: "BSE",
@@ -140,7 +140,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/luisa.jpeg",
     },
     {
-        id: "ronald_de_la_cruz_15",
+        id: "12",
         name: "Ronald De La Cruz",
         studentNo: "20230015",
         course: "BTVTED",
@@ -150,7 +150,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/ron.jpeg",
     },
     {
-        id: "sophia_soriano_16",
+        id: "13",
         name: "Sophia Soriano",
         studentNo: "20230016",
         course: "BSIT",
@@ -160,7 +160,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/sop.jpeg",
     },
     {
-        id: "joseph_galang_17",
+        id: "14",
         name: "Joseph Galang",
         studentNo: "20230017",
         course: "BSIS",
@@ -170,7 +170,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/jo.jpeg",
     },
     {
-        id: "bea_quijano_18",
+        id: "15",
         name: "Bea Quijano",
         studentNo: "20230018",
         course: "BSCS",
@@ -180,7 +180,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/bea.jpeg",
     },
     {
-        id: "ryan_lopez_19",
+        id: "16",
         name: "Ryan Lopez",
         studentNo: "20230019",
         course: "BSA",
@@ -190,7 +190,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/ryan.jpeg",
     },
     {
-        id: "katrina_valdez_20",
+        id: "17",
         name: "Katrina Valdez",
         studentNo: "20230020",
         course: "BSAIS",
@@ -200,7 +200,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/kat.jpeg",
     },
     {
-        id: "enzo_ramos_21",
+        id: "18",
         name: "Enzo Ramos",
         studentNo: "20230021",
         course: "BPA",
@@ -210,7 +210,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/enzo.jpeg",
     },
     {
-        id: "charmaine_garcia_22",
+        id: "19",
         name: "Charmaine Garcia",
         studentNo: "20230022",
         course: "BSE",
@@ -220,7 +220,7 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/char.jpeg",
     },
     {
-        id: "daryl_morales_23",
+        id: "20",
         name: "Daryl Morales",
         studentNo: "20230023",
         course: "BTVTED",

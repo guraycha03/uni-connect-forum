@@ -13,7 +13,7 @@ import { usePostCommentStore } from '@/store/postCommentStore';
 
 // Use a dynamic import to handle client-side rendering for ApexCharts
 const DashboardChart = dynamic(() => import('@/components/DashboardChart'), {
-    ssr: false, // Ensure the component is only rendered on the client-side
+    ssr: false, 
 });
 
 const DashboardPage = () => {
@@ -51,7 +51,7 @@ const DashboardPage = () => {
                 </h2>
 
                 <DashboardChart
-                    students={students.length} // Pass the *count*, not the array
+                    students={students.length}
                     initialPosts={initialPosts}
                     initialComments={initialComments}
                 />

@@ -1,7 +1,6 @@
 // app/layout.tsx
 //      header & footer
 
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -207,14 +206,39 @@ export default function RootLayout({
                     </main>
 
                     {/* Footer */}
-                    <footer className="bg-maroon-800 text-white py-8 px-4 sm:px-8 rounded-t-lg shadow-md">
-                        {/* ... footer content ... */}
+                    <footer className="bg-maroon-800 text-white py-6 px-4 sm:px-8 rounded-t-lg shadow-md">
+                        <div className="container mx-auto flex justify-center items-center sm:justify-between flex-col sm:flex-row gap-4">
+                            <p className="text-sm text-gray-300">
+                                &copy; {new Date().getFullYear()} UniConnect. All rights reserved.
+                            </p>
+                            <div className="flex space-x-4">
+                                <a href="#" className="text-gray-300 hover:text-white transition-colors">
+                                    Privacy Policy
+                                </a>
+                                <a href="#" className="text-gray-300 hover:text-white transition-colors">
+                                    Terms of Service
+                                </a>
+                                <a href="#" className="text-gray-300 hover:text-white transition-colors">
+                                    Contact Us
+                                </a>
+                            </div>
+                            <div className="social-icons flex space-x-4">
+                                {/* Add social media icons as needed */}
+                                <a href="#" className="text-gray-300 hover:text-white transition-colors">
+                                    {/* Replace with actual social media icon (e.g., Facebook, Twitter) */}
+                                    Facebook
+                                </a>
+                                <a href="#" className="text-gray-300 hover:text-white transition-colors">
+                                    Twitter
+                                </a>
+                                {/* More icons */}
+                            </div>
+                        </div>
                     </footer>
                 </body>
             </html>
         </QueryClientProvider>
     );
 }
-
 
 

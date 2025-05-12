@@ -1,6 +1,8 @@
 // home page
 // app/page.tsx
 
+// home page
+// app/page.tsx
 
 'use client';
 
@@ -9,6 +11,31 @@ import { usePostCommentStore } from '@/store/postCommentStore';
 import { useStudentStore } from '@/store/studentStore';
 import axios from 'axios';
 import { motion } from 'framer-motion';
+
+// Define a type for the user object based on the expected API response
+interface User {
+  id: number;
+  name: string;
+  username?: string;
+  email?: string;
+  address?: {
+    street: string;
+    suite: string;
+    city: string;
+    zipcode: string;
+    geo: {
+      lat: string;
+      lng: string;
+    };
+  };
+  phone?: string;
+  website?: string;
+  company?: {
+    name: string;
+    catchPhrase: string;
+    bs: string;
+  };
+}
 
 const HomePage = () => {
   const posts = usePostCommentStore((state) => state.posts);
@@ -26,7 +53,9 @@ const HomePage = () => {
     const fetchInitialUsers = async () => {
       try {
         const response = await axios.get('https://jsonplaceholder.typicode.com/users');
-        response.data.forEach((user) =>
+        // Explicitly type the response data as an array of User objects
+        const userData: User[] = response.data;
+        userData.forEach((user) =>
           addUser({ id: user.id.toString(), name: user.name })
         );
       } catch (error) {
@@ -41,7 +70,7 @@ const HomePage = () => {
       setChartData([
         students.length,
         posts.length,
-        posts.reduce((sum, post) => sum + post.comments.length, 0),
+        posts.reduce((sum, post) => sum + post.comments.length, 0)
       ]);
     }
   }, [students, posts, isClient]);
@@ -61,9 +90,10 @@ const HomePage = () => {
   return (
     <main className="min-h-screen bg-gray-100">
       {/* Top background image (half screen height) */}
-      <div
-        className="h-[50vh] bg-cover bg-center"
-        style={{ backgroundImage: "url('/images/campus.jpg')" }}
+      <img
+        src="/images/campus.jpg"
+        alt="Campus Image"
+        className="h-[50vh] w-full object-cover"
       />
 
       {/* Welcome Section */}
@@ -74,7 +104,7 @@ const HomePage = () => {
         animate="visible"
       >
         <h1 className="text-4xl md:text-5xl font-extrabold text-maroon-800 mb-6 text-center leading-tight drop-shadow">
-          🎓 Welcome to the Official Student Portal of Bulan State University!
+           Welcome to the Official Student Portal of Bulan State University!
         </h1>
       </motion.div>
 
@@ -100,4 +130,3 @@ const HomePage = () => {
 };
 
 export default HomePage;
-

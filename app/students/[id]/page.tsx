@@ -1,18 +1,14 @@
 // app/students/[id]/page.tsx
 
 
-
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useStudentStore } from '@/store/studentStore';
-import GoogleMapEmbed from '@/components/GoogleMapEmbed'; // Import the GoogleMapEmbed component
-
-// ===============================
-// Types & Interfaces
-// ===============================
+import GoogleMapEmbed from '@/components/GoogleMapEmbed';
+import Image from 'next/image';
 
 interface Student {
     id: string;
@@ -23,7 +19,7 @@ interface Student {
     email: string;
     address: string;
     profileImage: string;
-    mapEmbedCode?: string; // Make mapEmbedCode optional
+    mapEmbedCode?: string;
 }
 
 interface Post {
@@ -33,17 +29,12 @@ interface Post {
     body: string;
 }
 
-// ===============================
-// Helper Functions
-// ===============================
-
-// Animation variants
 const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.2, // Stagger the appearance of children
+            staggerChildren: 0.2,
         },
     },
 };
@@ -53,13 +44,9 @@ const itemVariants = {
     visible: { y: 0, opacity: 1 },
 };
 
-/**
- * Displays a single student's profile information.
- */
 const StudentProfilePage: React.FC = () => {
     const { id } = useParams();
     const setInitialStudents = useStudentStore((state) => state.setInitialStudents);
-    // Moved initialStudents to a useMemo to prevent unnecessary re-renders.
     const initialStudents: Student[] = React.useMemo(() => [
         {
             id: "1",
@@ -283,38 +270,36 @@ const StudentProfilePage: React.FC = () => {
         },
     ], []);
 
+    const [studentPosts, setStudentPosts] = useState<Post[]>([]);
+    const [loadingPosts, setLoadingPosts] = useState(false);
+    const [postsError, setPostsError] = useState<string | null>(null);
+    const [student, setStudent] = useState<Student | undefined>(undefined);
+
+
     useEffect(() => {
-        setInitialStudents(initialStudents); // Populate the store on component mount
+        setInitialStudents(initialStudents);
     }, [setInitialStudents, initialStudents]);
 
-    const student = initialStudents.find((s) => s.id === id);
+    useEffect(() => {
+        const foundStudent = initialStudents.find((s) => s.id === id);
+        setStudent(foundStudent);
+    }, [id, initialStudents]);
 
-    if (!student) {
-        return <p className="text-center mt-10 text-red-500">Student not found</p>;
-    }
 
-    const [studentPosts, setStudentPosts] = useState<Post[]>([]);
-    const [loadingPosts, setLoadingPosts]= useState(false);
-    const [postsError, setPostsError] = useState<string | null>(null);
-
-    // Fetch posts for the selected student
-    // Made fetchStudentPosts a useCallback to memoize it and prevent unnecessary re-renders.
-    const fetchStudentPosts = useCallback(async () => {
+    const fetchStudentPosts = useCallback(async (studentId: string) => {
         setLoadingPosts(true);
         setPostsError(null);
         try {
-            // Simulate a random number of posts (0-5) for each student.
             const numberOfPosts = Math.floor(Math.random() * 6);
             let fetchedPosts: Post[] = [];
 
             if (numberOfPosts > 0) {
-                // Fetch posts only if numberOfPosts is greater than 0
-                const response = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${student.id}`);
+                const response = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${studentId}`);
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch posts for student ${student.id}`);
+                    throw new Error(`Failed to fetch posts for student ${studentId}`);
                 }
                 const data: Post[] = await response.json();
-                fetchedPosts = data.slice(0, numberOfPosts); // Get only the required number of posts
+                fetchedPosts = data.slice(0, numberOfPosts);
             }
             setStudentPosts(fetchedPosts);
         } catch (error: any) {
@@ -322,11 +307,20 @@ const StudentProfilePage: React.FC = () => {
         } finally {
             setLoadingPosts(false);
         }
-    }, [student.id]);
+    }, []);
 
     useEffect(() => {
-        fetchStudentPosts();
-    }, [fetchStudentPosts]);
+        if (student) {
+            fetchStudentPosts(student.id);
+        }
+
+    }, [fetchStudentPosts, student]);
+
+
+
+    if (!student) {
+        return <p className="text-center mt-10 text-red-500">Student not found</p>;
+    }
 
     return (
         <motion.div
@@ -336,12 +330,13 @@ const StudentProfilePage: React.FC = () => {
             animate="visible"
         >
             <div className="mb-6 flex flex-col items-center">
-                <img
+                <Image
                     src={student.profileImage || '/images/default.jpeg'}
                     alt={`Profile of ${student.name}`}
                     className="w-96 h-96 shadow-md"
-                    style={{ width: '360px', height: '360px', borderRadius: '0' }} // Increased inline styles and removed borderRadius
-
+                    width={360}
+                    height={360}
+                    objectFit="cover"
                 />
                 <h2 className="text-2xl font-semibold mt-4 text-gray-800">{student.name}</h2>
                 <p className="text-gray-600">{student.course} - {student.yearBlock}</p>

@@ -1,9 +1,6 @@
 // app/layout.tsx
 //      header & footer
 
-
-
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -11,8 +8,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import '../styles/globals.css';
 import { Inter } from 'next/font/google';
 import Link from 'next/link';
-// import { Button } from '@/components/ui/button'; // Removed problematic import
-import { Menu } from 'lucide-react';
+import Image from 'next/image';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -24,9 +20,7 @@ const cn = (...args: any[]): string => {
 // Create a new QueryClient instance
 const queryClient = new QueryClient();
 
-// Define a simple Button component locally to avoid the module error.  If you have a
-// more complex Button component, you should ensure it's correctly set up and exported
-// in your project.
+// Define a simple Button component locally to avoid the module error.
 const Button = ({
     children,
     variant,
@@ -36,22 +30,22 @@ const Button = ({
     ariaLabel
 }: {
     children: React.ReactNode;
-    variant?: 'default' | 'ghost' | 'outline' | 'secondary'; // Add more variants as needed
+    variant?: 'default' | 'ghost' | 'outline' | 'secondary';
     size?: 'default' | 'icon';
     onClick?: () => void;
     className?: string;
-    ariaLabel?: string; // Add ariaLabel prop
+    ariaLabel?: string;
 }) => {
     const baseClasses = "inline-flex items-center justify-center rounded-md font-medium transition-colors";
     const variantClasses = {
-        default: "bg-maroon-500 text-white hover:bg-maroon-600", // Use your maroon color
+        default: "bg-maroon-500 text-white hover:bg-maroon-600",
         ghost: "text-white hover:bg-maroon-700/20",
         outline: "border border-maroon-500 text-maroon-500 hover:bg-maroon-500/10",
-        secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700", // Example
+        secondary: "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700",
     };
     const sizeClasses = {
         default: "px-4 py-2",
-        icon: "h-9 w-9", // Example, adjust as needed
+        icon: "h-9 w-9",
     };
 
     const classes = cn(
@@ -75,27 +69,15 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     const [mounted, setMounted] = useState(false);
-    const [isMobile, setIsMobile] = useState(false);
-    // const [isMenuOpen, setIsMenuOpen] = useState(false); // Removed menu open state
 
     useEffect(() => {
         setMounted(true);
-
-        const handleResize = () => {
-            setIsMobile(window.innerWidth < 768); // Example: Consider mobile below 768px
-        };
-
-        handleResize(); // Check on initial load
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-    // Check if mounted before rendering client-side components
     if (!mounted) {
         return (
             <html lang="en">
                 <body className={inter.className}>
-                    {/* You can render a simple loading indicator here if you want */}
                     <div className="flex justify-center items-center h-screen">
                         <p className="text-gray-700">Loading...</p>
                     </div>
@@ -103,10 +85,6 @@ export default function RootLayout({
             </html>
         );
     }
-
-    // const toggleMenu = () => { // Removed toggle function
-    //     setIsMenuOpen(!isMenuOpen);
-    // };
 
     return (
         <QueryClientProvider client={queryClient}>
@@ -119,22 +97,18 @@ export default function RootLayout({
                     )}>
                         <div className="flex items-center justify-between flex-wrap">
                             {/* Left Side: Logo and Header Text */}
-                            <div className="flex items-center flex-shrink-0 mb-2 sm:mb-0">
-                                <Link href="/" className="flex items-center hover:text-inherit">
+                            <div className="flex items-center  mb-2 sm:mb-0">
+                                <Link href="/" className="flex items-center  hover:text-inherit">
                                     <div className="relative w-10 h-10 mr-3">
-                                        <img
-                                            src="/logo/uni-logo.png"
+                                        <Image
+                                            src="public/logo/uni-logo.png"
                                             alt="UniConnect Logo"
                                             className="rounded-full object-contain"
-                                            style={{
-                                                maxHeight: '100%',
-                                                maxWidth: '100%',
-                                                height: '112px',
-                                                width: '112px',
-                                            }}
+                                            layout="fill"
+                                            objectFit="contain"
                                         />
                                     </div>
-                                    <div className="text-white flex flex-col items-start ml-6">
+                                    <div className="text-white flex flex-col items-start ml-2 sm:ml-6">
                                         <h1 className="text-lg font-bold sm:text-xl whitespace-nowrap" style={{ paddingLeft: '8px' }}>
                                             Bulan State University
                                         </h1>
@@ -144,18 +118,15 @@ export default function RootLayout({
                             </div>
 
                             {/* Right Side: Navigation */}
-                            <div className="flex items-center flex-grow justify-end"> {/* Moved to the end */}
+                            <div className="flex items-center flex-grow justify-end ">
                                 <nav
                                     className={cn(
                                         "flex space-x-8 transition-all duration-300",
-                                        "flex space-x-8" // Always horizontal now
+                                        "flex space-x-8"
                                     )}
                                 >
-                                    <ul className={cn(
-                                        "flex space-x-8 items-center",
-                                        isMobile ? "flex justify-center space-x-6 w-full" : "flex space-x-8", // Keep horizontal, center on mobile
-                                        "mt-2" // Add vertical spacing
-                                    )}>
+                                    {/* Navigation Links */}
+                                    <ul className="flex space-x-4 items-center mt-2">
                                         <li>
                                             <Link href="/" className="text-white hover:text-gray-200 transition duration-300 font-semibold text-center">
                                                 Home
@@ -174,7 +145,6 @@ export default function RootLayout({
                                     </ul>
                                 </nav>
                             </div>
-                            {/* */}
                         </div>
                     </header>
 
@@ -215,4 +185,5 @@ export default function RootLayout({
         </QueryClientProvider>
     );
 }
+
 

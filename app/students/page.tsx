@@ -6,8 +6,9 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { MagnifyingGlassIcon, ChevronDownIcon } from '@heroicons/react/24/outline';
+import Image from 'next/image'; // Importing next/image for optimized image loading
 
 interface Student {
     id: string;
@@ -27,6 +28,7 @@ const studentCardVariants = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.3, ease: 'easeInOut' } },
     hover: { scale: 1.03, boxShadow: '0px 4px 12px rgba(0, 0, 0, 0.1)', transition: { duration: 0.2 } },
 };
+
 
 const initialStudents: Student[] = [
     {
@@ -230,7 +232,6 @@ const initialStudents: Student[] = [
         profileImage: "/images/students/daryl.jpeg",
     },
 ];
-
 export default function StudentsPage() {
     const [students] = useState(initialStudents); // Removed setStudents and useEffect
     const [searchQuery, setSearchQuery] = useState('');
@@ -316,9 +317,11 @@ export default function StudentsPage() {
                                     <div className="p-6">
                                         <div className="flex flex-col items-center gap-4 mb-4">
                                             <div className="student-image-container">
-                                                <img
+                                                <Image
                                                     src={student.profileImage || '/images/default.jpeg'}
                                                     alt={`Profile of ${student.name}`}
+                                                    width={100}  // Adjust image width
+                                                    height={100} // Adjust image height
                                                     className="student-image"
                                                 />
                                             </div>
@@ -351,4 +354,3 @@ export default function StudentsPage() {
         </main>
     );
 }
-

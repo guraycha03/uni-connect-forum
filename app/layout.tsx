@@ -4,7 +4,6 @@
 
 
 
-
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -77,7 +76,7 @@ export default function RootLayout({
 }) {
     const [mounted, setMounted] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
-    const [isMenuOpen, setIsMenuOpen] = useState(false); // State for mobile menu
+    // const [isMenuOpen, setIsMenuOpen] = useState(false); // Removed menu open state
 
     useEffect(() => {
         setMounted(true);
@@ -105,9 +104,9 @@ export default function RootLayout({
         );
     }
 
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
+    // const toggleMenu = () => { // Removed toggle function
+    //     setIsMenuOpen(!isMenuOpen);
+    // };
 
     return (
         <QueryClientProvider client={queryClient}>
@@ -116,11 +115,11 @@ export default function RootLayout({
                     {/* Header */}
                     <header className={cn(
                         "bg-maroon-200 shadow-md rounded-b-lg py-4 px-4 sm:px-8 border-b-4 border-red-500",
-                        isMobile ? "h-auto" : "h-auto" // Adjust height for mobile
+                        "h-auto"
                     )}>
                         <div className="flex items-center justify-between flex-wrap">
                             {/* Left Side: Logo and Header Text */}
-                            <div className="flex items-center  flex-shrink-0  mb-2 sm:mb-0">
+                            <div className="flex items-center flex-shrink-0 mb-2 sm:mb-0">
                                 <Link href="/" className="flex items-center hover:text-inherit">
                                     <div className="relative w-10 h-10 mr-3">
                                         <img
@@ -139,54 +138,43 @@ export default function RootLayout({
                                         <h1 className="text-lg font-bold sm:text-xl whitespace-nowrap" style={{ paddingLeft: '8px' }}>
                                             Bulan State University
                                         </h1>
-                                        <p className="text-xs sm:text-sm mt-1 whitespace-nowrap" style={{ paddingLeft: '8px' }}>Online Forum</p>
+                                        <p className="text-xs sm:text-sm mt-1 whitespace-nowrap" style={{ paddingLeft: '8px' }}>Social and Information System</p>
                                     </div>
                                 </Link>
                             </div>
 
                             {/* Right Side: Navigation */}
-                            <div className="flex items-center flex-grow justify-center">
+                            <div className="flex items-center flex-grow justify-end"> {/* Moved to the end */}
                                 <nav
                                     className={cn(
                                         "flex space-x-8 transition-all duration-300",
-                                        isMobile ? "flex-col items-center w-full" : "flex space-x-8" // Make nav vertical on small screens
+                                        "flex space-x-8" // Always horizontal now
                                     )}
                                 >
                                     <ul className={cn(
                                         "flex space-x-8 items-center",
-                                        isMobile ? "flex-col items-center space-y-4 w-full" : "flex space-x-8" // Make nav items vertical, full width on small screens
+                                        isMobile ? "flex justify-center space-x-6 w-full" : "flex space-x-8", // Keep horizontal, center on mobile
+                                        "mt-2" // Add vertical spacing
                                     )}>
                                         <li>
-                                            <Link href="/" className="text-white hover:text-gray-200 transition duration-300 font-semibold w-full text-center">
+                                            <Link href="/" className="text-white hover:text-gray-200 transition duration-300 font-semibold text-center">
                                                 Home
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/students" className="text-white hover:text-gray-200 transition duration-300 font-semibold w-full text-center">
+                                            <Link href="/students" className="text-white hover:text-gray-200 transition duration-300 font-semibold text-center">
                                                 Student Directory
                                             </Link>
                                         </li>
                                         <li>
-                                            <Link href="/posts" className="text-white hover:text-gray-200 transition duration-300 font-semibold w-full text-center">
-                                                Posts
+                                            <Link href="/posts" className="text-white hover:text-gray-200 transition duration-300 font-semibold text-center">
+                                                Posts & Dashboard
                                             </Link>
                                         </li>
                                     </ul>
                                 </nav>
                             </div>
-                            {isMobile && (
-                                <div className="flex items-center">
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        onClick={toggleMenu}
-                                        className="text-white hover:bg-maroon-700 mr-4"
-                                        ariaLabel="Toggle Menu"
-                                    >
-                                        <Menu className="h-6 w-6" />
-                                    </Button>
-                                </div>
-                            )}
+                            {/* */}
                         </div>
                     </header>
 
@@ -213,15 +201,12 @@ export default function RootLayout({
                                 </a>
                             </div>
                             <div className="social-icons flex space-x-4">
-                                {/* Add social media icons as needed */}
-                                <a href="#" className="text-gray-300 hover:text-white transition-colors">
-                                    {/* Replace with actual social media icon (e.g., Facebook, Twitter) */}
+                                <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
                                     Facebook
                                 </a>
-                                <a href="#" className="text-gray-300 hover:text-white transition-colors">
+                                <a href="https://x.com/" target="_blank" rel="noopener noreferrer" className="text-gray-300 hover:text-white transition-colors">
                                     Twitter
                                 </a>
-                                {/* More icons */}
                             </div>
                         </div>
                     </footer>
@@ -230,5 +215,4 @@ export default function RootLayout({
         </QueryClientProvider>
     );
 }
-
 

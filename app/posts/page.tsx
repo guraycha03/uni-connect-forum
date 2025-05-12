@@ -1,5 +1,4 @@
-// app/posts/page.tsx   ← List of posts
-
+// app/posts/page.tsx   ← List of posts & Dashboard
 
 
 'use client';
@@ -61,20 +60,22 @@ const usePostCommentStore = create<PostCommentState>((set, get) => ({
             })),
         })),
 
-    addPost: (newPost) =>
-        set((state) => ({
-            posts: [
-                {
-                    id: crypto.randomUUID(),
-                    author: 'Student',
-                    role: 'student',
-                    likes: 0,
-                    comments: [],
-                    ...newPost,
-                },
-                ...state.posts,
-            ],
-        })),
+        addPost: (newPost) =>
+            set((state) => ({
+                posts: [
+                    {
+                        id: crypto.randomUUID(),
+                        author: 'Bulan State University', 
+                        role: 'university',
+                        likes: 0,
+                        comments: [],
+                        ...newPost,
+                    },
+                    ...state.posts,
+                ],
+            })),
+
+        
 
     addComment: (postId, commentText) =>
         set((state) => ({
@@ -215,21 +216,23 @@ const PostsPage = () => {
     useEffect(() => {
         const savedPosts = localStorage.getItem('forumPosts');
         let initialData: Omit<Post, 'id'>[] = [];
+    
         try {
             if (savedPosts) {
                 initialData = JSON.parse(savedPosts);
             } else {
-                initialData = mockInitialPosts;
+                initialData = mockInitialPosts; 
             }
         } catch (error) {
             console.error("Failed to parse stored posts:", error);
             localStorage.removeItem('forumPosts');
             initialData = mockInitialPosts;
         }
-        initializePosts(initialData);
+    
+        initializePosts(initialData); 
         initializeUsers(mockUsers);
     }, [initializePosts, initializeUsers]);
-
+    
     useEffect(() => {
         if (posts.length > 0) {
             localStorage.setItem('forumPosts', JSON.stringify(posts));
@@ -305,7 +308,7 @@ const PostsPage = () => {
         ],
         options: {
             chart: {
-                type: 'bar', // Changed to bar chart
+                type: 'bar', 
                 height: 350,
                 animations: {
                     enabled: true,
@@ -321,12 +324,12 @@ const PostsPage = () => {
                     }
                 }
             },
-            colors: ['#8b0000', '#b22222', '#dc143c'], // Updated colors to maroon shades
+            colors: ['#8b0000', '#b22222', '#dc143c'], 
             plotOptions: {
                 bar: {
                     borderRadius: 8,
                     dataLabels: {
-                        position: 'top', // Position the data labels at the top of the bars
+                        position: 'top', 
                     },
                 },
             },
@@ -397,7 +400,6 @@ const PostsPage = () => {
                 <h1 className="text-3xl font-bold text-gray-900 mb-6 text-center">📬 Forum Posts & Announcements</h1>
 
                 <div className="create-post-button-container mb-8">
-                    {/* Added margin below the button. Increased from mb-6 to mb-8 */}
                     <button
                         onClick={() => setIsCreatingPost(!isCreatingPost)}
                         className="bg-maroon-600 hover:bg-maroon-700 text-white font-semibold rounded-md px-4 py-2 flex items-center gap-2"
@@ -428,14 +430,16 @@ const PostsPage = () => {
                                     placeholder="Title"
                                     value={newPost.title}
                                     onChange={(e) => setNewPost({ ...newPost, title: e.target.value })}
-                                    className="w-full border px-3 py-2 rounded-md"
+                                    className="w-full border px-3 py-2 rounded-md text-black" 
+
+
                                 />
                                 <textarea
                                     placeholder="Content"
                                     value={newPost.content}
                                     onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
                                     className="w-full border px-3 py-2 rounded-md"
-                                    rows={4} // Add rows attribute for a larger initial size
+                                    rows={4} 
                                 />
                                 <input
                                     placeholder="Image URL (optional)"
@@ -473,11 +477,12 @@ const PostsPage = () => {
                                 <div className="flex justify-between items-start mb-2">
                                     <div>
                                         <h2
-                                            className="text-lg font-semibold text-maroon-800 cursor-pointer hover:underline"
+                                            className="text-lg font-semibold text-black cursor-pointer hover:underline"
                                             onClick={() => toggleExpand(post.id)}
                                         >
                                             {post.title}
                                         </h2>
+
                                         <p className="text-sm text-gray-600 italic">{post.author} ({post.role})</p>
                                         {post.edited && <p className="text-xs text-gray-500 italic">Edited</p>}
                                     </div>
@@ -543,14 +548,15 @@ const PostsPage = () => {
                                 {post.comments.length > 0 && (
                                     <div className="mb-4">
                                         <h4 className="text-sm font-semibold text-gray-700 mb-2">💬 Comments</h4>
-                                        <ul className="space-y-2">
+                                        <ul className="space-y-2 list-none">
                                             {post.comments.map((comment, index) => (
                                                 <li
-                                                    key={index}
-                                                    className="bg-gray-50 border border-gray-200 px-3 py-2 rounded-lg text-sm"
-                                                >
-                                                    <span className="font-semibold">{comment.user}:</span> {comment.comment}
+                                                key={index}
+                                                className="bg-gray-50 border border-gray-200 px-4 py-3 rounded-lg text-sm"
+                                            >
+                                                <span className="font-semibold">{comment.user}:</span> {comment.comment}
                                                 </li>
+                                            
                                             ))}
                                         </ul>
                                     </div>
@@ -604,7 +610,7 @@ const PostsPage = () => {
                     <Chart
                         options={chartData.options}
                         series={chartData.series}
-                        type="bar" // Explicitly set the type to "bar"
+                        type="bar" 
                         height={350}
                     />
                 </div>

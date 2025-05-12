@@ -223,13 +223,18 @@ header nav a {
 }
 
 header nav a:hover {
-  color: rgb(196, 171, 177);
+  color: rgb(194, 194, 194);
 }
 
 footer {
   background-color: var(--primary);
   color: var(--primary-foreground);
   padding: 1rem 0;
+}
+
+
+footer a:hover {
+  color: rgb(194, 194, 194);
 }
 
 footer .container.grid {

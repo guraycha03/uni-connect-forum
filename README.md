@@ -1,7 +1,7 @@
 # 🎓 Bulan University Social and Information System
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-![Bulan University Logo](public/logo/uni-logo.png) ## Overview
+![Bulan University Logo](public/logo/logo.png) ## Overview
 
 
 > A modern, responsive web platform for students of Bulan State University — combining community interaction with academic utility.

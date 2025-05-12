@@ -17,8 +17,64 @@ This web app is the role of the moderator, who has access to and control over al
 ## 🧭 Overview
 
 **Bulan University Social and Information System** is a full-featured **Next.js** web app that enhances student life and academic collaboration at Bulan State University.
+<<<<<<< HEAD
 
 With features like a real-time **forum**, embedded **campus map**, and responsive **student profiles**, the platform promotes communication, sharing, and information access — all in one digital space.
+=======
+
+With features like a real-time **forum**, embedded **campus map**, and responsive **student profiles**, the platform promotes communication, sharing, and information access — all in one digital space.
+
+---
+
+## ✨ Features
+
+- 🧑‍🎓 **Student Directory** – Browse and manage student profiles  
+- 🧵 **Forum & Comments** – Share thoughts, ideas, and academic discussions  
+- 📊 **Analytics Dashboard** – Visualize activity using interactive charts  
+- 📢 **Announcements** – For student orgs and school-wide notifications  
+- 📂 **Resource Sharing** – Share learning materials (PDFs, links, etc.)  
+- 🗺️ **Campus Map Embed** – View BSU locations via MapEmbeds  
+- 📱 **Mobile-Ready** – Fully responsive UI across devices  
+- 🔒 **Admin Panel** – Manage users, moderate content
+
+---
+
+## ⚙️ Tech Stack
+
+### 🧠 Framework & Language
+- **Next.js 15** (with Turbopack)
+- **TypeScript**
+
+### 🎨 UI & Styling
+- **Tailwind CSS 4** + `tw-animate-css`  
+- **Framer Motion** – Smooth page animations  
+- **Styled Components** – Component-based custom styles  
+- **Lucide React**, **Heroicons** – Icon support
+
+### 📊 Charts & Visuals
+- **Recharts**
+- **ApexCharts**
+- **Chart.js**
+
+### 🌍 Other Tools
+- **Axios** – API interaction  
+- **Zustand** – State management  
+- **React Query (TanStack)** – Data fetching & caching  
+- **Radix UI** – Dialogs, avatars  
+- **UUID** – For generating unique IDs  
+- **MapEmbeds.com** – Embedded interactive map
+
+---
+
+## 🧪 Scripts
+
+```bash
+npm run dev       # Start development server (Turbopack)
+npm run build     # Create production build
+npm run start     # Start production server
+npm run lint      # Run ESLint for code checks
+
+>>>>>>> c94c62a5882b3f68079ccd68356c8736d35634d7
 
 ---
 

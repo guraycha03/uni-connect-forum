@@ -2,11 +2,9 @@
 
 
 
-// app/students/[id]/page.tsx
-
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useStudentStore } from '@/store/studentStore';
@@ -61,7 +59,8 @@ const itemVariants = {
 const StudentProfilePage: React.FC = () => {
     const { id } = useParams();
     const setInitialStudents = useStudentStore((state) => state.setInitialStudents);
-    const initialStudents: Student[] = [
+    // Moved initialStudents to a useMemo to prevent unnecessary re-renders.
+    const initialStudents: Student[] = React.useMemo(() => [
         {
             id: "1",
             name: "Miguel Torres",
@@ -115,7 +114,7 @@ const StudentProfilePage: React.FC = () => {
             email: "janine.delacruz@gmail.com",
             address: "Patag, Irosin, Sorsogon",
             profileImage: "/images/students/janine.jpeg",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Patag%2C+Irosin%2C+Sorsogon&output=embed"></iframe></div><a href="https://testosteronetherapy.org/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">testosteronetherapy.org</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Patag%2C+Irosin%2C+Sorsogon&output=embed"></iframe></div><a href="https://testosteronetherapy.org/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">testosteronetherapy.org</a></div>',
         },
         {
             id: "6",
@@ -126,7 +125,7 @@ const StudentProfilePage: React.FC = () => {
             email: "kevin.bautista@gmail.com",
             address: "Tughan, Juban, Sorsogon",
             profileImage: "/images/students/kev.jpeg",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Tughan%2C+Juban%2C+Sorsogon&output=embed"></iframe></div><a href="https://tariffcalculator.us/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">tariffcalculator.us</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Tughan%2C+Juban%2C+Sorsogon&output=embed"></iframe></div><a href="https://tariffcalculator.us/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">tariffcalculator.us</a></div>',
         },
         {
             id: "7",
@@ -148,7 +147,7 @@ const StudentProfilePage: React.FC = () => {
             email: "andrew.salazar@example.com",
             address: "Balocawe, Matnog, Sorsogon",
             profileImage: "/images/students/andrew.jpeg",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Balocawe%2C+Matnog%2C+Sorsogon&output=embed"></iframe></div><a href="https://embeddablemap.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embeddablemap.com</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Balocawe%2C+Matnog%2C+Sorsogon&output=embed"></iframe></div><a href="https://embeddablemap.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embeddablemap.com</a></div>',
         },
         {
             id: "9",
@@ -159,7 +158,7 @@ const StudentProfilePage: React.FC = () => {
             email: "patricia.villanueva@example.com",
             address: "Dancalan, Bulusan, Sorsogon",
             profileImage: "/images/students/pat.png",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Dancalan%2C+Bulusan%2C+Sorsogon&output=embed"></iframe></div><a href="https://aitohumanizetextconverter.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">aitohumanizetextconverter.com</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Dancalan%2C+Bulusan%2C+Sorsogon&output=embed"></iframe></div><a href="https://aitohumanizetextconverter.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">aitohumanizetextconverter.com</a></div>',
         },
         {
             id: "10",
@@ -170,7 +169,7 @@ const StudentProfilePage: React.FC = () => {
             email: "justin.reyes@example.com",
             address: "San Bernardo, Bulusan, Sorsogon",
             profileImage: "/images/students/reyes.jpeg",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=San+Bernardo%2C+Bulusan%2C+Sorsogon&output=embed"></iframe></div><a href="https://viralnado.net/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">viralnado.net</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=San+Bernardo%2C+Bulusan%2C+Sorsogon&output=embed"></iframe></div><a href="https://viralnado.net/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">viralnado.net</a></div>',
         },
         {
             id: "11",
@@ -181,7 +180,7 @@ const StudentProfilePage: React.FC = () => {
             email: "luisa.mendoza@example.com",
             address: "Calomagon, Bulan, Sorsogon",
             profileImage: "/images/students/luisa.jpeg",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Calomagon%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://freeairecipegenerator.com" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">freeairecipegenerator.com</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Calomagon%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://freeairecipegenerator.com" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">freeairecipegenerator.com</a></div>',
         },
         {
             id: "12",
@@ -192,7 +191,7 @@ const StudentProfilePage: React.FC = () => {
             email: "ronald.delacruz@example.com",
             address: "Zone 4, Bulan, Sorsogon",
             profileImage: "/images/students/ron.jpeg",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+4%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://embedcodesgenerator.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embedcodesgenerator.com</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+4%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://embedcodesgenerator.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embedcodesgenerator.com</a></div>',
         },
         {
             id: "13",
@@ -203,7 +202,7 @@ const StudentProfilePage: React.FC = () => {
             email: "mariel.soriano@example.com",
             address: "Sagrada Familia, Bulan, Sorsogon",
             profileImage: "/images/students/sop.jpeg",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Sagrada+Familia%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://embedcodesgenerator.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embedcodesgenerator.com</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Sagrada+Familia%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://embedcodesgenerator.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embedcodesgenerator.com</a></div>',
         },
         {
             id: "14",
@@ -214,7 +213,7 @@ const StudentProfilePage: React.FC = () => {
             email: "joseph.galang@example.com",
             address: "Inararan, Bulan, Sorsogon",
             profileImage: "/images/students/jo.jpeg",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Inararan%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://viralnado.net/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">viralnado.net</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Inararan%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://viralnado.net/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">viralnado.net</a></div>',
         },
         {
             id: "15",
@@ -225,7 +224,7 @@ const StudentProfilePage: React.FC = () => {
             email: "bea.quijano@example.com",
             address: "Zone 1, Bulan, Sorsogon",
             profileImage: "/images/students/bea.jpeg",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+1%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://embeddablemap.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embeddablemap.com</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+1%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://embeddablemap.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embeddablemap.com</a></div>',
         },
         {
             id: "16",
@@ -236,7 +235,7 @@ const StudentProfilePage: React.FC = () => {
             email: "ryan.lopez@example.com",
             address: "Zone 2, Bulan, Sorsogon",
             profileImage: "/images/students/ryan.jpeg",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+2%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://embedcodesgenerator.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embedcodesgenerator.com</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+2%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://embedcodesgenerator.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">embedcodesgenerator.com</a></div>',
         },
         {
             id: "17",
@@ -247,7 +246,7 @@ const StudentProfilePage: React.FC = () => {
             email: "katrina.valdez@example.com",
             address: "Zone 6, Bulan, Sorsogon",
             profileImage: "/images/students/kat.png",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+6%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://freeairecipegenerator.com" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">freeairecipegenerator.com</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+6%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://freeairecipegenerator.com" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">freeairecipegenerator.com</a></div>',
         },
         {
             id: "18",
@@ -258,7 +257,7 @@ const StudentProfilePage: React.FC = () => {
             email: "enzo.ramos@example.com",
             address: "Zone 3, Bulan, Sorsogon",
             profileImage: "/images/students/enzo.jpeg",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+3%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="http://aiyoutubetitlegenerator.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">aiyoutubetitlegenerator.com</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+3%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="http://aiyoutubetitlegenerator.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">aiyoutubetitlegenerator.com</a></div>',
         },
         {
             id: "19",
@@ -269,7 +268,7 @@ const StudentProfilePage: React.FC = () => {
             email: "charmaine.garcia@example.com",
             address: "Zone 7, Bulan, Sorsogon",
             profileImage: "/images/students/char.jpeg",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+7%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://eatcolumbus.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">eatcolumbus.com</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Zone+7%2C+Bulan%2C+Sorsogon&output=embed"></iframe></div><a href="https://eatcolumbus.com/" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">eatcolumbus.com</a></div>',
         },
         {
             id: "20",
@@ -280,9 +279,10 @@ const StudentProfilePage: React.FC = () => {
             email: "daryl.morales@example.com",
             address: "Tughan, Juban, Sorsogon",
             profileImage: "/images/students/daryl.jpeg",
-            mapEmbedCode:'<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Tughan%2C+Juban%2C+Sorsogon&output=embed"></iframe></div><a href="https://freeairecipegenerator.com" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">freeairecipegenerator.com</a></div>',
+            mapEmbedCode: '<div style="position: relative;"><div style="position: relative; padding-bottom: 75%; height: 0; overflow: hidden;"><iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;" loading="lazy" allowfullscreen src="https://maps.google.com/maps?q=Tughan%2C+Juban%2C+Sorsogon&output=embed"></iframe></div><a href="https://freeairecipegenerator.com" rel="noopener" target="_blank" style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;">freeairecipegenerator.com</a></div>',
         },
-    ];
+    ], []);
+
     useEffect(() => {
         setInitialStudents(initialStudents); // Populate the store on component mount
     }, [setInitialStudents, initialStudents]);
@@ -294,38 +294,39 @@ const StudentProfilePage: React.FC = () => {
     }
 
     const [studentPosts, setStudentPosts] = useState<Post[]>([]);
-    const [loadingPosts, setLoadingPosts] = useState(false);
+    const [loadingPosts, setLoadingPosts]= useState(false);
     const [postsError, setPostsError] = useState<string | null>(null);
 
     // Fetch posts for the selected student
-    useEffect(() => {
-        const fetchStudentPosts = async () => {
-            setLoadingPosts(true);
-            setPostsError(null);
-            try {
-                // Simulate a random number of posts (0-5) for each student.
-                const numberOfPosts = Math.floor(Math.random() * 6);
-                let fetchedPosts: Post[] = [];
+    // Made fetchStudentPosts a useCallback to memoize it and prevent unnecessary re-renders.
+    const fetchStudentPosts = useCallback(async () => {
+        setLoadingPosts(true);
+        setPostsError(null);
+        try {
+            // Simulate a random number of posts (0-5) for each student.
+            const numberOfPosts = Math.floor(Math.random() * 6);
+            let fetchedPosts: Post[] = [];
 
-                if (numberOfPosts > 0) {
-                    // Fetch posts only if numberOfPosts is greater than 0
-                    const response = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${student.id}`);
-                    if (!response.ok) {
-                        throw new Error(`Failed to fetch posts for student ${student.id}`);
-                    }
-                    const data: Post[] = await response.json();
-                    fetchedPosts = data.slice(0, numberOfPosts); // Get only the required number of posts
+            if (numberOfPosts > 0) {
+                // Fetch posts only if numberOfPosts is greater than 0
+                const response = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${student.id}`);
+                if (!response.ok) {
+                    throw new Error(`Failed to fetch posts for student ${student.id}`);
                 }
-                setStudentPosts(fetchedPosts);
-            } catch (error: any) {
-                setPostsError(error.message);
-            } finally {
-                setLoadingPosts(false);
+                const data: Post[] = await response.json();
+                fetchedPosts = data.slice(0, numberOfPosts); // Get only the required number of posts
             }
-        };
-
-        fetchStudentPosts();
+            setStudentPosts(fetchedPosts);
+        } catch (error: any) {
+            setPostsError(error.message);
+        } finally {
+            setLoadingPosts(false);
+        }
     }, [student.id]);
+
+    useEffect(() => {
+        fetchStudentPosts();
+    }, [fetchStudentPosts]);
 
     return (
         <motion.div
@@ -338,8 +339,9 @@ const StudentProfilePage: React.FC = () => {
                 <img
                     src={student.profileImage || '/images/default.jpeg'}
                     alt={`Profile of ${student.name}`}
-                    className="w-96 h-96 shadow-md" // Increased Tailwind size (w-96 approx. 24rem, h-96 approx. 24rem)
+                    className="w-96 h-96 shadow-md"
                     style={{ width: '360px', height: '360px', borderRadius: '0' }} // Increased inline styles and removed borderRadius
+
                 />
                 <h2 className="text-2xl font-semibold mt-4 text-gray-800">{student.name}</h2>
                 <p className="text-gray-600">{student.course} - {student.yearBlock}</p>
@@ -388,3 +390,4 @@ const StudentProfilePage: React.FC = () => {
 };
 
 export default StudentProfilePage;
+

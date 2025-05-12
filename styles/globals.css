@@ -1,57 +1,79 @@
-
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-
-/* styles/globals.css */
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* styles/globals.css */
-
 :root {
-  --primary: oklch(0.205 0 0); /* Example maroon color */
-  --secondary: oklch(0.97 0 0);
-  --accent: oklch(0.97 0 0);
-  --border: oklch(0.922 0 0);
-  --radius: 0.625rem;
+  /* Maroon color palette with OKLCH */
+  --primary: oklch(0.38 0.05 20); /* Rich maroon */
+  --primary-foreground: oklch(0.98 0 0); /* Light text for contrast */
+
+  --secondary: oklch(0.97 0.01 20);
+  --secondary-foreground: oklch(0.25 0.03 20);
+
+  --accent: oklch(0.9 0.02 20);
+  --accent-foreground: oklch(0.2 0.03 20);
+
+  --muted: oklch(0.95 0.01 20);
+  --muted-foreground: oklch(0.4 0.02 20);
+
+  --destructive: oklch(0.57 0.2 27);
+  --ring: oklch(0.65 0.15 20);
+  --input: oklch(0.9 0 0);
+  --border: oklch(0.88 0 0);
+
   --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
+  --foreground: oklch(0.12 0.02 20);
+
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
+  --card-foreground: oklch(0.12 0.02 20);
+
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --popover-foreground: oklch(0.12 0.02 20);
+
+  --radius: 0.625rem;
+
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary: oklch(0.38 0.05 20);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.97 0 0);
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --primary: #818cf8;
-    --secondary: #d1d5db;
-    --accent: #b97474;
-    --border: #746e6e;
+    --primary: oklch(0.75 0.1 20); /* Lighter maroon for dark */
+    --primary-foreground: oklch(0.1 0 0);
+
+    --background: oklch(0.1 0 0);
+    --foreground: oklch(0.95 0 0);
+    --border: oklch(0.4 0 0);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+  }
+
+  header,
+  footer {
+    background-color: var(--primary);
   }
 }
 
@@ -60,8 +82,8 @@ body {
   max-width: 100vw;
   overflow-x: hidden;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: var(--foreground);
   background: var(--background);
+  color: var(--foreground);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   line-height: 1.6;
@@ -70,16 +92,16 @@ body {
 
 * {
   box-sizing: border-box;
-  padding: 0;
   margin: 0;
+  padding: 0;
 }
 
 a {
   color: inherit;
   text-decoration: none;
-  transition: color 0.3s ease;
   font-weight: bold;
   padding: 10px;
+  transition: color 0.3s ease;
 }
 
 a:hover {
@@ -87,6 +109,7 @@ a:hover {
 }
 
 h1,
+h2,
 h3,
 h4,
 h5,
@@ -98,13 +121,12 @@ h6 {
 h2 {
   display: flex;
   align-items: center;
-  text-align: center;
   justify-content: flex-start;
+  text-align: center;
   padding: 20px;
   width: 100%;
-  color: #ffffff;
+  color: #fff;
   margin: 0;
-  transition: background 0.3s ease;
   position: relative;
   height: 90px;
 }
@@ -138,7 +160,7 @@ textarea {
 button {
   cursor: pointer;
   background-color: var(--primary);
-  color: white;
+  color: var(--primary-foreground);
   border-radius: 8px;
 }
 
@@ -159,111 +181,39 @@ section {
   padding: 2rem;
 }
 
-.dashboard-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
-h1 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.overview-container {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 30px;
-}
-
-.overview-item {
-  text-align: center;
-  padding: 10px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  width: 30%;
-}
-
-.overview-item h2 {
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.chart-container {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
 .text-center {
   text-align: center;
 }
 
-footer .container.grid {
-  grid-template-columns: repeat(3, minmax(0, 1fr)); /* Ensure equal width distribution */
-  align-items: start; /* Align items to the top within each grid cell */
-}
-
-footer .container.grid > div:nth-child(1) {
-  /* Styles for the first grid item (Quick Links) if needed */
-}
-
-footer .container.grid > div:nth-child(2) {
-  /* Styles for the second grid item (Contact) if needed */
-  justify-self: center; /* Try centering the Contact section */
-}
-
-footer .container.grid > div:nth-child(3) {
-  /* Styles for the third grid item (Connect) if needed */
-  justify-self: end; /* Try aligning the Connect section to the right */
-}
-
-footer {
-  background-color: var(--primary);
-  color: white;
-  padding: 1rem 0; /* Padding to give it space */
-}
-
-footer .container.grid a:hover,
-footer .mt-8.text-center a:hover {
-  color: #f0f0f0; /* Or #fafafa - whichever you prefer */
-}
-
 header {
   background-color: var(--primary);
-  color: white;
-  height: 180px; /* Ensures header height is consistent */
+  color: var(--primary-foreground);
+  height: 180px;
   padding: 2rem 1rem;
   display: flex;
   align-items: center;
-  border-bottom: 4px solid var(--primary); /* Optional border to define header boundary */
+  border-bottom: 4px solid var(--primary);
 }
 
 header .header-logo img {
-  margin-right: 0.75rem; /* from mr-3 */
+  margin-right: 0.75rem;
 }
 
 header .header-text {
-  margin-left: 10px; /* Ensures the text doesn't stick too close to the logo */
+  margin-left: 10px;
 }
 
 header .navigation {
-  margin-left: auto; /* Push navigation links to the right */
+  margin-left: auto;
 }
 
 header nav ul {
   display: flex;
   list-style: none;
-  padding: 0;
 }
 
 header nav ul li {
-  margin-left: 16px; /* Adds spacing between each link */
+  margin-left: 16px;
 }
 
 header nav a {
@@ -276,34 +226,39 @@ header nav a:hover {
   color: rgb(196, 171, 177);
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
-
-  body {
-    background: var(--background);
-    color: var(--foreground);
-  }
-
-  header,
-  footer {
-    background-color: var(--primary);
-  }
+footer {
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  padding: 1rem 0;
 }
 
-/* StudentProfilePage Styles */
+footer .container.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: start;
+}
+
+footer .container.grid > div:nth-child(2) {
+  justify-self: center;
+}
+
+footer .container.grid > div:nth-child(3) {
+  justify-self: end;
+}
+
+footer .container.grid a:hover,
+footer .mt-8.text-center a:hover {
+  color: #f0f0f0;
+}
+
+/* Example component style */
 .student-profile-container {
-  max-width: 3xl;
-  margin: auto;
-  margin-top: 2.5rem;
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  max-width: 768px;
+  margin: 2.5rem auto;
+  padding: 2rem 1.5rem;
   background-color: #fff;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
+              0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border-radius: 0.5rem;
 }
 
@@ -311,19 +266,16 @@ header nav a:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  space-y: 1.5rem;
+  gap: 1.5rem;
 }
 
 .student-profile-image {
-  /* width: 3.5rem;
-  height: 3.5rem; */
-  border-radius: 0.75rem;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
   object-fit: cover;
-  border-width: 2px;
-  border-color: #d1d5db;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
+
 
 .student-profile-image-small {
   /* width: calc(100% / 3); 

@@ -166,6 +166,8 @@ For any inquiries or support regarding the **Bulan University Social and Informa
 
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
+## Github Repository
+https://github.com/guraycha03/uni-connect-forum.git
 
 ## 🧪 Scripts
 

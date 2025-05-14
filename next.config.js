@@ -3,7 +3,7 @@
 
 // next.config.js
 
-const repoName = 'web-application'; // <-- CONFIRM THIS MATCHES YOUR REPO
+const repoName = 'uni-connect-forum'; // <-- CONFIRM THIS MATCHES YOUR REPO
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -18,3 +18,4 @@ const nextConfig = {
 };
 
 module.exports = nextConfig;
+

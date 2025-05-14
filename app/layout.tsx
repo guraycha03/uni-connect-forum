@@ -1,5 +1,5 @@
-// app/layout.tsx
-//      header & footer
+//  app/layout.tsx
+//  header & footer
 
 'use client';
 
@@ -185,5 +185,3 @@ export default function RootLayout({
         </QueryClientProvider>
     );
 }
-
-

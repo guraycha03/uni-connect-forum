@@ -1,9 +1,8 @@
 // app/students/[id]/page.tsx
 
-
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { useStudentStore } from '@/store/studentStore';
@@ -24,7 +23,6 @@ interface Student {
 
 interface Post {
     id: number;
-    userId: number;
     title: string;
     body: string;
 }
@@ -285,37 +283,35 @@ const StudentProfilePage: React.FC = () => {
         setStudent(foundStudent);
     }, [id, initialStudents]);
 
-
-    const fetchStudentPosts = useCallback(async (studentId: string) => {
-        setLoadingPosts(true);
-        setPostsError(null);
-        try {
-            const numberOfPosts = Math.floor(Math.random() * 6);
-            let fetchedPosts: Post[] = [];
-
-            if (numberOfPosts > 0) {
-                const response = await fetch(`https://jsonplaceholder.typicode.com/posts?userId=${studentId}`);
-                if (!response.ok) {
-                    throw new Error(`Failed to fetch posts for student ${studentId}`);
-                }
-                const data: Post[] = await response.json();
-                fetchedPosts = data.slice(0, numberOfPosts);
-            }
-            setStudentPosts(fetchedPosts);
-        } catch (error: any) {
-            setPostsError(error.message);
-        } finally {
-            setLoadingPosts(false);
-        }
-    }, []);
-
     useEffect(() => {
         if (student) {
-            fetchStudentPosts(student.id);
+            setLoadingPosts(false);
+            setPostsError(null);
+
+            const generatePosts = (studentName: string) : Post[] => {
+                const allPosts = [
+                    { id: 1, title: "University Announcement: ScholarshipApplications Open", body: `${studentName}: Does anyone know the specific requirements for this scholarship?` },
+                    { id: 2, title: "Campus Clean-up Drive", body: `${studentName}: Count me in! I'll bring some gloves and trash bags.` },
+                    { id: 3, title: "Upcoming Student Elections", body: `${studentName}: I'm still undecided.  Anyone know the candidates' platforms?` },
+                    { id: 4, title: "New Library Hours", body: `${studentName}: This is great, especially for late-night study sessions.` },
+                    { id: 5, title: "Sports Fest Schedule", body: `${studentName}: What are the dates for the volleyball tournament?` },
+                    { id: 6, title: "University Research Conference", body: `${studentName}: Is there a deadline for submitting research abstracts?` },
+                    { id: 7, title: "Free Workshop: Web Development Basics", body: `${studentName}: I've been wanting to learn web dev.  Where can I register?` },
+                    { id: 8, title: "Mental Health Awareness Week", body: `${studentName}: Are there any counseling services available on campus?` },
+                    { id: 9, title: "Career Fair Announcement", body: `${studentName}: Which companies will be participating in the fair?` },
+                    { id: 10, title: "Changes in Registration Procedure", body: `${studentName}: Can someone explain the new online registration process?` },
+                ];
+
+                const numPosts = Math.floor(Math.random() * (4)); // Random number of posts (0 to 3)
+                if (numPosts === 0) return [];
+
+                const shuffledPosts = [...allPosts].sort(() => 0.5 - Math.random()); // Shuffle
+                return shuffledPosts.slice(0, numPosts); // Return the first numPosts
+            }
+
+            setStudentPosts(generatePosts(student.name));
         }
-
-    }, [fetchStudentPosts, student]);
-
+    }, [student]);
 
 
     if (!student) {

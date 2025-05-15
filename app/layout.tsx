@@ -1,6 +1,7 @@
 //  app/layout.tsx
 //  header & footer
 
+
 'use client';
 
 import React, { useState, useEffect } from 'react';
@@ -69,10 +70,21 @@ export default function RootLayout({
     children: React.ReactNode;
 }) {
     const [mounted, setMounted] = useState(false);
+    const [imageLoaded, setImageLoaded] = useState(false); // Add state to track image load
 
     useEffect(() => {
         setMounted(true);
     }, []);
+
+    const handleImageLoad = () => {
+        setImageLoaded(true);
+    };
+
+    const handleImageError = () => {
+        console.error("Image failed to load: /logo/uni-logo.png");
+        setImageLoaded(true); // set to true to prevent infinite loop.
+    };
+
 
     if (!mounted) {
         return (
@@ -97,16 +109,20 @@ export default function RootLayout({
                     )}>
                         <div className="flex items-center justify-between flex-wrap">
                             {/* Left Side: Logo and Header Text */}
-                            <div className="flex items-center  mb-2 sm:mb-0">
-                                <Link href="/" className="flex items-center  hover:text-inherit">
+                            <div className="flex items-center mb-2 sm:mb-0">
+                                <Link href="/" className="flex items-center hover:text-inherit">
                                     <div className="relative w-10 h-10 mr-3">
+                                        {/* Debugging Image Source */}
                                         <Image
-                                            src="public/logo/uni-logo.png"
+                                            src="/logo/uni-logo.png"
                                             alt="UniConnect Logo"
                                             className="rounded-full object-contain"
                                             layout="fill"
                                             objectFit="contain"
+                                            onLoad={handleImageLoad}       // Track load state
+                                            onError={handleImageError}     // Track error state.
                                         />
+
                                     </div>
                                     <div className="text-white flex flex-col items-start ml-2 sm:ml-6">
                                         <h1 className="text-lg font-bold sm:text-xl whitespace-nowrap" style={{ paddingLeft: '8px' }}>
@@ -185,3 +201,4 @@ export default function RootLayout({
         </QueryClientProvider>
     );
 }
+

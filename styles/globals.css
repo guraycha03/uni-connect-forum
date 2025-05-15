@@ -116,6 +116,7 @@ h5,
 h6 {
   font-weight: 600;
   letter-spacing: -0.5px;
+  margin-bottom: 0.75rem; /* Added default margin-bottom for headings */
 }
 
 h2 {
@@ -123,12 +124,12 @@ h2 {
   align-items: center;
   justify-content: flex-start;
   text-align: center;
-  padding: 20px;
+  padding: 1.25rem;
   width: 100%;
   color: #fff;
-  margin: 0;
+  margin: 0 0 1rem 0; /* Added margin-bottom to create space */
   position: relative;
-  height: 90px;
+  height: auto; /* Changed height to auto to accommodate wrapping */
 }
 
 button,
@@ -138,9 +139,10 @@ textarea {
   font-family: inherit;
   font-size: inherit;
   border: 1px solid var(--border);
-  padding: 0.8em 1.2em;
+  padding: 0.75rem 1.2rem;
   background: var(--background);
   transition: all 0.3s ease;
+  border-radius: 0.375rem; /* Consistent border-radius */
 }
 
 button:hover,
@@ -151,30 +153,25 @@ textarea:hover {
   background-color: var(--accent);
 }
 
-input,
-select,
-textarea {
-  border-radius: 8px;
-}
-
-button {
-  cursor: pointer;
-  background-color: var(--primary);
-  color: var(--primary-foreground);
-  border-radius: 8px;
-}
-
-button:active {
-  background-color: var(--primary);
-  opacity: 0.8;
-}
-
 input:focus,
 select:focus,
 textarea:focus,
 button:focus {
   outline: none;
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.4);
+}
+
+
+button {
+  cursor: pointer;
+  background-color: var(--primary);
+  color: var(--primary-foreground);
+  border-radius: 0.375rem; /* Consistent border-radius */
+}
+
+button:active {
+  background-color: var(--primary);
+  opacity: 0.8;
 }
 
 section {
@@ -188,20 +185,45 @@ section {
 header {
   background-color: var(--primary);
   color: var(--primary-foreground);
-  height: 180px;
-  padding: 2rem 1rem;
+  padding: 1rem; /* Reduced vertical padding */
   display: flex;
-  align-items: center;
+  align-items: center; /* Vertically center content */
   border-bottom: 4px solid var(--primary);
+  height: auto; /* Make header height adjust to content */
+}
+
+header .header-logo {
+  display: flex; /* Use flexbox for logo and text alignment */
+  align-items: center;
+  margin-right: 1rem; /* Add some margin between logo and text */
 }
 
 header .header-logo img {
   margin-right: 0.75rem;
+  height: auto; /* Ensure logo doesn't overflow */
+  max-height: 40px; /* Limit logo height if needed */
 }
 
 header .header-text {
-  margin-left: 10px;
+  margin-left: 0; /* Reset default margin-left */
+  display: flex;  /* Use flexbox to align title and subtitle */
+  flex-direction: column;
+  justify-content: center; /* Center text vertically */
 }
+
+header .header-text h1 {
+  font-size: 1.5rem; /* Reduced font size for better fit */
+  margin-bottom: 0.25rem; /* Reduced default margin-bottom */
+  color: var(--primary-foreground);
+}
+
+header .header-text p {
+  font-size: 0.875rem; /* Reduced font size for subtitle */
+  color: var(--primary-foreground);
+  opacity: 0.8;
+  margin-bottom: 0;
+}
+
 
 header .navigation {
   margin-left: auto;
@@ -210,16 +232,21 @@ header .navigation {
 header nav ul {
   display: flex;
   list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 header nav ul li {
-  margin-left: 16px;
+  margin-left: 1rem; /* Reduced horizontal margin */
 }
 
 header nav a {
-  color: white;
+  color: var(--primary-foreground);
   text-decoration: none;
   font-weight: bold;
+  padding: 0.5rem; /* Reduced vertical padding */
+  display: block; /* Ensure the whole link area is clickable */
+  transition: color 0.3s ease;
 }
 
 header nav a:hover {
@@ -230,6 +257,7 @@ footer {
   background-color: var(--primary);
   color: var(--primary-foreground);
   padding: 1rem 0;
+  margin-top: 2rem; /* Add margin before footer */
 }
 
 
@@ -239,16 +267,25 @@ footer a:hover {
 
 footer .container.grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
   align-items: start;
+  gap: 1rem;
 }
 
 footer .container.grid > div:nth-child(2) {
   justify-self: center;
+  text-align: center; /* Center the middle footer section */
 }
 
 footer .container.grid > div:nth-child(3) {
   justify-self: end;
+  text-align: right; /* Align the right footer section to the right */
+}
+
+footer .container.grid a,
+footer .mt-8.text-center a {
+  color: var(--primary-foreground);
+  text-decoration: none;
 }
 
 footer .container.grid a:hover,
@@ -260,10 +297,10 @@ footer .mt-8.text-center a:hover {
 .student-profile-container {
   max-width: 768px;
   margin: 2.5rem auto;
-  padding: 2rem 1.5rem;
+  padding: 1.5rem; 
   background-color: #fff;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
-              0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            0 2px 4px -1px rgba(0, 0, 0, 0.06);
   border-radius: 0.5rem;
 }
 
@@ -271,36 +308,36 @@ footer .mt-8.text-center a:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.5rem;
+  gap: 1rem; 
+  margin-bottom: 1.5rem; 
 }
 
 .student-profile-image {
-  width: 120px;
-  height: 120px;
+  width: 100px; 
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
 }
 
 
 .student-profile-image-small {
-  /* width: calc(100% / 3); 
-  height: auto;  */
   border-radius: 50%;
   object-fit: cover;
   aspect-ratio: 1;
 }
 
 .student-profile-name {
-  font-size: 1.5rem;
+  font-size: 1.25rem; 
   font-weight: bold;
   color: #1f2937;
+  margin-bottom: 0.5rem;
 }
 
 .student-profile-info {
-  margin-top: 2rem;
-  space-y: 1rem;
+  margin-top: 1rem; 
+  space-y: 0.75rem; 
   color: #374151;
-  padding-left: 1.5rem;
+  padding-left: 1rem; 
 }
 
 /* Student image styling for directory */
@@ -311,6 +348,7 @@ footer .mt-8.text-center a:hover {
   overflow: hidden;
   border-width: 2px;
   border-color: var(--primary);
+  margin-bottom: 1rem; 
 }
 
 .student-image {
@@ -320,12 +358,11 @@ footer .mt-8.text-center a:hover {
 }
 
 .student-id {
-  margin-bottom: 1rem; /* Increased margin to 1rem */
+  margin-bottom: 0.75rem; 
 }
 
 /* Posts Page */
 
-/* Fix post image size */
 img.post-thumbnail {
   width: 8rem !important;
   height: 8rem !important;
@@ -341,10 +378,10 @@ img.post-thumbnail {
 /* Style individual post card */
 .post-card {
   background-color: #fff;
-  padding: 1.5rem;
+  padding: 1rem; 
   border-radius: 0.75rem;
   box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem; 
   border: 1px solid #e5e7eb;
 }
 
@@ -356,6 +393,50 @@ img.post-thumbnail {
   padding-left: 1rem;
   padding-right: 1rem;
 }
+
+/* Added to move the burger menu to the right */
+.menu-button-container {
+  margin-left: auto; 
+}
+
+/* Styles for Post Page */
+.post-header {
+  margin-bottom: 1rem;
+}
+
+.post-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin-bottom: 0.5rem;
+}
+
+.post-author {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.post-content {
+  font-size: 1rem;
+  color: #374151;
+  line-height: 1.75;
+}
+
+.post-image {
+  width: 10%;
+  height: 10%;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  object-fit: cover;
+  max-height: 300px; 
+}
+
+/* Added to allow user to add image */
+input[type="file"] {
+  margin-bottom: 1rem;
+}
+
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -388,7 +469,7 @@ img.post-thumbnail {
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary-foreground: var(--primary-primary-foreground);
   --color-sidebar-accent: var(--sidebar-accent);
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
@@ -437,3 +518,4 @@ img.post-thumbnail {
     @apply bg-background text-foreground;
   }
 }
+

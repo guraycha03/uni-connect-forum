@@ -147,7 +147,7 @@ Jenny Rose Formanes
 
 Ryan Joseph De Leon
 
-•	Integrates the ApexCharts for the total posts, comments, and users
+•	Integrates the ApexCharts for the total posts, comments, and users. 
 
 •	Ensure the chart automatically updates with new data.
 

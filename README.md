@@ -10,6 +10,7 @@ Project description
 ---
 
 Bulan University Social and Information System is a web application designed for a University, serving both online forum and a student portal.  This platform allows students to engage in discussions and share information through comments and this wserve as the record of students that is enrolled in this university, fostering a sense of community and facilitating communication.  However, a crucial aspect of this social and information system is its moderation system, ensuring responsible use and data protection.
+
  
 This web app is the role of the moderator, who has access to and control over all student information.  This allows for effective management of the platform, addressing any issues that may arise, and maintaining the privacy and security of student data. This moderation ensures a safe and productive environment for all users.
 

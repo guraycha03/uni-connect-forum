@@ -3,119 +3,58 @@
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Bulan University Logo](public/logo/logo.png) ## Overview
 
+# Bulan State University Social and Information System
 
-> A modern, responsive web platform for students of Bulan State University — combining community interaction with academic utility.
+**Note:** This platform and Bulan State University are fictional and created for educational purposes only.
 
-Project description
----
+## Project Description
 
-Bulan University Social and Information System is a web application designed for a University, serving both online forum and a student portal.  This platform allows students to engage in discussions and share information through comments and this wserve as the record of students that is enrolled in this university, fostering a sense of community and facilitating communication.  However, a crucial aspect of this social and information system is its moderation system, ensuring responsible use and data protection.
+The **Bulan State University Social and Information System** is a modern web application designed to simulate a university student portal and social platform. It features:
 
- 
-This web app is the role of the moderator, who has access to and control over all student information.  This allows for effective management of the platform, addressing any issues that may arise, and maintaining the privacy and security of student data. This moderation ensures a safe and productive environment for all users.
+- A real-time forum
+- A responsive student directory
+- Moderation tools for managing student data and interactions
+- An embedded map for viewing student locations
+- Interactive analytics dashboard
 
+This project demonstrates both frontend and backend functionalities, with a focus on user-friendly design, data protection, and communication within a school environment.
 
-## 🧭 Overview
+## Features
 
-**Bulan University Social and Information System** is a full-featured **Next.js** web app that enhances student life and academic collaboration at Bulan State University.
-<<<<<<< HEAD
+- **Student Directory** – Browse and manage student profiles  
+- **Posts & Comments** – Share thoughts, academic discussions, and feedback  
+- **Analytics Dashboard** – Visualize user activity with charts  
+- **Map Embed** – Interactive location map of student addresses  
+- **Fully Responsive UI** – Works across all device sizes
 
-With features like a real-time **forum**, embedded **campus map**, and responsive **student profiles**, the platform promotes communication, sharing, and information access — all in one digital space.
-=======
+## Tech Stack
 
-With features like a real-time **forum**, embedded **campus map**, and responsive **student profiles**, the platform promotes communication, sharing, and information access — all in one digital space.
+### ⚙ Framework & Languages
 
----
+- [Next.js](https://nextjs.org/) (App Router with TypeScript)
+- [Tailwind CSS](https://tailwindcss.com/)
 
-## ✨ Features
+### 🖌 UI & Styling
 
-- 🧑‍🎓 **Student Directory** – Browse and manage student profiles  
-- 🧵 **Forum & Comments** – Share thoughts, ideas, and academic discussions  
-- 📊 **Analytics Dashboard** – Visualize activity using interactive charts  
-- 📢 **Announcements** – For student orgs and school-wide notifications  
-- 📂 **Resource Sharing** – Share learning materials (PDFs, links, etc.)  
-- 🗺️ **Campus Map Embed** – View BSU locations via MapEmbeds  
-- 📱 **Mobile-Ready** – Fully responsive UI across devices  
-- 🔒 **Admin Panel** – Manage users, moderate content
-
----
-
-## ⚙️ Tech Stack
-
-### 🧠 Framework & Language
-- **Next.js 15** (with Turbopack)
-- **TypeScript**
-
-### 🎨 UI & Styling
-- **Tailwind CSS 4** + `tw-animate-css`  
-- **Framer Motion** – Smooth page animations  
-- **Styled Components** – Component-based custom styles  
-- **Lucide React**, **Heroicons** – Icon support
+- Tailwind CSS 4 + `tw-animate-css`
+- [Framer Motion](https://www.framer.com/motion/) – Page animations
+- Styled Components – Custom styling
+- [ShadCN UI](https://ui.shadcn.com/) – Modern UI components
+- [Lucide React](https://lucide.dev/) & [Heroicons](https://heroicons.com/) – Icons
 
 ### 📊 Charts & Visuals
-- **Recharts**
-- **ApexCharts**
-- **Chart.js**
 
-### 🌍 Other Tools
-- **Axios** – API interaction  
-- **Zustand** – State management  
-- **React Query (TanStack)** – Data fetching & caching  
-- **Radix UI** – Dialogs, avatars  
-- **UUID** – For generating unique IDs  
-- **MapEmbeds.com** – Embedded interactive map
+- [ApexCharts](https://apexcharts.com/) – Data visualization
 
----
+### 🔧 Other Tools
 
-## 🧪 Scripts
+- [Axios](https://axios-http.com/) – API handling
+- [Zustand](https://zustand-demo.pmnd.rs/) – State management
+- [React Query](https://tanstack.com/query/latest) – Data fetching & caching
+- [Radix UI](https://www.radix-ui.com/) – Dialogs, avatars, etc.
+- [UUID](https://www.npmjs.com/package/uuid) – Unique ID generation
+- [MapEmbeds.com](https://mapembeds.com/) – Embedded interactive maps
 
-```bash
-npm run dev       # Start development server (Turbopack)
-npm run build     # Create production build
-npm run start     # Start production server
-npm run lint      # Run ESLint for code checks
-
->>>>>>> c94c62a5882b3f68079ccd68356c8736d35634d7
-
----
-
-## ✨ Features
-
-- 🧑‍🎓 **Student Directory** – Browse and manage student profiles  
-- 🧵 **Forum & Comments** – Share thoughts, ideas, and academic discussions  
-- 📊 **Analytics Dashboard** – Visualize activity using interactive charts  
-- 📢 **Announcements** – For student orgs and school-wide notifications  
-- 📂 **Resource Sharing** – Share learning materials (PDFs, links, etc.)  
-- 🗺️ **Campus Map Embed** – View BSU locations via MapEmbeds  
-- 📱 **Mobile-Ready** – Fully responsive UI across devices  
-- 🔒 **Admin Panel** – Manage users, moderate content
-
----
-
-## ⚙️ Tech Stack
-
-### 🧠 Framework & Language
-- **Next.js 15** (with Turbopack)
-- **TypeScript**
-
-### 🎨 UI & Styling
-- **Tailwind CSS 4** + `tw-animate-css`  
-- **Framer Motion** – Smooth page animations  
-- **Styled Components** – Component-based custom styles  
-- **Lucide React**, **Heroicons** – Icon support
-
-### 📊 Charts & Visuals
-- **Recharts**
-- **ApexCharts**
-- **Chart.js**
-
-### 🌍 Other Tools
-- **Axios** – API interaction  
-- **Zustand** – State management  
-- **React Query (TanStack)** – Data fetching & caching  
-- **Radix UI** – Dialogs, avatars  
-- **UUID** – For generating unique IDs  
-- **MapEmbeds.com** – Embedded interactive map
 
 ---
 

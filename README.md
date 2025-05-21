@@ -92,12 +92,13 @@ Ryan Joseph De Leon
 
 
 
-## AccessibleLinks
+## Live Demo & Links
 
+- **GitHub Repository**: https://github.com/guraycha03/uni-connect-forum
 
-- **Email**: support@bulanuniversity.edu (Fictional for this project)
-- **Website**: Bulan State University Social and Information System
+- **Live Site**: https://uni-connect-forum-rdqu.vercel.app/
 
+- **Video Presentation**: Google Drive Folder
 
 
 *Note: Bulan State University and this platform are fictional and for educational purposes only.*

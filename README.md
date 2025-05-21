@@ -1,11 +1,11 @@
-# 🎓 Bulan University Social and Information System
+# 🎓 Bulan State University Social and Information System
 
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 ![Bulan University Logo](public/logo/logo.png) ## Overview
 
-# Bulan State University Social and Information System
 
 **Note:** This platform and Bulan State University are fictional and created for educational purposes only.
+
 
 ## Project Description
 
@@ -98,7 +98,7 @@ Ryan Joseph De Leon
 
 - **Live Site**: https://uni-connect-forum-rdqu.vercel.app/
 
-- **Video Presentation**: Google Drive Folder
+- **Video Presentation**: https://drive.google.com/drive/folders/1Txj__28cjGgSSw8GncIk700zGRqCEJ95
 
 
 *Note: Bulan State University and this platform are fictional and for educational purposes only.*

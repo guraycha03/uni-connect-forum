@@ -92,12 +92,13 @@ Ryan Joseph De Leon
 
 
 
-## Contact
+## AccessibleLinks
 
-For any inquiries or support regarding the **Bulan University Social and Information System**, please reach out through the following channels:
 
 - **Email**: support@bulanuniversity.edu (Fictional for this project)
 - **Website**: Bulan State University Social and Information System
+
+
 
 *Note: Bulan State University and this platform are fictional and for educational purposes only.*
 
